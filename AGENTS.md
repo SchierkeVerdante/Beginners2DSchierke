@@ -2,7 +2,7 @@
 - Project name: Beginners2D
 - Unity version: Unity 6000.3.2f1
 - Active game object:
-  - Name: BG
+  - Name: MainMenu
   - Tag: Untagged
   - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
