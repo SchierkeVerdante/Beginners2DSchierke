@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf078b9bf74314c4aae8c17a12284635, type: 3}
+  m_Name: GraphPipelineConfig
+  m_EditorClassIdentifier: Assembly-CSharp::GraphPipelineConfig
+  stageConfigs:
+  - {fileID: 11400000, guid: 5a7611dad55c0754fa06cebba0c67bc7, type: 2}
+  - {fileID: 11400000, guid: d7cdab7d8c3bc3341905cd710a5d5efd, type: 2}

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GraphNode {
-    public int id;
-    public Vector2 position;
-    // Розділяємо зв'язки на попередній та наступний рівні
     public HashSet<GraphNode> prevLevelConnections = new HashSet<GraphNode>();
     public HashSet<GraphNode> nextLevelConnections = new HashSet<GraphNode>();
     public GameObject roomInstance;
     public int level;
+    public int index;
 
-    public GraphNode(int nodeId, Vector2 pos) {
-        id = nodeId;
-        position = pos;
+    public Vector2 Position => new Vector2(level, index);
+
+    public GraphNode(int level, int index) {
+        this.level = level;
+        this.index = index;
     }
 
     public void ConnectTo(GraphNode other) {
@@ -22,10 +22,20 @@ public class GraphNode {
         } else if (other.level < level) {
             ConnectToPrev(other);
         } else {
-            Debug.LogWarning($"Wrong connection Try to same level: {id} and {other.id}");
+            Debug.LogWarning($"Wrong connection Try to same level: {level} and {other.level}");
         }
     }
-    // Метод для з'єднання з вузлом наступного рівня
+
+    public void Disconnect(GraphNode unconnectNode) {
+        if (unconnectNode.level > level) {
+            UnConnectFromNext(unconnectNode);
+        } else if (unconnectNode.level < level) {
+            UnConnectFromPrev(unconnectNode);
+        } else {
+            Debug.LogWarning($"Wrong connection Try to same level: {level} and {unconnectNode.level}");
+        }
+    }
+
     public void ConnectToNext(GraphNode other) {
         if (!nextLevelConnections.Contains(other)) {
             nextLevelConnections.Add(other);
@@ -44,16 +54,6 @@ public class GraphNode {
 
         if (!other.nextLevelConnections.Contains(this)) {
             other.nextLevelConnections.Add(this);
-        }
-    }
-
-    public void UnConnect(GraphNode unconnectNode) {
-        if (unconnectNode.level > level) {
-            UnConnectFromNext(unconnectNode);
-        } else if (unconnectNode.level < level) {
-            UnConnectFromPrev(unconnectNode);
-        } else {
-            Debug.LogWarning($"Wrong connection Try to same level: {id} and {unconnectNode.id}");
         }
     }
 
@@ -115,5 +115,9 @@ public class GraphNode {
 
     public bool IsLinked() {
         return HasConnectionsToPrevLevel() && HasConnectionsToNextLevel();
+    }
+
+    public override string ToString() {
+        return $"Node(L: {level}, I: {index})";
     }
 }

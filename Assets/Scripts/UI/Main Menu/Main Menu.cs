@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using Zenject;
 
 public class MainMenuController : MonoBehaviour {
-    [Inject] IUiService uiService;
     [Inject] IGameManager gameManager;
     [SerializeField] Button startGameButton;
     [SerializeField] Button settingsButton;
@@ -18,8 +17,7 @@ public class MainMenuController : MonoBehaviour {
     }
 
     public void ToggleSettings() {
-        uiService.TogglePanel(uiService.PauseUI);
-
+        gameManager.TogglePause();
     }
 
     public void ExitGame() {

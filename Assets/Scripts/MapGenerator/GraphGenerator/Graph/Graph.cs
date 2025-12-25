@@ -7,7 +7,6 @@ public class Graph {
     private int nextNodeId = 0;
 
     public void AddNodeToLevel(int level, GraphNode node) {
-        // Перевірка чи рівень існує, якщо ні - створити
         while (levelNodes.Count <= level) {
             levelNodes.Add(new List<GraphNode>());
         }
@@ -37,9 +36,8 @@ public class Graph {
         for (int level = 0; level < levelNodes.Count; level++) {
             List<GraphNode> levelNodes = this.levelNodes[level];
             for (int i = 0; i < levelNodes.Count; i++) {
-                levelNodes[i].id = roomId++;
                 levelNodes[i].level = level;
-                levelNodes[i].position = new Vector2(level, i);
+                levelNodes[i].index = i;
             }
         }
     }
@@ -52,10 +50,6 @@ public class Graph {
             allNodes.AddRange(level);
         }
         return allNodes;
-    }
-
-    public GraphNode GetNodeById(int id) {
-        return GetAllNodes().FirstOrDefault(n => n.id == id);
     }
 
     public int GetLevelCount() => levelNodes.Count;
@@ -78,4 +72,19 @@ public class Graph {
     public GraphNode GetEndRoom() {
         return levelNodes[levelNodes.Count - 1][0];
     }
+
+    public override string ToString() {
+        string result = "";
+        for (int level = 0; level < levelNodes.Count; level++) {
+            result += $"Level {level}:\n";
+            foreach (var node in levelNodes[level]) {
+                result += $" {node} - Connections: ";
+                var connections = node.GetAllConnections();
+                result += string.Join(", ", connections.Select(n => n.index));
+                result += "\n";
+            }
+        }
+        return result;
+    }
 }
+

@@ -11,9 +11,11 @@ public class RandomService : IRandomService {
         UnityEngine.Random.InitState(settings.Seed);
     }
 
-    // Копіювання основних методів
     public int Next(int minValue, int maxValue) {
         lock (_lock) {
+            if (minValue >= maxValue) {
+                return maxValue - 1;
+            }
             return _random.Next(minValue, maxValue);
         }
     }
@@ -33,6 +35,12 @@ public class RandomService : IRandomService {
     public double NextDouble() {
         lock (_lock) {
             return _random.NextDouble();
+        }
+    }
+
+    public float NextFloat() {
+        lock (_lock) {
+            return (float)_random.NextDouble();
         }
     }
 

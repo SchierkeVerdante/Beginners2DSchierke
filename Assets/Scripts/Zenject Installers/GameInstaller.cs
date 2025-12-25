@@ -43,6 +43,9 @@ public class GameInstaller : MonoInstaller {
 
         Container.Bind<LevelProgressSystem>().AsSingle().NonLazy();
         Container.Bind<AudioSystem>().AsSingle().NonLazy();
+
+
+        Container.Bind<IDataRuntimeFactory>().To<DataRuntimeFactory>().AsSingle();
     }
 
 

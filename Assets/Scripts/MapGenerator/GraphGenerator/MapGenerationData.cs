@@ -19,9 +19,6 @@ public class MapGenerationData : ScriptableObject {
     public bool allowGradualIncrease = true; 
     public bool allowGradualDecrease = true; 
 
-    [Header("Connections Settings")]
-    [Range(0f, 1f)] public float randomConnectionChance = 0.3f;
-    [Range(0f, 1f)] public float destroyConnectionChance = 0.5f;
 
     public void OnValidate() {
         if (initialNodesPerLevel > maxNodesPerLevel) {
@@ -35,9 +32,6 @@ public class MapGenerationData : ScriptableObject {
         if (levelCount < 1) {
             levelCount = 1;
         }
-
-        randomConnectionChance = Mathf.Clamp(randomConnectionChance, 0f, 1f);
-        destroyConnectionChance = Mathf.Clamp(destroyConnectionChance, 0f, 1f);
 
         if (minNodesPerLevel < 1) {
             Debug.LogWarning("Minimum nodes per level cannot be less than 1. Resetting to 1.");

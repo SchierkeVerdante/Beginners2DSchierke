@@ -4,4 +4,5 @@
     int Next(int minValue, int maxValue);
     void NextBytes(byte[] buffer);
     double NextDouble();
+    float NextFloat();
 }
