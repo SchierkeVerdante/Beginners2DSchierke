@@ -6,13 +6,13 @@ public class EnemyController : MonoBehaviour {
     float minGroundDotProduct;
 
     [SerializeField]
-    float maxSpeed = 5, maxAcceleration = 20, maxAirAcceleration = 2, jumpHeight = 2;
-    [SerializeField, Range(0f, 90f)]
-    float groundContactAngle = 25f;
-    [SerializeField]
-    int maxAirJumps = 0;
-    [SerializeField]
-    bool angleJumps = true;
+    float maxSpeed = 5, maxAcceleration = 20, maxAirAcceleration = 2;
+    //[SerializeField, Range(0f, 90f)]
+    //float groundContactAngle = 25f;
+    //[SerializeField]
+    //int maxAirJumps = 0;
+    //[SerializeField]
+    //bool angleJumps = true;
     [SerializeField]
     public bool canMove = true;
 
@@ -20,11 +20,9 @@ public class EnemyController : MonoBehaviour {
     [Header("Out (ReadOnly)")]
 
     [SerializeField]
-    Vector3 targetVelocity, velocity, contactNormal = Vector3.up, groundVelocity;
+    Vector3 targetVelocity, velocity;
     [SerializeField]
     bool onGround;
-    [SerializeField]
-    int jumpPhase;
     [SerializeField]
     Transform target;
 
@@ -40,7 +38,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     private void OnValidate() {
-        minGroundDotProduct = Mathf.Cos(groundContactAngle * Mathf.Deg2Rad);
+        //minGroundDotProduct = Mathf.Cos(groundContactAngle * Mathf.Deg2Rad);
     }
 
     private void FixedUpdate() {
@@ -49,13 +47,13 @@ public class EnemyController : MonoBehaviour {
             return;
         }
         velocity = body.linearVelocity;
-        if (onGround) {
-            jumpPhase = 0;
-        } else {
-            contactNormal = Vector3.up;
-            groundVelocity = Vector3.zero;
-            groundBody = null;
-        }
+        //if (onGround) {
+        //    jumpPhase = 0;
+        //} else {
+        //    contactNormal = Vector3.up;
+        //    groundVelocity = Vector3.zero;
+        //    groundBody = null;
+        //}
 
         float acceleration = onGround ? maxAcceleration : maxAirAcceleration;
         float maxSpeedChange = acceleration * Time.fixedDeltaTime;
@@ -77,8 +75,8 @@ public class EnemyController : MonoBehaviour {
             Vector3 normal = collision.GetContact(i).normal;
             if (normal.y >= minGroundDotProduct) {
                 onGround = true;
-                if (angleJumps)
-                    contactNormal = normal;
+                //if (angleJumps)
+                //    contactNormal = normal;
                 groundBody = collision.rigidbody;
             }
         }
