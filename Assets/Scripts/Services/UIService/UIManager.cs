@@ -9,19 +9,19 @@ public class UIManager : MonoBehaviour, IUiService {
 
     public PauseMenuUI PauseUI => pauseUI;
 
+    public void HidePanel(UIPanel pauseUI) {
+        pauseUI.Hide();
+    }
+
+    public void ShowPanel(UIPanel pauseUI) {
+        pauseUI.Show();
+    }
+
     public void TogglePanel(UIPanel panel) {
         if (panel.IsOpen) {
             panel.Hide();
         } else {
             panel.Show();
         }
-    }
-
-    public void ShowPauseMenu() {
-        pauseUI.Show();
-    }
-
-    public void HidePauseMenu() {
-        pauseUI.Hide();
     }
 }

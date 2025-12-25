@@ -9,11 +9,11 @@ public class PauseState : State {
     public override void Enter() {
         Time.timeScale = 0f;
 
-        _uiService.ShowPauseMenu();
+        _uiService.ShowPanel(_uiService.PauseUI);
     }
 
     public override void Exit() {
-        _uiService.HidePauseMenu();
+        _uiService.HidePanel(_uiService.PauseUI);
 
         Time.timeScale = 1f;
     }
