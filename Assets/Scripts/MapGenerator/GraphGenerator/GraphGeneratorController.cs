@@ -10,6 +10,8 @@ public class GraphGeneratorController : MonoBehaviour {
     public GraphView graphView;
     [SerializeField] Button startButton;
 
+    private GraphGenerationPipeline pipeline;
+
     private void Start() {
         if (startButton != null)
             startButton.onClick.AddListener(GenerateGraph);
@@ -20,15 +22,8 @@ public class GraphGeneratorController : MonoBehaviour {
             Debug.LogError("GraphPipelineConfig is not assigned!");
         }
 
-        var pipeline = new GraphGenerationPipeline();
-        var stages = graphPipelineConfig.stageConfigs;
-
-        foreach (var stageConfig in stages) {
-            if (stageConfig == null) continue;
-
-            var stageInstance = dataRuntimeFactory.CreateInstanse(stageConfig) as IPipelineStage<GraphGenerationContext>;
-            pipeline.AddStage(stageInstance);
-        }
+        if (pipeline == null)
+        pipeline = CreatePipeline();
 
         var context = new GraphGenerationContext(mapGenerationData);
 
@@ -37,6 +32,17 @@ public class GraphGeneratorController : MonoBehaviour {
         Debug.Log($"Generated graph {context.Graph}");
 
         graphView.DisplayGraph(context.Graph);
+    }
+
+    private GraphGenerationPipeline CreatePipeline() {
+        var pipeline = new GraphGenerationPipeline();
+        var stages = graphPipelineConfig.stageConfigs;
+        foreach (var stageConfig in stages) {
+            if (stageConfig == null) continue;
+            var stageInstance = dataRuntimeFactory.CreateInstanse(stageConfig) as IPipelineStage<GraphGenerationContext>;
+            pipeline.AddStage(stageInstance);
+        }
+        return pipeline;
     }
 
     private void OnDestroy() {

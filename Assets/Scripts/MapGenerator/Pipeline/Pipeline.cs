@@ -16,8 +16,9 @@ public abstract class Pipeline<TContext> where TContext : class {
         return this;
     }
 
-    public Pipeline<TContext> RemoveStage(string stageName) {
-        stages.RemoveAll(s => s.StageName == stageName);
+    public Pipeline<TContext> RemoveStage(int stageIndex) {
+        if (stageIndex >= 0 && stageIndex < stages.Count)
+            stages.RemoveAt(stageIndex);
         return this;
     }
 
