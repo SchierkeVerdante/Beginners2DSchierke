@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingScreenUI : UIPanel {
+public class LoadingScreenPanel : UIPanel {
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private TextMeshProUGUI progressText;
     [SerializeField] private TextMeshProUGUI statusText;

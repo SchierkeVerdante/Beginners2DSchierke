@@ -1,6 +1,6 @@
 public interface IUiService {
-    LoadingScreenUI LoadingUI { get; }
-    SettingsMenuUI SettingsMenu { get; }
+    LoadingScreenPanel LoadingUI { get; }
+    SettingsMenuPanel SettingsMenu { get; }
     UIPanel PauseUI { get; }
 
     void HidePanel(UIPanel pauseUI);

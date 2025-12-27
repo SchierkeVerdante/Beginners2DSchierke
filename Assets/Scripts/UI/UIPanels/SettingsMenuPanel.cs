@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsMenuUI : UIPanel {
+public class SettingsMenuPanel : UIPanel {
 
     protected override void Awake() {
         base.Awake();

@@ -14,6 +14,7 @@ public class PauseState : State {
 
     public override void Exit() {
         _uiService.HidePanel(_uiService.PauseUI);
+        _uiService.HidePanel(_uiService.SettingsMenu);
 
         Time.timeScale = 1f;
     }
