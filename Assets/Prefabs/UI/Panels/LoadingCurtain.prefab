@@ -46,14 +46,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 180183373075735983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8de2c3e05124614486f3a80d7284029, type: 3}
+  m_Script: {fileID: 11500000, guid: 643071cc98907a140adbbd2c53cadbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenService
   canvasGroup: {fileID: 7746775812218915921}
-  fadeInDuration: 0
-  fadeOutDuration: 2
+  fadeInDuration: 0.2
+  fadeOutDuration: 0.3
   fadeInEase: 6
   fadeOutEase: 5
+  startVisible: 0
+  closeButton: {fileID: 0}
   loadingSlider: {fileID: 6886754941160655635}
   progressText: {fileID: 8625704716079357609}
   statusText: {fileID: 710646723004533937}

@@ -1,9 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
 
-using DG.Tweening;
-using UnityEngine;
-
 public class SphereCameraRotator : MonoBehaviour {
     [Header("Основні налаштування")]
     [SerializeField] private float baseRotationDuration = 30f;

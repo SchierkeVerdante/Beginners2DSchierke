@@ -170,19 +170,47 @@ PrefabInstance:
       propertyPath: m_Alpha
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5175172187848628698, guid: a45552ddf228bf648982a840cfc13910, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3333281060248932717, guid: a45552ddf228bf648982a840cfc13910, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5877576399430010519}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4579628010576338585, guid: a45552ddf228bf648982a840cfc13910, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 957375193747100960}
   m_SourcePrefab: {fileID: 100100000, guid: a45552ddf228bf648982a840cfc13910, type: 3}
 --- !u!224 &2683217976461853677 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3333281060248932717, guid: a45552ddf228bf648982a840cfc13910, type: 3}
   m_PrefabInstance: {fileID: 828246708413485696}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3814723257312709657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4579628010576338585, guid: a45552ddf228bf648982a840cfc13910, type: 3}
+  m_PrefabInstance: {fileID: 828246708413485696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &957375193747100960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814723257312709657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10e6c3a897026345bd23c3cff28e40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPanel
+  canvasGroup: {fileID: 8561430234366712623}
+  fadeInDuration: 0.2
+  fadeOutDuration: 0.3
+  fadeInEase: 6
+  fadeOutEase: 5
+  startVisible: 0
+  closeButton: {fileID: 0}
 --- !u!225 &8561430234366712623 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 9056398612625934767, guid: a45552ddf228bf648982a840cfc13910, type: 3}

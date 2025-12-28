@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{528ee2e2-53ac-4719-b4b7-aefa42184133}">
+		<property name="assetPath">
+			<value>SFX/Characters/blazing-fire-394355.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>48.024000000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{cce36ccf-b47b-47ed-9814-9be00f00f060}</destination>
+		</relationship>
+	</object>
+</objects>

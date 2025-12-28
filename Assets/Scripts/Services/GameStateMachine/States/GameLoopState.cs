@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class GameLoopState : State {
+public class GameLoopState : State<GameManager> {
     private IAudioService _audioService;
 
-    public GameLoopState(IStateMachine stateMachine, IAudioService audioService) : base(stateMachine) {
+    public GameLoopState(IAudioService audioService) {
         _audioService = audioService;
     }
 

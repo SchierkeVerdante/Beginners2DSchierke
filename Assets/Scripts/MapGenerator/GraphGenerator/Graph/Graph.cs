@@ -32,7 +32,6 @@ public class Graph {
     }
 
     public void UpdateNodesData() {
-        int roomId = 0;
         for (int level = 0; level < levelNodes.Count; level++) {
             List<GraphNode> levelNodes = this.levelNodes[level];
             for (int i = 0; i < levelNodes.Count; i++) {

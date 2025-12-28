@@ -6,11 +6,11 @@ public class UIManager : MonoBehaviour, IUiService {
 
     [SerializeField] UIPanel pauseUI;
 
-    [SerializeField] SettingsMenuUI settingsPanel;
-    [SerializeField] LoadingScreenUI loading;
+    [SerializeField] SettingsMenuPanel settingsPanel;
+    [SerializeField] LoadingScreenPanel loading;
 
-    public LoadingScreenUI LoadingUI => loading;
-    public SettingsMenuUI SettingsMenu => settingsPanel;
+    public LoadingScreenPanel LoadingUI => loading;
+    public SettingsMenuPanel SettingsMenu => settingsPanel;
     public UIPanel PauseUI => pauseUI;
 
     public void HidePanel(UIPanel panel) {

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GraphNode {
     public HashSet<GraphNode> prevLevelConnections = new HashSet<GraphNode>();
     public HashSet<GraphNode> nextLevelConnections = new HashSet<GraphNode>();
-    public GameObject roomInstance;
     public int level;
     public int index;
 
@@ -46,7 +45,6 @@ public class GraphNode {
         }
     }
 
-    // Метод для з'єднання з вузлом попереднього рівня
     public void ConnectToPrev(GraphNode other) {
         if (!prevLevelConnections.Contains(other)) {
             prevLevelConnections.Add(other);
@@ -67,7 +65,6 @@ public class GraphNode {
         }
     }
 
-    // Метод для від'єднання від вузла попереднього рівня
     public void UnConnectFromPrev(GraphNode connection) {
         if (prevLevelConnections.Contains(connection)) {
             prevLevelConnections.Remove(connection);
@@ -78,7 +75,6 @@ public class GraphNode {
         }
     }
 
-    // Допоміжний метод для отримання всіх зв'язків (для сумісності)
     public List<GraphNode> GetAllConnections() {
         List<GraphNode> allConnections = new List<GraphNode>();
         allConnections.AddRange(prevLevelConnections);
@@ -93,7 +89,6 @@ public class GraphNode {
             prevLevelConnections.Remove(prevNode);
         }
 
-        // Видаляємо зв'язки з наступним рівнем
         List<GraphNode> nextConnections = new List<GraphNode>(nextLevelConnections);
         foreach (GraphNode nextNode in nextConnections) {
             nextNode.prevLevelConnections.Remove(this);
