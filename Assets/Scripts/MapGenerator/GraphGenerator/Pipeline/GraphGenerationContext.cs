@@ -2,10 +2,10 @@
 
 public class GraphGenerationContext {
     public Graph Graph { get; set; }
-    public MapGenerationData Config { get; set; }
+    public GraphGenerationConfig Config { get; set; }
     public Dictionary<string, object> SharedData { get; private set; }
 
-    public GraphGenerationContext(MapGenerationData config) {
+    public GraphGenerationContext(GraphGenerationConfig config) {
         Config = config;
         Graph = new Graph();
         SharedData = new Dictionary<string, object>();

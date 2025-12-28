@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba6848307a9adf34ea1b82feca694853, type: 3}
-  m_Name: MapGenerationData
+  m_Script: {fileID: 11500000, guid: de3141787e1e66b47908b4ff20b1b102, type: 3}
+  m_Name: GraphConfig
   m_EditorClassIdentifier: Assembly-CSharp::MapGenerationData
   seed: simple_seed
   levelCount: 8
-  initialNodesPerLevel: 6
-  minNodesPerLevel: 4
-  maxNodesPerLevel: 7
-  maxNodeDeviation: 3
+  initialNodesPerLevel: 4
+  minNodesPerLevel: 3
+  maxNodesPerLevel: 5
+  maxNodeDeviation: 1
   allowGradualIncrease: 1
   allowGradualDecrease: 1
+  graphPipelineConfig: {fileID: 11400000, guid: 76097d98890aff941a7b9bf8e18aef38, type: 2}

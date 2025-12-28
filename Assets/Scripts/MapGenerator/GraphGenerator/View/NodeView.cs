@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,7 +18,7 @@ public class NodeView : MonoBehaviour, IPointerDownHandler {
     }
 
     public void DrawConnectionTo(Vector3 targetPosition) {
-        // створюємо новий об’єкт для лінії
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅб’єпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         var lineObj = new GameObject("ConnectionLine");
         lineObj.transform.SetParent(transform, false);
 
@@ -34,15 +34,5 @@ public class NodeView : MonoBehaviour, IPointerDownHandler {
 
     public void OnPointerDown(PointerEventData eventData) {
         Debug.Log("Clicked!");
-    }
-}
-
-
-public class NodePresenter {
-    private NodeView nodeView;
-    private GraphNode graphNode;
-    public NodePresenter(NodeView nodeView, GraphNode graphNode) {
-        this.nodeView = nodeView;
-        this.graphNode = graphNode;
     }
 }

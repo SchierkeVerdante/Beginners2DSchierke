@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MapGenerationData", menuName = "Dungeon/MapGenerationData")]
-public class MapGenerationData : ScriptableObject {
+public class GraphGenerationConfig : ScriptableObject {
     public string seed = "simple_seed";
 
     [Header("Level Settings")]
@@ -17,8 +17,9 @@ public class MapGenerationData : ScriptableObject {
     [Header("Node Count Deviation Control")]
     public int maxNodeDeviation = 1; 
     public bool allowGradualIncrease = true; 
-    public bool allowGradualDecrease = true; 
+    public bool allowGradualDecrease = true;
 
+    public GraphPipelineConfig graphPipelineConfig;
 
     public void OnValidate() {
         if (initialNodesPerLevel > maxNodesPerLevel) {

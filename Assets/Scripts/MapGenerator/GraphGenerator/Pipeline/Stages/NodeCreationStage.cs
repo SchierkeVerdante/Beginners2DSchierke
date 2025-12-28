@@ -17,7 +17,7 @@ public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
 
     public void Execute(GraphGenerationContext context) {
         Debug.Log("Creating nodes...");
-        MapGenerationData settings = context.Config;
+        GraphGenerationConfig settings = context.Config;
         Graph graph = context.Graph;
 
         for (int level = 0; level < settings.levelCount; level++) {
@@ -29,11 +29,11 @@ public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
     }
 
     private List<GraphNode> CreateNodesLevel(int level, GraphGenerationContext context) {
-        MapGenerationData settings = context.Config;
+        GraphGenerationConfig settings = context.Config;
 
         List<GraphNode> currentLevelNodes = new List<GraphNode>();
         
-        int nodesToCreate = CalculateTargetNodeCount(level, context.Graph.GetLevelNodes(), context);
+        int nodesToCreate = CalculateTargetNodeCount(level, context.Graph.Layers, context);
 
         for (int i = 0; i < nodesToCreate; i++) {
             GraphNode newNode = new GraphNode(level, i);
@@ -44,7 +44,7 @@ public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
     }
 
     private int CalculateTargetNodeCount(int level, List<List<GraphNode>> levelNodes, GraphGenerationContext context) {
-        MapGenerationData settings = context.Config;
+        GraphGenerationConfig settings = context.Config;
 
         if (level == 0 || level == settings.levelCount - 1) {
             return 1;

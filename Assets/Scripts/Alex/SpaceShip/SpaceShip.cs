@@ -60,7 +60,7 @@ public class Spaceship2D : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        stateMachine?.UpdateState();
+        stateMachine?.Tick();
         ApplyDrag();
     }
 

@@ -333,13 +333,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 311926279}
+  - component: {fileID: 311926281}
   m_Layer: 0
   m_Name: GraphGen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &311926279
 Transform:
   m_ObjectHideFlags: 0
@@ -356,6 +357,22 @@ Transform:
   - {fileID: 730247205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &311926281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311926278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0396e41e902af064faf3d9a8881915a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GraphView
+  graphParent: {fileID: 730247205}
+  noderViewPrefab: {fileID: 2235249018897591522, guid: 03f2285f5882832409e7d761a3a3c4a8, type: 3}
+  nodesXOffset: 2
+  nodesYOffset: 1
 --- !u!1 &328055130
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +485,6 @@ GameObject:
   m_Component:
   - component: {fileID: 389972540}
   - component: {fileID: 389972541}
-  - component: {fileID: 389972542}
   m_Layer: 0
   m_Name: MapController
   m_TagString: Untagged
@@ -484,12 +500,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389972539}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1969847263}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &389972541
@@ -505,25 +520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapController
   spaceship: {fileID: 161798164}
-  generator: {fileID: 389972542}
+  graphGen: {fileID: 526627202}
   startButton: {fileID: 812156547}
---- !u!114 &389972542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389972539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15a1f57c5a852b34c9a6712560f0ff20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StarMapGenerator
-  graphGenerationData: {fileID: 11400000, guid: b4a0e4a8ddcccdb47b6aed7ac22214a0, type: 2}
-  starPrefab: {fileID: -620774274637496160, guid: c705a3d18cfb2b541aa2d589a0e3c028, type: 3}
-  mapParent: {fileID: 1969847263}
-  nodesXOffset: 2
-  nodesYOffset: 1
 --- !u!1 &526627200
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 526627201}
+  - component: {fileID: 526627202}
   m_Layer: 5
   m_Name: GraphGeneratorUI
   m_TagString: Untagged
@@ -560,6 +559,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &526627202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526627200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48135dae388e16a4fad44fea290a32d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GraphGeneratorController
+  graphPipelineConfig: {fileID: 11400000, guid: 76097d98890aff941a7b9bf8e18aef38, type: 2}
+  mapGenerationData: {fileID: 11400000, guid: b4a0e4a8ddcccdb47b6aed7ac22214a0, type: 2}
+  graphView: {fileID: 311926281}
 --- !u!1 &730247204
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,37 +726,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812156545}
   m_CullTransparentMesh: 1
---- !u!1 &1969847262
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1969847263}
-  m_Layer: 0
-  m_Name: 'Parent '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1969847263
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969847262}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.77, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 389972540}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2082496936
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,9 +934,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 115864303}
-  - {fileID: 389972540}
   - {fileID: 311926279}
   - {fileID: 2082496938}
   - {fileID: 2106003829}
   - {fileID: 328055131}
   - {fileID: 2433023479747541334}
+  - {fileID: 389972540}

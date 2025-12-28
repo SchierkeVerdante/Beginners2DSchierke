@@ -31,7 +31,15 @@ public class SpaceShipController : MonoBehaviour {
         }
     }
 
+    private void OnDisable() {
+        Unsubscribe();
+    }
+
     private void OnDestroy() {
+        Unsubscribe();
+    }
+
+    private void Unsubscribe() {
         uiActions.Click.performed -= ctx => OnClickPerformed();
         uiActions.RightClick.performed -= ctx => OnSecondActionPerformed();
     }

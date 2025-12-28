@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GraphNode {
-    public HashSet<GraphNode> prevLevelConnections = new HashSet<GraphNode>();
-    public HashSet<GraphNode> nextLevelConnections = new HashSet<GraphNode>();
+    public HashSet<GraphNode> PrevConnections = new HashSet<GraphNode>();
+    public HashSet<GraphNode> NextConnections = new HashSet<GraphNode>();
     public int level;
     public int index;
 
     public Vector2 Position => new Vector2(level, index);
+
 
     public GraphNode(int level, int index) {
         this.level = level;
@@ -36,76 +37,76 @@ public class GraphNode {
     }
 
     public void ConnectToNext(GraphNode other) {
-        if (!nextLevelConnections.Contains(other)) {
-            nextLevelConnections.Add(other);
+        if (!NextConnections.Contains(other)) {
+            NextConnections.Add(other);
         }
 
-        if (!other.prevLevelConnections.Contains(this)) {
-            other.prevLevelConnections.Add(this);
+        if (!other.PrevConnections.Contains(this)) {
+            other.PrevConnections.Add(this);
         }
     }
 
     public void ConnectToPrev(GraphNode other) {
-        if (!prevLevelConnections.Contains(other)) {
-            prevLevelConnections.Add(other);
+        if (!PrevConnections.Contains(other)) {
+            PrevConnections.Add(other);
         }
 
-        if (!other.nextLevelConnections.Contains(this)) {
-            other.nextLevelConnections.Add(this);
+        if (!other.NextConnections.Contains(this)) {
+            other.NextConnections.Add(this);
         }
     }
 
     public void UnConnectFromNext(GraphNode connection) {
-        if (nextLevelConnections.Contains(connection)) {
-            nextLevelConnections.Remove(connection);
+        if (NextConnections.Contains(connection)) {
+            NextConnections.Remove(connection);
         }
 
-        if (connection.prevLevelConnections.Contains(this)) {
-            connection.prevLevelConnections.Remove(this);
+        if (connection.PrevConnections.Contains(this)) {
+            connection.PrevConnections.Remove(this);
         }
     }
 
     public void UnConnectFromPrev(GraphNode connection) {
-        if (prevLevelConnections.Contains(connection)) {
-            prevLevelConnections.Remove(connection);
+        if (PrevConnections.Contains(connection)) {
+            PrevConnections.Remove(connection);
         }
 
-        if (connection.nextLevelConnections.Contains(this)) {
-            connection.nextLevelConnections.Remove(this);
+        if (connection.NextConnections.Contains(this)) {
+            connection.NextConnections.Remove(this);
         }
     }
 
     public List<GraphNode> GetAllConnections() {
         List<GraphNode> allConnections = new List<GraphNode>();
-        allConnections.AddRange(prevLevelConnections);
-        allConnections.AddRange(nextLevelConnections);
+        allConnections.AddRange(PrevConnections);
+        allConnections.AddRange(NextConnections);
         return allConnections;
     }
 
     public void ClearConnections() {
-        List<GraphNode> prevConnections = new List<GraphNode>(prevLevelConnections);
+        List<GraphNode> prevConnections = new List<GraphNode>(PrevConnections);
         foreach (GraphNode prevNode in prevConnections) {
-            prevNode.nextLevelConnections.Remove(this);
-            prevLevelConnections.Remove(prevNode);
+            prevNode.NextConnections.Remove(this);
+            PrevConnections.Remove(prevNode);
         }
 
-        List<GraphNode> nextConnections = new List<GraphNode>(nextLevelConnections);
+        List<GraphNode> nextConnections = new List<GraphNode>(NextConnections);
         foreach (GraphNode nextNode in nextConnections) {
-            nextNode.prevLevelConnections.Remove(this);
-            nextLevelConnections.Remove(nextNode);
+            nextNode.PrevConnections.Remove(this);
+            NextConnections.Remove(nextNode);
         }
     }
 
     public bool HasConnectionsToPrevLevel() {
-        return !prevLevelConnections.IsEmpty();
+        return !PrevConnections.IsEmpty();
     }
 
     public bool HasConnectionsToNextLevel() {
-        return !nextLevelConnections.IsEmpty();
+        return !NextConnections.IsEmpty();
     }
 
     public bool IsConnectedTo(GraphNode targetNode) {
-        return nextLevelConnections.Contains(targetNode) || prevLevelConnections.Contains(targetNode);
+        return NextConnections.Contains(targetNode) || PrevConnections.Contains(targetNode);
     }
 
     public bool IsLinked() {

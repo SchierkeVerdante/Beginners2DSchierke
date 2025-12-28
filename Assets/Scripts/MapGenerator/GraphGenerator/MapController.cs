@@ -1,24 +1,27 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MapController : MonoBehaviour
 {
     [SerializeField] Spaceship2D spaceship;
-    [SerializeField] GraphGenerator graphGen;
+    [SerializeField] StarMapGenerator generator;
 
     [SerializeField] Button startButton;
     private void Start() {
         if (startButton != null)
-            startButton.onClick.AddListener(OnStartClicked);
+            startButton.onClick.AddListener(OnGenerateClicked);
     }
 
-    private void OnStartClicked() {
-        graphGen.GenerateGraph();
+    private void OnGenerateClicked() {
+        generator.GenerateMap();
     }
 
     private void OnDestroy() {
         if (startButton != null)
-            startButton.onClick.RemoveListener(OnStartClicked);
+            startButton.onClick.RemoveListener(OnGenerateClicked);
     }
 }
+
+

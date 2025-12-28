@@ -20,7 +20,7 @@ public class StateMachine {
         OnStateChanged?.Invoke(_currentState);
     }
 
-    public void UpdateState() {
+    public void Tick() {
         _currentState?.Update();
     }
 }
