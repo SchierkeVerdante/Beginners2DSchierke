@@ -5,6 +5,7 @@ using UnityEngine;
 public class StateMachine {
     private IState _currentState;
     public IState CurrentState => _currentState;
+    public Action<IState> OnStateChanged;
 
     public void ChangeState(IState newState) {
         if (ReferenceEquals(newState, _currentState)) {
@@ -15,6 +16,8 @@ public class StateMachine {
 
         _currentState = newState;
         _currentState.Enter();
+
+        OnStateChanged?.Invoke(_currentState);
     }
 
     public void UpdateState() {

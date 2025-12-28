@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +12,11 @@ public class SpaceShipController : MonoBehaviour {
         }
         uiActions = _inputManager.InputActions.UI;
         uiActions.Click.performed += ctx => OnClickPerformed();
+        uiActions.RightClick.performed += ctx => OnSecondActionPerformed();
+    }
+
+    private void OnSecondActionPerformed() {
+        spaceship.StartOrbit();
     }
 
     private void OnClickPerformed() {
@@ -23,5 +29,10 @@ public class SpaceShipController : MonoBehaviour {
         if (spaceship != null) {
             spaceship.SetTarget(point);
         }
+    }
+
+    private void OnDestroy() {
+        uiActions.Click.performed -= ctx => OnClickPerformed();
+        uiActions.RightClick.performed -= ctx => OnSecondActionPerformed();
     }
 }

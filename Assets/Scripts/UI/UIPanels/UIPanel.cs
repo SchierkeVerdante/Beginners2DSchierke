@@ -27,7 +27,7 @@ public class UIPanel : MonoBehaviour {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
     }
 
-    private void OnCloseButtonClicked() {
+    protected virtual void OnCloseButtonClicked() {
         Hide();
     }
 

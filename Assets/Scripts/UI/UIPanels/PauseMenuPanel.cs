@@ -29,6 +29,10 @@ public class PauseMenuPanel : UIPanel {
         _uiService.ShowPanel(_uiService.SettingsMenu);
     }
 
+    protected override void OnCloseButtonClicked() {
+        gameManager.TogglePause();
+    }
+
     protected override void OnDestroy() {
         base.OnDestroy();
         contuniueButton.onClick.RemoveListener(OnContinueClicked);
