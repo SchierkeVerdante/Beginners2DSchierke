@@ -1,17 +1,25 @@
 using System;
+using Tymski;
 using UnityEngine;
 using Zenject;
 
-public class GameManager : IGameManager {
+public class GameManager : MonoBehaviour, IGameManager {
+    [Inject] private ILevelProgressService _levelProgress;
+    [Inject] IStateFactory<GameManager> stateFactory;
 
-    private IStateMachine _gameStateMachine;
-    private ILevelProgressService _levelProgress;
+    private ContextStateMachine<GameManager> _gameStateMachine;
+    public ContextStateMachine<GameManager> StateMachine => _gameStateMachine;
 
-    public GameManager(IStateMachine stateMachine, ILevelProgressService levelProgress) {
-        _gameStateMachine = stateMachine;
-        _levelProgress = levelProgress;
+    private void Start() {
+        _gameStateMachine = new ContextStateMachine<GameManager>(this, stateFactory);
+
+        _gameStateMachine.ChangeState<BootstrapState>();
     }
 
+    private void OnApplicationQuit() {
+        if (_gameStateMachine != null)
+            _gameStateMachine.ChangeState<ExitState>();
+    }
     public void StartNewGame() {
         Debug.Log("Game Started!");
         _levelProgress.SetProgress(new LevelProgress { CurrentLevel = 1 });
@@ -53,5 +61,4 @@ public class GameManager : IGameManager {
 #endif
     }
 }
-
 

@@ -2,15 +2,16 @@ using UnityEngine;
 using Zenject;
 
 public class GameInstaller : MonoInstaller {
-    [SerializeField] private GameBootstrapper _gameBootstrapper;
+    [SerializeField] private GameManager _gameBootstrapper;
+    [SerializeField] private SceneDataService _sceneDataService;
     [SerializeField] private RandomServiceSettings _randomServiceSettings;
-    [SerializeField] private SceneData _sceneData;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameController gameController;
 
     [SerializeField] AudioStateConfig _audioConfig;
     public override void InstallBindings() {
-        Container.Bind<GameBootstrapper>()
+        Container.Bind<IGameManager>()
+        .To<GameManager>()
         .FromComponentInNewPrefab(_gameBootstrapper)
         .AsSingle()
         .NonLazy();
@@ -19,15 +20,20 @@ public class GameInstaller : MonoInstaller {
             .FromComponentInNewPrefab(_uiManager)
             .AsSingle()
             .NonLazy();
+
         Container.Bind<ILoadingScreenService>().To<LoadingScreenService>().AsSingle();
+
+        Container.Bind<ISceneDataService>()
+       .To<SceneDataService>()
+       .FromComponentInNewPrefab(_sceneDataService)
+       .AsSingle()
+       .NonLazy();
 
         BindSavings();
 
         StateMachineInstall();
 
         Container.Bind<IDataSerializer>().To<JsonSerializer>().AsSingle();
-
-        Container.Bind<IGameManager>().To<GameManager>().AsSingle();
 
         Container.Bind<GameController>().AsSingle().NonLazy(); ;
         Container.Bind<InputManager>().AsSingle().NonLazy();
@@ -38,6 +44,8 @@ public class GameInstaller : MonoInstaller {
 
         Container.Bind<ILevelProgressService>().To<LevelProgressService>().AsSingle();
         Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
+        
+
         Container.Bind<ISceneTransitionManager>().To<SceneTransitionManager>().AsSingle();
 
         //Systems
@@ -56,13 +64,18 @@ public class GameInstaller : MonoInstaller {
     }
 
     private void StateMachineInstall() {
-        Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
 
-        Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
+        Container.Bind(typeof(IStateFactory<>))
+            .To(typeof(StateFactory<>))
+            .AsTransient();
 
-        Container.Bind<BootstrapState>().AsSingle().WithArguments(_sceneData);
+        Container.Bind<IStateFactory<GameManager>>()
+            .To<StateFactory<GameManager>>()
+            .AsSingle();
+
+        Container.Bind<BootstrapState>().AsSingle();
         Container.Bind<LoadingLevelState>().AsSingle();
-        Container.Bind<LoadingMainMenuState>().AsSingle().WithArguments(_sceneData);
+        Container.Bind<LoadingMainMenuState>().AsSingle();
         Container.Bind<MainMenuState>().AsSingle();
         Container.Bind<GameLoopState>().AsSingle();
         Container.Bind<PauseState>().AsSingle();

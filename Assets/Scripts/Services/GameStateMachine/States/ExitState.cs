@@ -1,6 +1,6 @@
-public class ExitState : State {
+public class ExitState : State<GameManager> {
     private ISaveLoadService saveLoadService;
-    public ExitState(IStateMachine stateMachine, ISaveLoadService saveLoadService) : base(stateMachine) {
+    public ExitState(ISaveLoadService saveLoadService)  {
         this.saveLoadService = saveLoadService;
     }
 

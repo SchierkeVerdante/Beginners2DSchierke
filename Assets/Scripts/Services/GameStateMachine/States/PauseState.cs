@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PauseState : State {
+public class PauseState : State<GameManager> {
     private IUiService _uiService;
-    public PauseState(IStateMachine stateMachine, IUiService uiService) : base(stateMachine) {
+    public PauseState(IUiService uiService) {
         _uiService = uiService;
     }
 

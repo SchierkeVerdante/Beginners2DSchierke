@@ -3,16 +3,14 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class LoadingLevelState : State {
+public class LoadingLevelState : State<GameManager> {
     private readonly ILevelProgressService _levelProgressService;
     private readonly ISceneTransitionManager _sceneTransitionManager;
     private CancellationTokenSource _cts;
 
     public LoadingLevelState(
-        IStateMachine stateMachine,
         ILevelProgressService levelProgressService,
-        ISceneTransitionManager sceneTransitionManager)
-        : base(stateMachine) {
+        ISceneTransitionManager sceneTransitionManager)  {
         _levelProgressService = levelProgressService;
         _sceneTransitionManager = sceneTransitionManager;
     }
@@ -28,7 +26,7 @@ public class LoadingLevelState : State {
             string currentLevelName = _levelProgressService.GetCurrentLevelName();
             await _sceneTransitionManager.LoadSceneWithLoadingScreenAsync(currentLevelName, _cts.Token);
 
-            StateMachine.ChangeState<GameLoopState>();
+            Context.StateMachine.ChangeState<GameLoopState>();
         } catch (OperationCanceledException) {
             Debug.Log("Loading level was canceled.");
         } catch (Exception ex) {

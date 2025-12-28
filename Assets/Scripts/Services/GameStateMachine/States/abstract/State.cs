@@ -1,14 +1,14 @@
-public abstract class State : IState {
-    protected readonly IStateMachine StateMachine;
+public abstract class State<TContext> : IState<TContext> {
+    protected TContext Context { get; private set; }
 
-    protected State(IStateMachine stateMachine) {
-        StateMachine = stateMachine;
+    public void Initialize(TContext context) {
+        Context = context;
+        OnInitialize();
     }
 
-    public abstract void Enter();
-    public abstract void Exit();
+    protected virtual void OnInitialize() { }
 
+    public virtual void Enter() { }
+    public virtual void Exit() { }
     public virtual void Update() { }
-
-    public virtual void Dispose() { }
 }

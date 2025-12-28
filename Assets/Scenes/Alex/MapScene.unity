@@ -167,10 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spaceship2DAdvanced
   maxSpeed: 25
   acceleration: 2
-  rotationSpeed: 180
-  stopDistance: 0.1
+  rotationSpeed: 360
   arrivalDistance: 0.05
-  visualTransform: {fileID: 161798163}
 --- !u!114 &161798165
 MonoBehaviour:
   m_ObjectHideFlags: 0

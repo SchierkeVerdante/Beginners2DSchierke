@@ -3,3 +3,7 @@ public interface IState {
     void Exit();
     void Update();
 }
+
+public interface IState<TContext> : IState {
+    void Initialize(TContext context);
+}
