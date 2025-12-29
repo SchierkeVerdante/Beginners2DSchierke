@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class LDirectory2D : MonoBehaviour {
     public static LDirectory2D Instance;
 

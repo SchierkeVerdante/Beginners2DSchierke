@@ -4,7 +4,7 @@ using UnityEngine;
 public class ProjectileShooter2D : MonoBehaviour
 {
     [SerializeField]
-    ACharacterStrategy shootStrat;
+    AEnemyStrategy shootStrat;
     
     [SerializeField]
     GameObject bulletObject;
@@ -21,7 +21,7 @@ public class ProjectileShooter2D : MonoBehaviour
     [SerializeField]
     float placeDistance = 0.5f, fireRate = 3f, fireSpread = 10f;
 
-    [SerializeField]
+    [SerializeField, Range(-180, 180)]
     float[] fireStreams = new[] { 0f };
 
     [Header("ReadOnly")]
@@ -32,7 +32,7 @@ public class ProjectileShooter2D : MonoBehaviour
 
     void Start()
     {
-        if (shootStrat == null) shootStrat = GetComponent<ACharacterStrategy>();
+        if (shootStrat == null) shootStrat = GetComponent<AEnemyStrategy>();
         if (bullet == null) bullet = bulletObject.GetComponent<ABullet2D>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -46,13 +46,15 @@ public class ProjectileShooter2D : MonoBehaviour
         if (shootStrat.FireThisFrame(bullet) && bulletTimer > timeToBullet) {
             bulletTimer = 0;
 
-            Vector3 spreadDirection = Quaternion.AngleAxis(Random.Range(-fireSpread, fireSpread) + shootStrat.facingAngle, transform.forward) * transform.right;
-            Vector3 placePosition = transform.position + spreadDirection * placeDistance;
+            foreach (float fireStreamOffset in fireStreams) {
+                Vector3 spreadDirection = Quaternion.AngleAxis(Random.Range(-fireSpread, fireSpread) + shootStrat.facingAngle + fireStreamOffset, transform.forward) * transform.right;
+                Vector3 placePosition = transform.position + spreadDirection * placeDistance;
 
-            GameObject bo = Instantiate(bulletObject, placePosition, Quaternion.identity);
-            bo.SetActive(true);
-            bo.GetComponent<Rigidbody2D>().linearVelocity = spreadDirection * bullet.bulletSpeed;
-            rb.AddForce(-spreadDirection * bullet.recoilForce);
+                GameObject bo = Instantiate(bulletObject, placePosition, Quaternion.identity);
+                bo.SetActive(true);
+                bo.GetComponent<Rigidbody2D>().linearVelocity = spreadDirection * bullet.bulletSpeed;
+                rb.AddForce(-spreadDirection * bullet.recoilForce * rb.mass);
+            }
         }
     }
 

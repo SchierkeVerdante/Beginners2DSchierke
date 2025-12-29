@@ -1,6 +1,15 @@
 using UnityEngine;
 
-public abstract class ACharacterStrategy : MonoBehaviour {
+public enum EnemyAIState {
+    Idle,
+    Patrol,
+    Combat
+}
+
+public abstract class AEnemyStrategy : MonoBehaviour {
+
+    [SerializeField]
+    EnemyAIState state = EnemyAIState.Idle;
 
     [SerializeField]
     protected GameObject target;
@@ -14,16 +23,18 @@ public abstract class ACharacterStrategy : MonoBehaviour {
     [SerializeField]
     protected float idealDistanceFromTarget;
 
+    [SerializeField]
+    public bool turnCharacter = true;
+
     protected virtual void Awake() {
         if (target == null) target = LDirectory2D.Instance.player;
-        facingAngle = facingArrow.transform.rotation.eulerAngles.z;
-    }
-    public virtual Vector3 GetAimDirection() {
-        return (target.transform.position - transform.position).normalized;
+        if (facingArrow != null) facingAngle = facingArrow.transform.rotation.eulerAngles.z;
     }
 
-    public virtual Vector3[] GetFireDirections() {
-        return new[] { Quaternion.AngleAxis(facingAngle, transform.forward) * transform.right };
+
+
+    public virtual Vector3 GetAimDirection() {
+        return (target.transform.position - transform.position).normalized;
     }
 
     public virtual bool FireThisFrame(ABullet2D bullet) {
@@ -35,12 +46,9 @@ public abstract class ACharacterStrategy : MonoBehaviour {
         float targetDistance = Vector3.Distance(targetPosition, transform.position);
         return targetDistance > idealDistanceFromTarget ? targetPosition : transform.position;
     }
-    public bool UpdateFacing() {
-        return true;
-    }
 
     public void SetFacing(float facingAngle) {
         this.facingAngle = facingAngle;
-        facingArrow.transform.eulerAngles = new Vector3(0, 0, facingAngle);
+        if (facingArrow != null) facingArrow.transform.eulerAngles = new Vector3(0, 0, facingAngle);
     }
 }

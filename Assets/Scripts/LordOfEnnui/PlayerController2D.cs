@@ -20,23 +20,13 @@ public class PlayerController2D : MonoBehaviour {
 
     [Header("Out (ReadOnly)")]
 
-    [SerializeField]
-    Vector2 playerInput;
-    [SerializeField]
-    Vector3 targetVelocity, velocity, trueAcceleration, sprintDirection;
-    [SerializeField]
-    bool sprintInput, isSprinting;
+    public Vector2 playerInput;
+    public Vector3 targetVelocity, velocity, trueAcceleration, sprintDirection;
+    public bool sprintInput, isSprinting;
     [SerializeField]
     int sprintPhase;
     [SerializeField]
     float timeSinceLastSprint = 0f, sprintResetTimer = 0f;
-
-    [Header("Particles")]
-
-    [SerializeField]
-    ParticleSystem[] thrustParticles;
-    [SerializeField]
-    float particlePerAcceleration = 1f;
 
     private void Start() {
         // Find the references to the "Move" and "Jump" actions
@@ -112,13 +102,6 @@ public class PlayerController2D : MonoBehaviour {
 
         trueAcceleration = (velocity - prevVelocity) / Time.fixedDeltaTime;
         trueAcceleration = velocity.magnitude > 0.1f && trueAcceleration.magnitude < 0.1f ? acceleration * velocity.normalized : trueAcceleration;
-
-        if (targetVelocity.magnitude > 0.1f) {
-            thrustParticles[0].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.left, targetVelocity) * particlePerAcceleration));
-            thrustParticles[1].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.down, targetVelocity) * particlePerAcceleration));
-            thrustParticles[2].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.right, targetVelocity) * particlePerAcceleration));
-            thrustParticles[3].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.up, targetVelocity) * particlePerAcceleration));
-        }
 
         body.linearVelocity = velocity;
     }

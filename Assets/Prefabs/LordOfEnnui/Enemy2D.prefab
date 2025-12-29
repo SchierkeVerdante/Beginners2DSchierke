@@ -215,6 +215,8 @@ MonoBehaviour:
   fireSpread: 1
   fireStreams:
   - 0
+  - 30
+  - -30
   timeToBullet: 0
   bulletTimer: 0
 --- !u!114 &6687405341146536642

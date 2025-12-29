@@ -1,43 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerStatus2D : MonoBehaviour
+public class PlayerStatus2D : ACharacterStatus2D
 {
-    [SerializeField]
-    int maxHealth = 5, currentHealth = 4;
-    [SerializeField]
-    float contactKnockbackForce = 10;
-
-    [SerializeField]
-    Rigidbody2D rb;
-    [SerializeField]
-    SpriteRenderer spriteRenderer;
-    [SerializeField]
     float damageIframes = 60, sprintIframes = 30, flashesPerSecond = 2;
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    protected override bool OnCollsionIsDamaged(GameObject other) {
+        return other.layer == Layers.Enemy || other.layer == Layers.EnemyAbility;
+    }
+
+    protected override void OnDamageTaken() {
+        StartCoroutine(Invincibility((int) damageIframes, new[] { Layers.Enemy, Layers.EnemyAbility }));
     }
 
     public void HandleDashInvincibility() {
         StartCoroutine(Invincibility((int) sprintIframes, new[] { Layers.EnemyAbility }));
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.layer == Layers.Enemy || collision.gameObject.layer == Layers.EnemyAbility) {
-            rb.AddForce(collision.GetContact(0).normal * contactKnockbackForce, ForceMode2D.Impulse);
-            currentHealth = currentHealth > maxHealth ? maxHealth : currentHealth;
-            currentHealth--;
-            if (currentHealth <= 0) {
-                Debug.Log("ded");
-                gameObject.SetActive(false);
-                return;
-            }
-            StartCoroutine(Invincibility((int) damageIframes, new[] { Layers.Enemy, Layers.EnemyAbility }));
-        }
     }
 
     private IEnumerator Invincibility(int frames, int[] ignoreLayers, bool flash = true) {

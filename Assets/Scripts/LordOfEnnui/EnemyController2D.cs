@@ -19,18 +19,18 @@ public class EnemyController2D : MonoBehaviour {
     [SerializeField]
     float trueFacingAngle;
     [SerializeField]
-    ACharacterStrategy moveStrat;
+    AEnemyStrategy moveStrat;
 
     private void Start() {
         body = GetComponent<Rigidbody2D>();
-        moveStrat = GetComponent<ACharacterStrategy>();
+        moveStrat = GetComponent<AEnemyStrategy>();
         trueFacingAngle = moveStrat.facingAngle;
     }
 
     void Update() {
         Vector3 targetDirection = moveStrat.IdealPosition() - transform.position;
         targetVelocity = targetDirection * maxSpeed;
-        if (true) {
+        if (moveStrat.turnCharacter) {
             Vector3 aimDirection = moveStrat.GetAimDirection();
             float targetAngle = (360 + Mathf.Sign(aimDirection.y) * Mathf.Acos(Vector3.Dot(transform.right, aimDirection)) * Mathf.Rad2Deg) % 360;
             trueFacingAngle = Mathf.MoveTowardsAngle(trueFacingAngle, targetAngle, turnSpeed * Time.deltaTime * 60f);
