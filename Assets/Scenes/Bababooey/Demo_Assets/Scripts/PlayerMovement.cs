@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         input = context.ReadValue<Vector2>();
-        Debug.Log("erro govnah");
+        Debug.Log("Move input: " + input);
     }
 
     void FixedUpdate()
