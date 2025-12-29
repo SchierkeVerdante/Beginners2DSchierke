@@ -1,13 +1,13 @@
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class SphereCameraRotator : MonoBehaviour {
-    [Header("Основні налаштування")]
+    [Header("ОсньAъП ъьЃEштуванЃE")]
     [SerializeField] private float baseRotationDuration = 30f;
     [SerializeField] private bool randomizeAxes = true;
     [SerializeField] private bool useWorldSpace = false;
 
-    [Header("Додаткові параметри")]
+    [Header("ДьCатЃEві ЃEраЃEтрЃE")]
     [SerializeField] private float minAxisWeight = 0.3f;
     [SerializeField] private float maxAxisWeight = 1f;
     [SerializeField] private bool differentSpeedsPerAxis = false;
