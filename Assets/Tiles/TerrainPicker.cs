@@ -5,6 +5,9 @@ public class TerrainPicker : MonoBehaviour
 { 
     [SerializeField]
     private obstaclePlacer _obstaclePlacer;
+    
+    [SerializeField]
+    private enemyPlacer _enemyPlacer;
 
     [SerializeField]
     private Tilemap _tilemap;
@@ -137,6 +140,8 @@ public class TerrainPicker : MonoBehaviour
             }
         }
         _obstaclePlacer.MakeObstacles(_terrainLabel,5);//set input to % of tiles having obstacles, 1-20
+        
+        _enemyPlacer.MakeEnemies(10);//set input to spawn rate (avg # of enemies to spawn in a 20x20 grid)
     }
 
     private void pickRandomTerrain(){
