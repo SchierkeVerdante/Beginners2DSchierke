@@ -10,7 +10,8 @@ public class PlayerController2D : MonoBehaviour {
     Transform playerInputSpace = default;
 
     [SerializeField]
-    float maxSpeed = 5, maxAcceleration = 20, sprintSpeed = 20f, sprintDuration = 1f, sprintCooldown = 0.1f, sprintResetCooldown = 2f;
+    float maxSpeed = 5, maxAcceleration = 20, 
+        sprintSpeed = 20f, sprintDuration = 1f, sprintCooldown = 0.1f, sprintResetCooldown = 2f;
     [SerializeField]
     int maxConsecutiveSprints = 2;
     [SerializeField]
