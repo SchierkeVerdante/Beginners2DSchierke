@@ -959,7 +959,7 @@ MonoBehaviour:
   _iceObstacle: {fileID: -3637758324445931876, guid: 7e1b53301806ffa46985b8bd53d8931c, type: 3}
   _snowObstacle: {fileID: -8879959272999014611, guid: 59a54d6997379c64cbbe2760f66c4cc0, type: 3}
   _sandObstacle: {fileID: -1753350664435698906, guid: 325635669e8ce93499a83c1611044904, type: 3}
-  _waterObstacle: {fileID: 4960739934939833080, guid: 867fe5e97e237c44b8bdd28163d939e5, type: 3}
+  _waterObstacle: {fileID: 21300000, guid: bb2caabf0d4952843bd7705b6c36bf14, type: 3}
   _lavaObstacle: {fileID: -2451413198602211631, guid: 666aa85795cdb7b48b25cbaa225f9627, type: 3}
 --- !u!1 &1775912552
 GameObject:

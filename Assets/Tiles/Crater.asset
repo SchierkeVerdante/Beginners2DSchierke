@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Crater
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: -1014915502852105477, guid: 3c5c8a96e8963534ab834f2a83c40fc7, type: 3}
-  - {fileID: -2050339039, guid: 3c5c8a96e8963534ab834f2a83c40fc7, type: 3}
-  - {fileID: -1765483616, guid: 3c5c8a96e8963534ab834f2a83c40fc7, type: 3}
-  - {fileID: -806646041, guid: 3c5c8a96e8963534ab834f2a83c40fc7, type: 3}
+  - {fileID: -2254251900959378261, guid: bfbb95367e631884894d4ece8dba59e7, type: 3}
+  - {fileID: 2146647886, guid: bfbb95367e631884894d4ece8dba59e7, type: 3}
+  - {fileID: 1933381849, guid: bfbb95367e631884894d4ece8dba59e7, type: 3}
+  - {fileID: -2098437015, guid: bfbb95367e631884894d4ece8dba59e7, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0
