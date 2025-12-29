@@ -136,7 +136,11 @@ public class TerrainPicker : MonoBehaviour
                 setTileColor(i,j,TerrainOption);
             }
         }
+<<<<<<< HEAD
+        _obstaclePlacer.MakeObstacles(_terrainLabel,10);//set input to % of tiles having obstacles, 1-20
+=======
         _obstaclePlacer.MakeObstacles(_terrainLabel,5);//set input to % of tiles having obstacles, 1-20
+>>>>>>> main
     }
 
     private void pickRandomTerrain(){
