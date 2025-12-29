@@ -169,9 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6f7490f6c16844a71e0de757c9d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  fireRate: 8
-  fireSpread: 10
   lifetime: 2
-  bulletSpeed: 7
-  recoilForce: 0
+  bulletSpeed: 10
+  recoilForce: 5
   playerBullet: 0
