@@ -3,6 +3,13 @@ using UnityEngine.Tilemaps;
 
 public class TerrainPicker : MonoBehaviour
 { 
+
+    [SerializeField]
+    private int _spawnRate=3; //Set from 1-10: # of enemies you'd expect to spawn in a 20x20 grid
+
+    [SerializeField]
+    private int _obstacleDensity=5; //Set from 1-20: % of tiles to be covered by obstacles.
+
     [SerializeField]
     private obstaclePlacer _obstaclePlacer;
     
@@ -139,9 +146,9 @@ public class TerrainPicker : MonoBehaviour
                 setTileColor(i,j,TerrainOption);
             }
         }
-        _obstaclePlacer.MakeObstacles(_terrainLabel,5);//set input to % of tiles having obstacles, 1-20
+        _obstaclePlacer.MakeObstacles(_terrainLabel,_obstacleDensity);//set input to % of tiles having obstacles, 1-20
         
-        _enemyPlacer.MakeEnemies(10);//set input to spawn rate (avg # of enemies to spawn in a 20x20 grid)
+        _enemyPlacer.MakeEnemies(_spawnRate);//set input to spawn rate (avg # of enemies to spawn in a 20x20 grid)
     }
 
     private void pickRandomTerrain(){
