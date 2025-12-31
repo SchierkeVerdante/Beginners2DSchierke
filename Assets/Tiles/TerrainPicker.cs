@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class TerrainPicker : MonoBehaviour
 { 
@@ -9,6 +10,9 @@ public class TerrainPicker : MonoBehaviour
 
     [SerializeField]
     private int _obstacleDensity=5; //Set from 1-20: % of tiles to be covered by obstacles.
+
+    [SerializeField]
+    private List<string> _modulesList;
 
     [SerializeField]
     private int _borderSizeX=15;
@@ -21,6 +25,9 @@ public class TerrainPicker : MonoBehaviour
     
     [SerializeField]
     private enemyPlacer _enemyPlacer;
+
+    [SerializeField]
+    private modulePlacer _modulePlacer;
 
     [SerializeField]
     private Tilemap _tilemap;
@@ -222,11 +229,15 @@ public class TerrainPicker : MonoBehaviour
             }
         }
 
+        Debug.Log("Making Modules");
+        _modulePlacer.MakeModules(_modulesList,_borderSizeX,_borderSizeY);
+
         Debug.Log("Making obstacles");
         _obstaclePlacer.MakeObstacles(_terrainLabel,_obstacleDensity);//set input to % of tiles having obstacles, 1-20
         
         Debug.Log("Making Enemies");
         _enemyPlacer.MakeEnemies(_spawnRate,_borderSizeX,_borderSizeY);//set input to spawn rate (avg # of enemies to spawn in a 20x20 grid)
+
     }
 
     private void pickRandomTerrain(){

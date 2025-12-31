@@ -77,7 +77,7 @@ public class obstaclePlacer : MonoBehaviour
                     SpriteRenderer spriteRending= obstacleInstance.GetComponent<SpriteRenderer>();
                     switch(terrainOption){
                         case "crater":
-                            spriteRending.sprite=_caveObstacle;
+                            spriteRending.sprite=_craterObstacle;
                             break;
                         case "sand":
                             spriteRending.sprite=_sandObstacle;
