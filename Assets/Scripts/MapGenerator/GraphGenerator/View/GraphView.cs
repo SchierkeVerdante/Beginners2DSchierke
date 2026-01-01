@@ -36,7 +36,7 @@ public class GraphView
 
                 NodeView nodeView = Instantiate(noderViewPrefab, levelParent);
 
-                string nodeName = $"L{graphNode.level}-I{graphNode.index}";
+                string nodeName = $"L{graphNode.layer}-I{graphNode.layerIndex}";
                 nodeView.SetText(nodeName);
                 nodeView.gameObject.name = nodeName;
 

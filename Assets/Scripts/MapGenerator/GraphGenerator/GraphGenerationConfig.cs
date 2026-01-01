@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "MapGenerationData", menuName = "Dungeon/MapGenerationData")]
 public class GraphGenerationConfig : ScriptableObject {
-    public string seed = "simple_seed";
+    public string seedString = "simple_seed";
 
     [Header("Level Settings")]
     public int levelCount = 4;
@@ -20,6 +20,8 @@ public class GraphGenerationConfig : ScriptableObject {
     public bool allowGradualDecrease = true;
 
     public GraphPipelineConfig graphPipelineConfig;
+
+    public int Seed => seedString.GetDeterministicSeed();
 
     public void OnValidate() {
         if (initialNodesPerLevel > maxNodesPerLevel) {
@@ -39,9 +41,9 @@ public class GraphGenerationConfig : ScriptableObject {
             minNodesPerLevel = 1;
         }
 
-        if (string.IsNullOrEmpty(seed)) {
+        if (string.IsNullOrEmpty(seedString)) {
             Debug.LogWarning("Seed is empty. Using default value 'default_seed'.");
-            seed = "default_seed";
+            seedString = "default_seed";
         }
 
         maxNodeDeviation = Mathf.Max(0, maxNodeDeviation);

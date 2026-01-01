@@ -48,6 +48,8 @@ public class GameInstaller : MonoInstaller {
 
         Container.Bind<ISceneTransitionManager>().To<SceneTransitionManager>().AsSingle();
 
+        Container.Bind<IStarMapService>().To<StarMapService>().AsSingle();
+
         //Systems
 
         Container.Bind<LevelProgressSystem>().AsSingle().NonLazy();

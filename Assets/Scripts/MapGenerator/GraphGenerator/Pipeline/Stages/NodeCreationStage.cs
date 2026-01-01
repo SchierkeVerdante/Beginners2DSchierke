@@ -6,13 +6,11 @@ using UnityEngine;
 
 public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
     private readonly NodeCreationStageConfig config;
-    private readonly IRandomService randomService;
 
     public string StageName => "Node Creation";
 
-    public NodeCreationStage(NodeCreationStageConfig config, IRandomService randomService) {
+    public NodeCreationStage(NodeCreationStageConfig config) {
         this.config = config;
-        this.randomService = randomService;
     }
 
     public void Execute(GraphGenerationContext context) {
@@ -26,6 +24,7 @@ public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
 
             graph.AddLevel(currentLevelNodes);
         }
+
     }
 
     private List<GraphNode> CreateNodesLevel(int level, GraphGenerationContext context) {
@@ -58,6 +57,6 @@ public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
         if (!settings.allowGradualDecrease) {
             minPossible = Mathf.Max(minPossible, prevLevelNodeCount);
         }
-        return randomService.Next(minPossible, maxPossible + 1);
+        return context.Random.Next(minPossible, maxPossible + 1);
     }
 }
