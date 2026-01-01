@@ -92,17 +92,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closable UI Panel Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5175172187848628698, guid: a45552ddf228bf648982a840cfc13910, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3333281060248932717, guid: a45552ddf228bf648982a840cfc13910, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7670464261599140558}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4579628010576338585, guid: a45552ddf228bf648982a840cfc13910, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3875170439781943639}
   m_SourcePrefab: {fileID: 100100000, guid: a45552ddf228bf648982a840cfc13910, type: 3}
 --- !u!224 &2931009647964642412 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3333281060248932717, guid: a45552ddf228bf648982a840cfc13910, type: 3}
+  m_PrefabInstance: {fileID: 499680516790816001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4134625108328502168 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4579628010576338585, guid: a45552ddf228bf648982a840cfc13910, type: 3}
+  m_PrefabInstance: {fileID: 499680516790816001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3875170439781943639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4134625108328502168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10e6c3a897026345bd23c3cff28e40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPanel
+  canvasGroup: {fileID: 8881646324515652782}
+  fadeInDuration: 0.2
+  fadeOutDuration: 0.3
+  fadeInEase: 6
+  fadeOutEase: 5
+  startVisible: 0
+  closeButton: {fileID: 3587023908401843917}
+--- !u!225 &8881646324515652782 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 9056398612625934767, guid: a45552ddf228bf648982a840cfc13910, type: 3}
   m_PrefabInstance: {fileID: 499680516790816001}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2497990676053648641
@@ -202,6 +235,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c55b8dc1f3c5af4b8fcc6b8c3f8218b, type: 3}
+--- !u!114 &3587023908401843917 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1399790957394291660, guid: 7c55b8dc1f3c5af4b8fcc6b8c3f8218b, type: 3}
+  m_PrefabInstance: {fileID: 2497990676053648641}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!224 &7670464261599140558 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5249037534970281935, guid: 7c55b8dc1f3c5af4b8fcc6b8c3f8218b, type: 3}

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Snow
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 3848394332933392033, guid: 49d690eb6240a5344b024675147f0b48, type: 3}
-  - {fileID: -1697873715, guid: 49d690eb6240a5344b024675147f0b48, type: 3}
-  - {fileID: -643489048, guid: 49d690eb6240a5344b024675147f0b48, type: 3}
-  - {fileID: 896330420, guid: 49d690eb6240a5344b024675147f0b48, type: 3}
+  - {fileID: 3121384645120508726, guid: f91a1bf9700d449428f34e25a1b154eb, type: 3}
+  - {fileID: -2065016762, guid: f91a1bf9700d449428f34e25a1b154eb, type: 3}
+  - {fileID: 2075831319, guid: f91a1bf9700d449428f34e25a1b154eb, type: 3}
+  - {fileID: -1616355028, guid: f91a1bf9700d449428f34e25a1b154eb, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0

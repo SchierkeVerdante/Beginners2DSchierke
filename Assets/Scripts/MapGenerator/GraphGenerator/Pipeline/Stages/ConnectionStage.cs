@@ -17,7 +17,7 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
     public void Execute(GraphGenerationContext context) {
         Debug.Log("Connecting nodes...");
         Graph graph = context.Graph;
-        List<List<GraphNode>> levelNodes = graph.GetLevelNodes();
+        List<List<GraphNode>> levelNodes = graph.Layers;
 
         for (int level = 0; level < levelNodes.Count - 1; level++) {
             ConnectLevel(levelNodes[level], levelNodes[level + 1]);
@@ -120,7 +120,7 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
     private void EnsureAllNodesConnected(List<List<GraphNode>> levelNodes) {
         for (int level = 0; level < levelNodes.Count - 1; level++) {
             foreach (var node in levelNodes[level]) {
-                if (node.nextLevelConnections.Count == 0) {
+                if (node.NextConnections.Count == 0) {
                     ConnectToClosest(node, levelNodes[level + 1]);
                     Debug.LogWarning($"Fixed isolated node at level {level} (no forward connections)");
                 }
@@ -133,7 +133,7 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
                     GraphNode closest = FindClosestNode(node, levelNodes[level - 1]);
                     if (closest != null) {
                         closest.ConnectTo(node);
-                        Debug.LogWarning($"Fixed isolated node at level {level} (no backward connections)");
+                        //Debug.LogWarning($"Fixed isolated node at level {level} (no backward connections)");
                     }
                 }
             }

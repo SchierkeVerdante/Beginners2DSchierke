@@ -14,6 +14,6 @@ public class GraphGenerationPipeline : Pipeline<GraphGenerationContext> {
     }
 
     protected override void OnExecutionComplete(GraphGenerationContext context) {
-        Debug.Log($"[Pipeline] Graph generation completed. Total nodes: {context.Graph.GetAllNodes().Count}");
+        Debug.Log($"[Pipeline] Graph generation completed. Total nodes: {context.Graph.AllNodes.Count}");
     }
 }

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Cave
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: -205404686831204125, guid: 3119bec00003cbc48a0fb8b78f4f9080, type: 3}
-  - {fileID: 770947393, guid: 3119bec00003cbc48a0fb8b78f4f9080, type: 3}
-  - {fileID: 646374220, guid: 3119bec00003cbc48a0fb8b78f4f9080, type: 3}
-  - {fileID: 1159822183, guid: 3119bec00003cbc48a0fb8b78f4f9080, type: 3}
+  - {fileID: 7401080462698016258, guid: 251a1375c85523d4dbd935d5b9804ad9, type: 3}
+  - {fileID: -562046898, guid: 251a1375c85523d4dbd935d5b9804ad9, type: 3}
+  - {fileID: 1606965240, guid: 251a1375c85523d4dbd935d5b9804ad9, type: 3}
+  - {fileID: 1940028692, guid: 251a1375c85523d4dbd935d5b9804ad9, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0

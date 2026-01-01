@@ -74,12 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 056897a715547c84bbda8e9c6e859736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameInstaller
-  _gameBootstrapper: {fileID: 8474478275792113933, guid: 7277059b3684d7f4e85607c76224f788, type: 3}
+  _gameBootstrapper: {fileID: 7178684093518074454, guid: 3c6982ec6ceaa584da80f14a9f9cf3eb, type: 3}
+  _sceneDataService: {fileID: 5044238932511204610, guid: ac02f1f6c7b826042a9a98db8514c4d0, type: 3}
   _randomServiceSettings:
     seedString: I like onions!
-  _sceneData:
-    mainMenuScene:
-      sceneAsset: {fileID: 102900000, guid: 978ccb3c3f925f34382ba0e9f3538503, type: 3}
-      scenePath: Assets/Scenes/Alex/Main Menu Test (Alex)).unity
   _uiManager: {fileID: 2689825059751701066, guid: 495c270d0171ddf438db734788f88f91, type: 3}
   _audioConfig: {fileID: 11400000, guid: a9522949ec7849748bff26396dbb94fc, type: 2}

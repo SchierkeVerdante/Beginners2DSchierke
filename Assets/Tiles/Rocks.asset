@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Rocks
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 8443845466333097536, guid: 118757581ec410b40bbcde090d029d44, type: 3}
-  - {fileID: 1246795998, guid: 118757581ec410b40bbcde090d029d44, type: 3}
-  - {fileID: 253846531, guid: 118757581ec410b40bbcde090d029d44, type: 3}
-  - {fileID: 2039565900, guid: 118757581ec410b40bbcde090d029d44, type: 3}
+  - {fileID: -8066509836438419032, guid: efb0469dd3567bf49a3f179ec91368d1, type: 3}
+  - {fileID: 1250413726, guid: efb0469dd3567bf49a3f179ec91368d1, type: 3}
+  - {fileID: -340320171, guid: efb0469dd3567bf49a3f179ec91368d1, type: 3}
+  - {fileID: 2059889579, guid: efb0469dd3567bf49a3f179ec91368d1, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0

@@ -1,13 +1,16 @@
-using System;
+п»їusing System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class NodeView : MonoBehaviour {
+public class NodeView : MonoBehaviour, IPointerDownHandler {
     [SerializeField] TextMeshPro text;
 
     [Header("Line settings")]
     [SerializeField] Material lineMaterial;
     [SerializeField] float lineWidth = 0.05f;
+
+    public Action<NodeView> OnNodeClicked;
 
     public void SetText(string text) {
         if (this.text != null)
@@ -15,7 +18,7 @@ public class NodeView : MonoBehaviour {
     }
 
     public void DrawConnectionTo(Vector3 targetPosition) {
-        // створюємо новий об’єкт для лінії
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅб’єпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         var lineObj = new GameObject("ConnectionLine");
         lineObj.transform.SetParent(transform, false);
 
@@ -28,14 +31,8 @@ public class NodeView : MonoBehaviour {
         lr.SetPosition(0, transform.position);
         lr.SetPosition(1, targetPosition);
     }
-}
 
-
-public class NodePresenter {
-    private NodeView nodeView;
-    private GraphNode graphNode;
-    public NodePresenter(NodeView nodeView, GraphNode graphNode) {
-        this.nodeView = nodeView;
-        this.graphNode = graphNode;
+    public void OnPointerDown(PointerEventData eventData) {
+        Debug.Log("Clicked!");
     }
 }

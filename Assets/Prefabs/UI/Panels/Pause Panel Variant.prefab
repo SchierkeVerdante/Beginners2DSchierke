@@ -306,24 +306,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3725628388160823789}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8717a0d9a5583ac479f7f5cd29327647, type: 3}
+  m_Script: {fileID: 11500000, guid: c9316c28aa016574d903973125b0f15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuPanel
-  canvasGroup: {fileID: 8184384817317803739}
+  canvasGroup: {fileID: 0}
   fadeInDuration: 0.2
   fadeOutDuration: 0.3
   fadeInEase: 6
   fadeOutEase: 5
   startVisible: 0
+  closeButton: {fileID: 5773223388020352376}
   contuniueButton: {fileID: 8669286923787736367}
   settingsButton: {fileID: 278788260943390230}
   exitButton: {fileID: 3007331565906285659}
-  closeButton: {fileID: 5773223388020352376}
---- !u!225 &8184384817317803739 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 9056398612625934767, guid: a45552ddf228bf648982a840cfc13910, type: 3}
-  m_PrefabInstance: {fileID: 881030072112988020}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2772896461992060627
 PrefabInstance:
   m_ObjectHideFlags: 0

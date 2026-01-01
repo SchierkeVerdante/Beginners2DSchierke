@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class MainMenuState : State {
+public class MainMenuState : State<GameManager> {
     private IAudioService _audioService;
-    public MainMenuState(IStateMachine stateMachine, IAudioService audioService) : base(stateMachine) {
+    public MainMenuState(IAudioService audioService) {
         _audioService = audioService;
     }
     public override void Enter() {

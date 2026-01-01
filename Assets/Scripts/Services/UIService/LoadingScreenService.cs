@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class LoadingScreenService : ILoadingScreenService {
     private readonly IUiService _uiService;
 

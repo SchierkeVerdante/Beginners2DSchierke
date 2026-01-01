@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public class GraphView : MonoBehaviour {
+public class GraphView 
+    : MonoBehaviour {
     [SerializeField] Transform graphParent;
     [SerializeField] NodeView noderViewPrefab;
 
@@ -18,7 +18,7 @@ public class GraphView : MonoBehaviour {
     }
 
     private void SpawnNodes(Graph graph) {
-        List<List<GraphNode>> levelNodes = graph.GetLevelNodes();
+        List<List<GraphNode>> levelNodes = graph.Layers;
         
 
         for (int level = 0; level < levelNodes.Count; level++) {
