@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class ACharacterCollision2D : MonoBehaviour {
 
+    protected static int hitEffectAmount = Shader.PropertyToID("_HitEffectAmount");
+
     [SerializeField]
     protected float contactKnockbackForce = 10;
 

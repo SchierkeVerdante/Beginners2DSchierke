@@ -8,10 +8,10 @@ public class EffectsManager : MonoBehaviour
     PlayerState pState;
 
     [SerializeField]
-    ScreenShaker screenShaker;
+    Shaker screenShaker;
 
     [SerializeField]
-    ScreenShakeParams damageShake;
+    ShakeParams damageShake;
 
     private void Awake() {
         pState = LDirectory2D.Instance.pState;
@@ -20,7 +20,7 @@ public class EffectsManager : MonoBehaviour
     }
 
     public void HandleDamageEffects() {
-        StartCoroutine(TimeStop(pState.damageHitStopTimeScale, pState.damageHitStopDuration, () => screenShaker.ScreenShake(damageShake)));
+        StartCoroutine(TimeStop(pState.damageHitStopTimeScale, pState.damageHitStopDuration, () => screenShaker.ShakeObject(damageShake)));
     }
 
     private IEnumerator TimeStop(float timeScale, float duration, Action Continuation = null) {

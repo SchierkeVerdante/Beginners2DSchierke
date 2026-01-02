@@ -268,7 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b522c67fe87f74ab9d6ae1717d8406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputStrategy
-  inputQueueTime: 0.1
+  inputQueueTime: 0.3
+  maxAimAssist: 20
+  aimAssistRange: 20
   playerInputSpace: {fileID: 0}
   mouseUsed: 0
   moveInput: {x: 0, y: 0}
@@ -277,6 +279,8 @@ MonoBehaviour:
   attackInput: 0
   moveDirection: {x: 0, y: 0, z: 0}
   lookDirection: {x: 0, y: 0, z: 0}
+  firingMoveSpeedMultiplier: 1
+  closestEnemy: {fileID: 0}
   sprintActive: 1
   canSprint: 1
   canAttack: 1
@@ -284,7 +288,7 @@ MonoBehaviour:
   isSprinting: 0
   isAttacking: 0
   inputQueued: 0
-  angle: 0
+  aimAngle: 0
   inputQueueTimer: 0
 --- !u!114 &8928919092424792445
 MonoBehaviour:
@@ -298,12 +302,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cfe09bdfc814234391c24e6d22be8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxSpeed: 10
-  maxAcceleration: 40
+  maxSpeed: 15
+  maxAcceleration: 60
   sprintSpeed: 40
   sprintDuration: 0.15
-  sprintCooldown: 0.5
-  sprintResetCooldown: 0.1
+  sprintCooldown: 0.2
+  sprintResetCooldown: 0.5
   maxConsecutiveSprints: 2
   playerInput: {x: 0, y: 0}
   targetVelocity: {x: 0, y: 0, z: 0}
@@ -347,15 +351,10 @@ MonoBehaviour:
   shootStrat: {fileID: 8564355641468353269}
   bulletObject: {fileID: 4378527887818446221}
   bullet: {fileID: 8826804158604834315}
-  currentMove: {fileID: 0}
   rb: {fileID: 8494035555045745088}
-  placeDistance: 0.5
-  fireRate: 10
-  fireSpread: 5
-  fireStreams:
-  - 0
+  shootParams: {fileID: 11400000, guid: 9b286b7484f80614eab11bf585b9b6af, type: 2}
+  inheritVelocityMultiplier: 1
   timeToBullet: 0.1
-  bulletTimer: 1.5304153
 --- !u!1001 &484582651718608417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -518,6 +517,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6584275435257596009}
     m_Modifications:
+    - target: {fileID: 3464370341129104251, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
+      propertyPath: lifetime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464370341129104251, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
+      propertyPath: playerBullet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6239810799370473732, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6239810799370473732, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6239810799370473732, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 6239810799370473732, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -557,6 +576,10 @@ PrefabInstance:
     - target: {fileID: 6239810799370473732, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6239810799370473732, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8552148842617604349, guid: d01f5b4ba579ea14e8bc749a4f3f13f4, type: 3}
       propertyPath: m_Name

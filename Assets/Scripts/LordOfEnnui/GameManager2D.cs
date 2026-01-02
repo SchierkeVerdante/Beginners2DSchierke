@@ -8,6 +8,10 @@ public class GameManager2D : MonoBehaviour
     [SerializeField]
     PlayerState pState;
 
+    private void Awake() {
+        Application.targetFrameRate = -1;
+    }
+
     void Start()
     {
         if (levelExitTrigger != null) levelExitTrigger.triggerEvent.AddListener(OnLevelComplete);

@@ -9,8 +9,6 @@ public class PlayerCollision2D : ACharacterCollision2D
     [SerializeField]
     ParticleSystem damageParticles;
 
-    int hitEffectAmount = Shader.PropertyToID("_HitEffectAmount");
-
     protected override void Start() {
         base.Start();
         pState = LDirectory2D.Instance.pState;

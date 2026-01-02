@@ -31,7 +31,7 @@ public class PlayerController2D : MonoBehaviour {
 
     void Update() {
         sprintInput = moveStrat.SprintThisFrame();
-        targetVelocity = moveStrat.MoveDirection() * maxSpeed;
+        targetVelocity = moveStrat.MoveDirection() * (maxSpeed * moveStrat.MoveSpeedMultiplier());
         timeSinceLastSprint += Time.deltaTime;
         if (sprintPhase > 0) {
             sprintResetTimer += Time.deltaTime;
@@ -85,6 +85,6 @@ public class PlayerController2D : MonoBehaviour {
         trueAcceleration = velocity.magnitude > 0.1f && trueAcceleration.magnitude < 0.1f ? acceleration * velocity.normalized : trueAcceleration;
 
         body.linearVelocity = velocity;
-        moveStrat.sprintActive = (sprintPhase < maxConsecutiveSprints || maxConsecutiveSprints < 0) && timeSinceLastSprint > sprintCooldown && !moveStrat.isSprinting;
+        moveStrat.sprintActive = (sprintPhase < maxConsecutiveSprints || maxConsecutiveSprints < 0) && (timeSinceLastSprint > sprintCooldown || sprintCooldown < 0) && !moveStrat.isSprinting;
     }
 }

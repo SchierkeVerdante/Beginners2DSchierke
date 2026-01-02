@@ -6,8 +6,13 @@ public class PlayerInputStrategy : ACharacterStrategy {
     InputSystem_Actions inputActions;
     InputAction moveAction, lookAction, sprintAction, attackAction;
     
-    [SerializeField]
+    [SerializeField, Range(0f, 0.5f)]
     float inputQueueTime = 0.1f;
+
+    [SerializeField, Range(0f, 20f)]
+    float maxAimAssist = 5f;
+    [SerializeField, Range(0f, 20f)]
+    float aimAssistRange = 20f;
 
     [SerializeField]
     Transform playerInputSpace = default;
@@ -22,11 +27,15 @@ public class PlayerInputStrategy : ACharacterStrategy {
     bool sprintInputQueued, attackInput;
     [SerializeField]
     Vector3 moveDirection, lookDirection;
+    [SerializeField]
+    float firingMoveSpeedMultiplier = 1.0f;
+    [SerializeField]
+    GameObject closestEnemy;
 
     [Header("State")]
     public bool sprintActive = true, canSprint = true, canAttack = true, canMove = true;
     public bool isSprinting = false, isAttacking = false, inputQueued = false;
-    public float angle;
+    public float aimAngle;
 
     [SerializeField]
     float inputQueueTimer;
@@ -59,8 +68,7 @@ public class PlayerInputStrategy : ACharacterStrategy {
             } else {
                 lookDirection = (Camera.main.ScreenToWorldPoint(lookInput) - transform.position).normalized;
             }
-            angle = Vector2.SignedAngle(Vector2.right, lookDirection);
-            angle = angle < 0 ? 360 + angle : angle;
+            aimAngle = lookDirection.Get2DAngle();
         };
 
         attackAction.performed += ctx => attackInput = true;
@@ -93,7 +101,8 @@ public class PlayerInputStrategy : ACharacterStrategy {
         return false;
     }
 
-    public override bool FireThisFrame(ABullet2D bullet) {
+    public override bool FireThisFrame(ABullet2D bullet, ShootParams shootParams) {
+        firingMoveSpeedMultiplier = attackInput ? shootParams.moveSpeedMultiplier : 1.0f;
         return attackInput;
     }
 
@@ -106,6 +115,21 @@ public class PlayerInputStrategy : ACharacterStrategy {
     }
 
     public override float FireAngle() {
-        return angle;
+        closestEnemy = null;
+        float closestDistance = float.MaxValue;
+        foreach (Collider2D collider in Physics2D.OverlapCircleAll(transform.position, aimAssistRange)) {
+            if (closestEnemy == null || Vector3.Distance(transform.position, collider.transform.position) < closestDistance) {
+                closestEnemy = collider.gameObject;
+                closestDistance = Vector3.Distance(transform.position, closestEnemy.transform.position);
+            }
+        }
+        float assistAngle = aimAngle;
+        if (closestEnemy != null) (closestEnemy.transform.position - transform.position).Get2DAngle();
+
+        return aimAngle.GetAngularDistance(assistAngle) < maxAimAssist ? assistAngle : aimAngle;
+    }
+
+    public float MoveSpeedMultiplier() {
+        return firingMoveSpeedMultiplier;
     }
 }

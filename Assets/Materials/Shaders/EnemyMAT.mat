@@ -72,7 +72,7 @@ Material:
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _HitEffectColor: {r: 1.3041191, g: 0.17843498, b: 0.15704052, a: 1}
+    - _HitEffectColor: {r: 2.6082382, g: 0.35686997, b: 0.31408104, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ScreenShakeParams", menuName = "Scriptable Object/Screen Shake Params")]
-public class ScreenShakeParams : ScriptableObject {
+public class ShakeParams : ScriptableObject {
     [SerializeField]
     public float maxAmplitude = 1, frequency = 10, duration = 1, randomness = 0.2f;
 

@@ -16,6 +16,7 @@ public class UIBar : MonoBehaviour
 
     public void UpdateComponent(float current, float max)
     {
+        if (enabled == false) return;
         maxValue = max;
         currentValue = Mathf.Min(max, current);
         fill.fillAmount = currentValue / maxValue;

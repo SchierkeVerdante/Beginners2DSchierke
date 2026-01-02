@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class ABullet2D : MonoBehaviour
 {
     [SerializeField]
-    public float lifetime = 1f, bulletSpeed = 10f, recoilForce = 5f;
+    public float lifetime = 1f;
 
     [SerializeField]
     public bool playerBullet = false;

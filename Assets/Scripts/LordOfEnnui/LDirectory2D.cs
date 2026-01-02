@@ -8,7 +8,7 @@ public class LDirectory2D : MonoBehaviour {
     public GameObject player;
     public PlayerController2D playerController;
     public PlayerCollision2D playerStatus;
-    public ScreenShaker screenShaker;
+    public Shaker screenShaker;
 
     public PlayerState defaultPlayerState;
     [Header("ReadOnly")]

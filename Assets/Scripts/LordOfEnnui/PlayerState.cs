@@ -3,23 +3,23 @@ using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "PlayerState", menuName = "Scriptable Object/Player State")]
 public class PlayerState : ScriptableObject {
+   
     [Header("Status")]
-    [SerializeField]
+    public float requiredOil = 80;
     public float maxHealth = 5, currentHealth = 4;
     public float maxOil = 100, currentOil = 0;
-    public float requiredOil = 80;
 
     [Header("Invincibility")]
-    [SerializeField]
-    public float damageIframes = 60, sprintIframes = 30, flashesPerSecond = 2;
+    public float flashesPerSecond = 2;
+    public float damageIframes = 60, sprintIframes = 30;
 
     [Header("HitStop")]
-    [SerializeField]
-    public float damageHitStopDuration = 0.1f, damageHitStopTimeScale = 0.0f;
+    public float damageHitStopDuration = 0.1f;
+    public float damageHitStopTimeScale = 0.0f;
 
     [Header("Events")]
-    [SerializeField]
-    public UnityEvent onDamage, onDeath;
+    public UnityEvent onDamage;
+    public UnityEvent onDeath;
 
     public void TakeDamage(float amount) {
         currentHealth -= amount;

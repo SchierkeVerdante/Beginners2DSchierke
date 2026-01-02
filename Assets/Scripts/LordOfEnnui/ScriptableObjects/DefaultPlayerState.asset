@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9410de2211d96e34e968424178000c7c, type: 3}
   m_Name: DefaultPlayerState
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
-  maxHealth: 5
-  currentHealth: 4
+  requiredOil: 80
+  maxHealth: 15
+  currentHealth: 15
   maxOil: 100
   currentOil: 0
-  requiredOil: 80
+  flashesPerSecond: 4
   damageIframes: 60
   sprintIframes: 30
-  flashesPerSecond: 4
   damageHitStopDuration: 0.2
   damageHitStopTimeScale: 0
   onDamage:

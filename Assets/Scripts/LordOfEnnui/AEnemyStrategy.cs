@@ -9,9 +9,6 @@ public enum EnemyAIState {
 public abstract class AEnemyStrategy : ACharacterStrategy {
 
     [SerializeField]
-    EnemyAIState state = EnemyAIState.Idle;
-
-    [SerializeField]
     protected GameObject target;
 
     [SerializeField]
@@ -35,7 +32,7 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
         return (target.transform.position - transform.position).normalized;
     }
 
-    public override bool FireThisFrame(ABullet2D bullet) {
+    public override bool FireThisFrame(ABullet2D bullet, ShootParams shootParams) {
         return true;
     }
 

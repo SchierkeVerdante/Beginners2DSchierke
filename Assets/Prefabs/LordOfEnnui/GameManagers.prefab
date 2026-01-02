@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8371899358233087026}
   - component: {fileID: 2709742056831882534}
   - component: {fileID: 4177962080967060785}
+  - component: {fileID: 967289985232851520}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -66,7 +67,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05706abca116e704a943e77c65644a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager2D
-  healthBar: {fileID: 0}
   oilBar: {fileID: 0}
   pState: {fileID: 0}
 --- !u!114 &2709742056831882534
@@ -98,3 +98,15 @@ MonoBehaviour:
   pState: {fileID: 0}
   screenShaker: {fileID: 0}
   damageShake: {fileID: 11400000, guid: 4d171369fad5f9a499c4e80f60a1ee9b, type: 2}
+--- !u!114 &967289985232851520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421787591492012111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5253479223bfe343a2aebc9931d12bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'

@@ -3,7 +3,7 @@ using UnityEngine;
 public class UIManager2D : MonoBehaviour
 {
     [SerializeField]
-    UIBar healthBar, oilBar;
+    UIBar oilBar;
 
     [SerializeField]
     PlayerState pState;
@@ -13,7 +13,6 @@ public class UIManager2D : MonoBehaviour
     }
 
     private void Update() {
-        healthBar.UpdateComponent(pState.currentHealth, pState.maxHealth);
         oilBar.UpdateComponent(pState.currentOil, pState.maxOil);
     }
 }
