@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-public class StarView : MonoBehaviour, IPointerDownHandler {
+public class StarView : MonoBehaviour, IView, IPointerDownHandler {
     public Action<StarView> OnClicked { get; internal set; }
     [SerializeField] TextMeshPro text;
 
@@ -77,10 +77,35 @@ public class StarView : MonoBehaviour, IPointerDownHandler {
         if (this.text != null)
             this.text.text = text;
     }
-
-    
 }
 
+
+public class StarPresenter {
+    public Star Model { get; private set; }
+    public StarView View { get; private set; }
+    private IStarMapService starMapService;
+
+    public StarPresenter(Star model, StarView view) {
+        Model = model;
+        View = view;
+
+        View.OnClicked += HandleViewClicked;
+
+        Model.OnStateChanged += HandleStateChanged;
+
+        View.SetState(model.CurrentState);
+        View.SetText($"{model.StarCoord}");
+    }
+
+    private void HandleStateChanged(StarState newState) {
+        View.SetState(newState);
+    }
+
+    private void HandleViewClicked(StarView view) {
+        // Тут логіка перевірки: чи можна активувати цю зірку?
+        Debug.Log($"Star clicked: {Model}");
+    }
+}
 
 public readonly struct LayerCoord : IEquatable<LayerCoord> {
     public int Layer { get; }
@@ -106,12 +131,12 @@ public readonly struct LayerCoord : IEquatable<LayerCoord> {
     }
 
     public override string ToString() {
-        return $"Coords (Layer={Layer}, Index={Index})";
+        return $"(L: {Layer}, I :{Index})";
     }
 }
 
-public class Star {
-    private StarState _starState;
+public class Star : IModel {
+    private StarState _starState = StarState.Locked;
     public Guid Id { get; }
 
     public LayerCoord StarCoord { get; }
@@ -137,11 +162,6 @@ public class Star {
         return _connections.Contains(otherRef);
     }
 
-    public bool AreConnectedTo(Star other) {
-        if (other == null) return false;
-        return AreConnectedTo(other.StarCoord);
-    }
-
     public void AddConnection(LayerCoord otherRef) {
         if (AreConnectedTo(otherRef)) return;
         _connections.Add(otherRef);
@@ -150,12 +170,6 @@ public class Star {
     public void AddConnection(int layer, int index) {
         AddConnection(new LayerCoord(layer, index));
     }
-
-    public void AddConnection(Star other) {
-        if (other == null) return;
-        AddConnection(other.StarCoord);
-    }
-
     public void RemoveConnection(LayerCoord otherRef) {
         if (!AreConnectedTo(otherRef)) return;
         _connections.Remove(otherRef);
@@ -165,13 +179,16 @@ public class Star {
         RemoveConnection(new LayerCoord(layer, index));
     }
 
-    public void RemoveConnection(Star other) {
-        if (other == null) return;
-        RemoveConnection(other.StarCoord);
-    }
-
     public LayerCoord[] GetNextConnections() {
         return _connections.ToArray();
+    }
+
+    public void ClearConnections() {
+        _connections.Clear();
+    }
+
+    public override string ToString() {
+        return $"Star {StarCoord}";
     }
 }
 

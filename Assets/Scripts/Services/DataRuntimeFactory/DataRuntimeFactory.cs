@@ -1,4 +1,5 @@
 ﻿using Zenject;
+using static UnityEngine.Rendering.STP;
 
 public class DataRuntimeFactory : IDataRuntimeFactory {
     private DiContainer _container;
@@ -7,7 +8,11 @@ public class DataRuntimeFactory : IDataRuntimeFactory {
         _container = container;
     }
 
-    public object CreateInstanse(IRuntimeConfig data) {
-        return _container.Instantiate(data.RuntimeType, new object[] { data });
+    public T CreateInstance<T>(IGenericInstanceConfig<T> config) where T : class {
+        return _container.Instantiate<T>(new object[] { config });
+    }
+
+    public object CreateInstance(IInstanceConfig runtimeConfig) {
+        return _container.Instantiate(runtimeConfig.RuntimeType, new object[] { runtimeConfig });
     }
 }

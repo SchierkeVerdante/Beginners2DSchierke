@@ -1,3 +1,4 @@
 ﻿public interface IDataRuntimeFactory {
-    object CreateInstanse(IRuntimeConfig data);
+    T CreateInstance<T>(IGenericInstanceConfig<T> config) where T : class;
+    object CreateInstance(IInstanceConfig runtimeConfig);
 }

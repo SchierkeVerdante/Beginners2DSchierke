@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MapGenerationData", menuName = "Dungeon/MapGenerationData")]
-public class GraphGenerationConfig : ScriptableObject {
+public class GraphGenerationConfig : GenericInstanсeConfig<GraphGenerator> {
     public string seedString = "simple_seed";
 
     [Header("Level Settings")]
@@ -23,7 +23,9 @@ public class GraphGenerationConfig : ScriptableObject {
 
     public int Seed => seedString.GetDeterministicSeed();
 
-    public void OnValidate() {
+
+    protected override void OnValidate() {
+        base.OnValidate();
         if (initialNodesPerLevel > maxNodesPerLevel) {
             maxNodesPerLevel = initialNodesPerLevel;
         }

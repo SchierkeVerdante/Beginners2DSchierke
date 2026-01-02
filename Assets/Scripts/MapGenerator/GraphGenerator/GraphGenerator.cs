@@ -35,7 +35,7 @@ public class GraphGenerator {
 
         foreach (var stageConfig in stages) {
             if (stageConfig == null) continue;
-            var stageInstance = dataRuntimeFactory.CreateInstanse(stageConfig) as IPipelineStage<GraphGenerationContext>;
+            var stageInstance = dataRuntimeFactory.CreateInstance(stageConfig) as IPipelineStage<GraphGenerationContext>;
             pipeline.AddStage(stageInstance);
         }
         return pipeline;

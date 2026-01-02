@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [CreateAssetMenu(fileName = "ConnectionStageConfig", menuName = "Graph Generation/Stages/Connection Config")]
-public class ConnectionStageConfig : GraphStageConfig {
+public class ConnectionStageConfig : GenericInstanсeConfig<ConnectionStage> {
 
     [Min(min: 0f)]
     public float MaxConnectionDistance = 1.5f;
@@ -16,9 +16,6 @@ public class ConnectionStageConfig : GraphStageConfig {
 
     [Min(min: 1)]
     public int ConnectionCandidatesCount = 3;
-
-    public override Type RuntimeType => typeof(ConnectionStage);
-
    
 
     protected override void OnValidate() {

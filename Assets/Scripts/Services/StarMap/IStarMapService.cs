@@ -1,22 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Zenject;
 
 public interface IStarMapService {
+    public StarMap StarMap { get; }
 
+    void AddStarPresenter(StarPresenter starPresenter);
+    void Clear();
+    Vector3 GetStarGlobalPosition(Star star);
+    List<Star> GetStarsByCoords(IEnumerable<LayerCoord> coords);
+    IReadOnlyList<Star> GetStarsInLayer(int layer);
+    void LoadMap(StarMap map);
+    bool TryGetStarByCoord(LayerCoord coord, out Star star);
+    bool TryGetStarPresenter(Star star, out StarPresenter presenter);
 }
 
 public class StarMapService : IStarMapService {
     private StarMap starMap;
 
-    public void LoadStarMap(StarMap map) {
+    public StarMap StarMap => starMap;
+
+    public void LoadMap(StarMap map) {
         starMap = map;
     }
 
-    public StarMap SaveStarMap() {
+    public StarMap SaveMap() {
         return starMap;
     }
 
@@ -43,82 +54,31 @@ public class StarMapService : IStarMapService {
 
         return stars;
     }
-}
 
-public class StarNavigation : MonoBehaviour {
-    [SerializeField] private Spaceship2D spaceship;
-    [Inject] StarMapService starMapService;
-    private int travelDistance = 1;
-    private Star _currentStar;
-
-    public List<Star> GetAvailableStars() {
-        if (_currentStar == null) {
-            Debug.LogWarning("Current star is not set!");
-            return new List<Star>();
-        }
-
-        LayerCoord starRef = _currentStar.StarCoord;
-
-        int maxTravelDistance = _currentStar.StarCoord.Layer + travelDistance;
-
-        IEnumerable<LayerCoord> nextConnections = _currentStar.Connections
-            .Where(r => r.Layer > _currentStar.StarCoord.Layer && r.Layer <= maxTravelDistance);
-
-        return starMapService.GetStarsByCoords(nextConnections);
+    public IReadOnlyList<Star> GetStarsInLayer(int layer) {
+        return starMap.GetStarsInLayer(layer);
     }
 
-    public Star GetCurrentStar() {
-        return _currentStar;
+    private Dictionary<LayerCoord, StarPresenter> starPresenters = new();
+    public void AddStarPresenter(StarPresenter starPresenter) {
+        starPresenters.Add(starPresenter.Model.StarCoord, starPresenter);
     }
 
-    public void MoveTo(LayerCoord coords) {
-        if (!starMapService.TryGetStarByCoord(coords, out Star star)) {
-
-            return;
+    public Vector3 GetStarGlobalPosition(Star star) {
+        if (TryGetStarPresenter(star, out StarPresenter presenter)) {
+            return presenter.View.gameObject.transform.position;
         }
 
-        _currentStar = star;
+        return Vector3.zero;
+    }
+
+    public bool TryGetStarPresenter(Star star, out StarPresenter presenter) {
+        return starPresenters.TryGetValue(star.StarCoord, out presenter);
+    }
+
+    public void Clear() {
+        starPresenters.Clear();
     }
 }
 
 
-public class StarNavigationVisual : MonoBehaviour {
-    [SerializeField] private StarView _starPrefab;
-    [Inject] IStarMapService starMapService;
-
-    [SerializeField] private Transform mapParent;
-    [SerializeField] private float nodesXOffset = 2f;
-    [SerializeField] private float nodesYOffset = 1f;
-
-    private void CreateStars(StarMap map) {
-        foreach (var star in map.GetAllStars()) {
-            LayerCoord coord = star.StarCoord;
-            Vector3 position = CalculatePosition(coord.Layer, coord.Index);
-
-            StarView view = Instantiate(_starPrefab, position, Quaternion.identity, mapParent);
-
-            view.gameObject.name = $"Star : {coord}";
-            view.OnClicked += OnStarClicked;
-
-            // Малювання ліній
-            foreach (var conn in star.Connections) {
-                if (conn.Layer > star.StarCoord.Layer) {
-                    Vector3 targetPos = CalculatePosition(conn.Layer, conn.Index);
-                    view.DrawConnectionTo(targetPos);
-                }
-            }
-        }
-    }
-
-    private void OnStarClicked(StarView star) {
-        Debug.Log($"Received click from star {star}");
-    }
-
-    private Vector3 CalculatePosition(int layer, int layerIndex) {
-        return new Vector3(layer, layerIndex);
-    }
-
-    public void Show() {
-
-    }
-}

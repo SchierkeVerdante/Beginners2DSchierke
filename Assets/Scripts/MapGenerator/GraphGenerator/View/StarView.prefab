@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: -620774274637496160}
   - component: {fileID: 7435930692125567350}
   m_Layer: 0
-  m_Name: PlanetView
+  m_Name: StarView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

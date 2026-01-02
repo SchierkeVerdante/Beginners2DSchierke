@@ -176,17 +176,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
---- !u!114 &161798164 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7502869086237089909, guid: cf5331246d880d14fbff4ca80bb50320, type: 3}
-  m_PrefabInstance: {fileID: 2433023479747541334}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca5c9565820c2c40817bce61074d743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Spaceship2DAdvanced
 --- !u!1 &232634059
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +458,7 @@ GameObject:
   - component: {fileID: 389972540}
   - component: {fileID: 389972541}
   - component: {fileID: 389972542}
+  - component: {fileID: 389972543}
   m_Layer: 0
   m_Name: MapController
   m_TagString: Untagged
@@ -504,9 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f83fafac4f74be48bdbae75196cb0d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapController
-  spaceship: {fileID: 161798164}
   generator: {fileID: 389972542}
   startButton: {fileID: 812156547}
+  starNavigation: {fileID: 389972543}
+  graphGenerationData: {fileID: 11400000, guid: b4a0e4a8ddcccdb47b6aed7ac22214a0, type: 2}
 --- !u!114 &389972542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,8 +510,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a1f57c5a852b34c9a6712560f0ff20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StarMapGenerator
-  graphGenerationData: {fileID: 11400000, guid: b4a0e4a8ddcccdb47b6aed7ac22214a0, type: 2}
-  starPrefab: {fileID: -620774274637496160, guid: c705a3d18cfb2b541aa2d589a0e3c028, type: 3}
+--- !u!114 &389972543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389972539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a9669d596716db4b86e9f0734d31f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarNavigationVisual
+  _starPrefab: {fileID: -620774274637496160, guid: c705a3d18cfb2b541aa2d589a0e3c028, type: 3}
   mapParent: {fileID: 1969847263}
   nodesXOffset: 2
   nodesYOffset: 1
@@ -712,6 +714,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812156545}
   m_CullTransparentMesh: 1
+--- !u!1 &1681152323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1681152324}
+  - component: {fileID: 1681152325}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1681152324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681152323}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.90073, y: 2.20571, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1681152325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681152323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbea512ef0ccd8b48beb6127e97e77b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSounds
+  jumpSound:
+    Guid:
+      Data1: -163572013
+      Data2: 1290967578
+      Data3: -1346455363
+      Data4: 37457929
+    Path: event:/Characters/Player/Movement/Jumping
+  dashSound:
+    Guid:
+      Data1: -277893273
+      Data2: 1275565488
+      Data3: 1341919372
+      Data4: -1993185319
+    Path: event:/Characters/Player/Movement/Dash
+  movingSound:
+    Guid:
+      Data1: -1544703322
+      Data2: 1243344675
+      Data3: 88062883
+      Data4: 1250406548
+    Path: event:/Characters/Player/Movement/Moving
+  shieldSound:
+    Guid:
+      Data1: 1012448806
+      Data2: 1102008287
+      Data3: -2037447003
+      Data4: 1341653319
+    Path: event:/Characters/Player/Shield
 --- !u!1 &1969847262
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,3 +1031,4 @@ SceneRoots:
   - {fileID: 2106003829}
   - {fileID: 328055131}
   - {fileID: 2433023479747541334}
+  - {fileID: 1681152324}
