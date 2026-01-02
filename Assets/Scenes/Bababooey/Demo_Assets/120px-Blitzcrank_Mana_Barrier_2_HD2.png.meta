@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1fe95698cca82cf49ac2f16f8a3be262
+guid: bb6485dc9a2615042b5710361540c259
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1811530528997729365
-    second: 240px-Blitzcrank_Power_Fist_HD2_0
+      213: -746531285437595911
+    second: 120px-Blitzcrank_Mana_Barrier_2_HD2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 240px-Blitzcrank_Power_Fist_HD2_0
+      name: 120px-Blitzcrank_Mana_Barrier_2_HD2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 240
-        height: 240
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bab905fe4962cd6e0800000000000000
-      internalID: -1811530528997729365
+      spriteID: 9feb6cd40c9c3a5f0800000000000000
+      internalID: -746531285437595911
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      240px-Blitzcrank_Power_Fist_HD2_0: -1811530528997729365
+      120px-Blitzcrank_Mana_Barrier_2_HD2_0: -746531285437595911
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
