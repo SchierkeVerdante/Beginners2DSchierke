@@ -772,6 +772,62 @@ MonoBehaviour:
       Data3: 1341919372
       Data4: -1993185319
     Path: event:/Characters/Player/Movement/Dash
+  swordAttack:
+    Guid:
+      Data1: -942067676
+      Data2: 1244755253
+      Data3: -829924448
+      Data4: -888732502
+    Path: event:/Characters/Player/Combat/Sword
+  shooting:
+    Guid:
+      Data1: 1964992359
+      Data2: 1139555785
+      Data3: -1054585723
+      Data4: 1624293393
+    Path: event:/Characters/Player/Combat/Shooting
+  takeDamage:
+    Guid:
+      Data1: -442384094
+      Data2: 1143953435
+      Data3: 1823187595
+      Data4: 2074071796
+    Path: event:/Characters/Player/TakeDamage
+  explosion:
+    Guid:
+      Data1: -1289773010
+      Data2: 1304119544
+      Data3: -434207834
+      Data4: -164424040
+    Path: event:/Characters/Player/Explosion
+  death:
+    Guid:
+      Data1: -1160888430
+      Data2: 1303553436
+      Data3: -1269942352
+      Data4: 1266731566
+    Path: event:/Characters/Player/Death
+  swordHit:
+    Guid:
+      Data1: 655503028
+      Data2: 1161781543
+      Data3: -1831331912
+      Data4: 1828995726
+    Path: event:/Characters/Player/SwordHit
+  gunHit:
+    Guid:
+      Data1: -53650805
+      Data2: 1129154960
+      Data3: 1028364984
+      Data4: -338122172
+    Path: event:/Characters/Player/GunHit
+  landingSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   movingSound:
     Guid:
       Data1: -1544703322

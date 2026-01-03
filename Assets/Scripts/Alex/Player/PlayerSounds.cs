@@ -4,113 +4,162 @@ using FMODUnity;
 using UnityEngine;
 using Zenject;
 
+
 public class PlayerSounds : MonoBehaviour {
     [Header("One-Shot Events")]
     [SerializeField] private EventReference jumpSound;
     [SerializeField] private EventReference dashSound;
-
-    [SerializeField] private EventReference sword;
+    [SerializeField] private EventReference swordAttack;
     [SerializeField] private EventReference shooting;
-
     [SerializeField] private EventReference takeDamage;
     [SerializeField] private EventReference explosion;
     [SerializeField] private EventReference death;
-
     [SerializeField] private EventReference swordHit;
     [SerializeField] private EventReference gunHit;
+    [SerializeField] private EventReference landingSound;
 
     [Header("Looped Events")]
     [SerializeField] private EventReference movingSound;
     [SerializeField] private EventReference shieldSound;
 
-    private FmodAudioService audioService;
+    // ≤нстанси створюЇмо один раз
+    private EventInstance _movingInstance;
+    private EventInstance _shieldInstance;
+
+    private FmodAudioService _audioService;
 
     [Inject]
     public void Construct(FmodAudioService audioService) {
-        this.audioService = audioService;
+        _audioService = audioService;
     }
 
     private void Start() {
-        StartTestSound().Forget();
+        InitializeLoopInstances();
+        TestMovementSound();
     }
 
-    private async UniTask StartTestSound() {
-        SetMoving(true);
-        await UniTask.WaitForSeconds(4);
-        SetMoving(false);
+    private void InitializeLoopInstances() {
+        // –ух
+        _movingInstance = RuntimeManager.CreateInstance(movingSound);
+        RuntimeManager.AttachInstanceToGameObject(_movingInstance, transform);
+
+        // ўит
+        _shieldInstance = RuntimeManager.CreateInstance(shieldSound);
+        RuntimeManager.AttachInstanceToGameObject(_shieldInstance, transform);
     }
 
     #region Movement Sounds
 
-    public void SetMoving(bool isMoving) {
-        if (isMoving) {
-            if (!audioService.IsLoopedPlaying(movingSound.Guid)) {
-                audioService.PlayLooped(movingSound.Guid, movingSound, transform);
-            }
+    public void SetMoving(bool isEnabled) {
+        if (!_movingInstance.isValid()) return;
+
+        if (isEnabled) {
+            _movingInstance.start();
+            
         } else {
-            audioService.StopLooped(movingSound.Guid);
+            _movingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
     }
 
     public void SetMovementSpeed(float speed) {
-        audioService.SetLoopedParameter(movingSound.Guid, "Speed", speed);
+        if (!_movingInstance.isValid()) return;
+
+        _movingInstance.setParameterByName("Speed", Mathf.Clamp01(speed));
     }
 
     #endregion
 
     #region Shield Sounds
 
-    public void SetShield(bool isActive) {
-        if (isActive) {
-            if (!audioService.IsLoopedPlaying(shieldSound.Guid)) {
-                audioService.PlayLooped(shieldSound.Guid, shieldSound, transform);
-            }
+    public void SetShield(bool isEnabled) {
+        if (!_movingInstance.isValid()) return;
+
+        if (isEnabled) {
+            _movingInstance.start();
         } else {
-            audioService.StopLooped(shieldSound.Guid);
+            _movingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
     }
 
     public void SetShieldStrength(float strength) {
-        audioService.SetLoopedParameter(shieldSound.Guid, "Strength", strength);
+        if (!_shieldInstance.isValid()) return;
+
+        _shieldInstance.setParameterByName("Strength", Mathf.Clamp01(strength));
     }
 
     #endregion
 
     #region One-Shot Sounds
 
-    public void PlayJump() => PlaySound(jumpSound);
-    public void PlayDash() => PlaySound(dashSound);
-    public void PlayTakeDamage() => PlaySound(takeDamage);
-    public void PlayDeath() => PlaySound(death);
-    public void PlayExplosion() => PlaySound(explosion);
-    public void PlaySwordAttack() => PlaySound(sword);
-    public void PlayShooting() => PlaySound(shooting);
-    public void PlaySwordHit() => PlaySound(swordHit);
-    public void PlayGunHit() => PlaySound(gunHit);
+    public void PlayJump() => PlayOneShot(jumpSound);
+    public void PlayDash() => PlayOneShot(dashSound);
+    public void PlayTakeDamage() => PlayOneShot(takeDamage);
+    public void PlayDeath() => PlayOneShot(death);
+    public void PlayExplosion() => PlayOneShot(explosion);
+    public void PlaySwordAttack() => PlayOneShot(swordAttack);
+    public void PlayShooting() => PlayOneShot(shooting);
+    public void PlaySwordHit() => PlayOneShot(swordHit);
+    public void PlayGunHit() => PlayOneShot(gunHit);
 
     public void PlayLanding(float impactForce) {
-        audioService.PlayOneShotWithParameter(
-            jumpSound,  // „и це правильний звук дл€ приземленн€?
+        _audioService.PlayOneShotWithParameter(
+            landingSound,
             transform.position,
             "Impact",
-            impactForce
+            Mathf.Clamp01(impactForce)
         );
     }
 
-    public void PlaySound(EventReference eventReference) {
-        audioService.PlayOneShot(eventReference, transform.position);
+    private void PlayOneShot(EventReference eventReference) {
+        if (!eventReference.IsNull) {
+            _audioService.PlayOneShot(eventReference, transform.position);
+        }
+#if UNITY_EDITOR
+        else {
+            Debug.LogWarning($"Attempted to play null event reference in {gameObject.name}");
+        }
+#endif
     }
 
     #endregion
 
+
+    #region Cleanup
+
     private void OnDestroy() {
-        // «упин€Їмо вс≥ звуки цього гравц€
-        audioService?.StopLooped(movingSound.Guid);
-        audioService?.StopLooped(shieldSound.Guid);
+        ReleaseAllInstances();
+    }
+    private void ReleaseAllInstances() {
+        ReleaseInstance(ref _movingInstance);
+        ReleaseInstance(ref _shieldInstance);
     }
 
-    private void OnDisable() {
-        audioService?.StopLooped(movingSound.Guid);
-        audioService?.StopLooped(shieldSound.Guid);
+    private void ReleaseInstance(ref EventInstance instance) {
+        if (instance.isValid()) {
+            instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            instance.release();
+            instance = default;
+        }
     }
+
+    #endregion
+
+#if UNITY_EDITOR
+    [ContextMenu("Test Movement Sound")]
+    private void TestMovementSound() {
+        if (Application.isPlaying) {
+            StartTestSound().Forget();
+        }
+    }
+
+    private async UniTask StartTestSound() {
+        SetMoving(true);
+        await UniTask.WaitForSeconds(2);
+        SetMoving(false);
+        await UniTask.WaitForSeconds(2);
+        SetMoving(true);
+        await UniTask.WaitForSeconds(2);
+        SetMoving(false);
+    }
+#endif
 }
