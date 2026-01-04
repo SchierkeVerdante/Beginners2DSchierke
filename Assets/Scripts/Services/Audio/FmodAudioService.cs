@@ -14,8 +14,8 @@ public class FmodAudioService : IAudioService {
 
     private Dictionary<AudioChannelType, FMOD.Studio.Bus> buses = new();
 
-    private Dictionary<Guid, EventInstance> loopedInstances = new();
-    private Dictionary<Guid, EventInstance> musicInstances = new();
+    private Dictionary<string, EventInstance> loopedInstances = new();
+    private Dictionary<string, EventInstance> musicInstances = new();
 
     private Dictionary<EventReference, EventDescription> eventDescriptionCache = new();
 
@@ -55,9 +55,7 @@ public class FmodAudioService : IAudioService {
         bus.setVolume(Mathf.Clamp01(normalizedVolume));
     }
 
-    public void PlaySound(string eventPath) {
-        RuntimeManager.PlayOneShot(eventPath);
-    }
+    
 
     public List<AudioChannelType> GetSupportedChannelsTypes() {
         return new List<AudioChannelType>(buses.Keys);
@@ -93,7 +91,10 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - One-Shot Sounds
+    #region One-Shot Sounds
+    public void PlaySound(string eventPath) {
+        RuntimeManager.PlayOneShot(eventPath);
+    }
 
     public void PlayOneShot(EventReference eventRef, Vector3 position) {
         if (eventRef.IsNull) {
@@ -115,9 +116,9 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - Looped Sounds
+    #region Looped Sounds
 
-    public EventInstance PlayLooped(Guid key, EventReference eventRef, Transform parent = null) {
+    public EventInstance PlayLooped(string key, EventReference eventRef, Transform parent = null) {
         if (loopedInstances.ContainsKey(key)) {
             Debug.LogWarning($"FmodAudioService: Sound with key '{key}' is already playing!");
             return loopedInstances[key];
@@ -140,7 +141,7 @@ public class FmodAudioService : IAudioService {
         return instance;
     }
 
-    public void StopLooped(Guid key, FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT) {
+    public void StopLooped(string key, FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT) {
         if (loopedInstances.TryGetValue(key, out EventInstance instance)) {
             instance.stop(stopMode);
             instance.release();
@@ -148,7 +149,7 @@ public class FmodAudioService : IAudioService {
         }
     }
 
-    public bool IsLoopedPlaying(Guid key) {
+    public bool IsLoopedPlaying(string key) {
         if (loopedInstances.TryGetValue(key, out EventInstance instance)) {
             instance.getPlaybackState(out PLAYBACK_STATE state);
             return state == PLAYBACK_STATE.PLAYING;
@@ -156,7 +157,7 @@ public class FmodAudioService : IAudioService {
         return false;
     }
 
-    public void SetLoopedParameter(Guid key, string paramName, float value) {
+    public void SetLoopedParameter(string key, string paramName, float value) {
         if (loopedInstances.TryGetValue(key, out EventInstance instance)) {
             instance.setParameterByName(paramName, value);
         }
@@ -172,9 +173,9 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - Advanced Music Control
+    #region Advanced Music Control
 
-    public void PlayMusicWithKey(Guid key, EventReference eventRef, bool stopOthers = true) {
+    public void PlayMusicWithKey(string key, EventReference eventRef, bool stopOthers = true) {
         if (stopOthers) {
             StopAllMusic();
         }
@@ -191,7 +192,7 @@ public class FmodAudioService : IAudioService {
         musicInstances[key] = instance;
     }
 
-    public void StopMusicWithKey(Guid key, FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT) {
+    public void StopMusicWithKey(string key, FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.ALLOWFADEOUT) {
         if (musicInstances.TryGetValue(key, out EventInstance instance)) {
             instance.stop(stopMode);
             instance.release();
@@ -212,7 +213,7 @@ public class FmodAudioService : IAudioService {
         musicInstances.Clear();
     }
 
-    public void SetMusicParameter(Guid key, string paramName, float value) {
+    public void SetMusicParameter(string key, string paramName, float value) {
         if (musicInstances.TryGetValue(key, out EventInstance instance)) {
             instance.setParameterByName(paramName, value);
         }
@@ -226,7 +227,7 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - Global Parameters
+    #region Global Parameters
 
     public void SetGlobalParameter(string paramName, float value) {
         RuntimeManager.StudioSystem.setParameterByName(paramName, value);
@@ -239,7 +240,7 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - Bus Control (розширені функції)
+    #region Bus Control
 
     public float GetBusVolume(AudioChannelType channel) {
         return GetVolume(channel);
@@ -285,7 +286,7 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - VCA Control
+    #region VCA Control
 
     public void SetVCAVolume(string vcaPath, float volume) {
         VCA vca = RuntimeManager.GetVCA(vcaPath);
@@ -308,7 +309,7 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - Snapshots
+    #region Snapshots
 
     public EventInstance StartSnapshot(EventReference snapshotRef) {
         if (snapshotRef.IsNull) return default;
@@ -327,7 +328,7 @@ public class FmodAudioService : IAudioService {
 
     #endregion
 
-    #region Extended Features - Utility
+    #region  Utility
 
     public bool EventExists(EventReference eventRef) {
         if (eventRef.IsNull) return false;
@@ -357,8 +358,8 @@ public class FmodAudioService : IAudioService {
         return musicInstances.Count;
     }
 
-    public List<Guid> GetActiveLoopedKeys() {
-        return new List<Guid>(loopedInstances.Keys);
+    public List<string> GetActiveLoopedKeys() {
+        return new List<string>(loopedInstances.Keys);
     }
 
     #endregion

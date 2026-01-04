@@ -8,82 +8,79 @@ using Zenject;
 public class PlayerSounds : MonoBehaviour {
     
     [Header("One-Shot Events")]
-    [SerializeField] private EventReference jumpSound;
-    [SerializeField] private EventReference dashSound;
-    [SerializeField] private EventReference swordAttack;
-    [SerializeField] private EventReference shooting;
+    [SerializeField] private EventReference swordHit;
+    [SerializeField] private EventReference gunHit;
+    [Header("Health")]
     [SerializeField] private EventReference takeDamage;
     [SerializeField] private EventReference explosion;
     [SerializeField] private EventReference death;
-    [SerializeField] private EventReference swordHit;
-    [SerializeField] private EventReference gunHit;
+
+    [Header("Movement")]
+    [SerializeField] private EventReference jumpSound;
+    [SerializeField] private EventReference dashSound;
     [SerializeField] private EventReference landingSound;
 
-    [Header("Looped Events")]
-    [SerializeField] private EventReference movingSound;
-    private const string speedParamName = "Speed";
-    [SerializeField] private EventReference shieldSound;
-    private const string ShiedlStrengthParamName = "Strength";
-    // ≤нстанси створюЇмо один раз
-    private EventInstance _movingInstance;
-    private EventInstance _shieldInstance;
+    [Header("Weapons")]
+    [SerializeField] private EventReference shooting;
 
+    [SerializeField] private EventReference swordAttack;
+  
+    [SerializeField] private EventReference shotgunAttack;
+    [SerializeField] private EventReference minigunAttack;
+
+    [Header("Inventory")]
+    [SerializeField] private EventReference pickUp;
+    [SerializeField] private EventReference fullOil;
+    [SerializeField] private EventReference foundModule;
+
+
+    [Header("Looped Events")]
+    [SerializeField] private LoopingSound movingSound = new LoopingSound();
+    private const string speedParamName = "Speed";
+
+    [SerializeField] private LoopingSound shieldSound = new LoopingSound();
+    private const string ShieldStrengthParamName = "Strength";
+
+    [SerializeField] private LoopingSound minigun = new LoopingSound();
 
     private void Start() {
-        InitializeLoopInstances();
+        InitializeLoopSounds();
         TestMovementSound();
     }
 
-    private void InitializeLoopInstances() {
-        // –ух
-        _movingInstance = RuntimeManager.CreateInstance(movingSound);
-        RuntimeManager.AttachInstanceToGameObject(_movingInstance, transform);
-
-        // ўит
-        _shieldInstance = RuntimeManager.CreateInstance(shieldSound);
-        RuntimeManager.AttachInstanceToGameObject(_shieldInstance, transform);
+    private void InitializeLoopSounds() {
+        movingSound.Initialize(transform);
+        shieldSound.Initialize(transform);
     }
 
     #region Movement Sounds
 
     public void SetMoving(bool isEnabled) {
-        if (!_movingInstance.isValid()) return;
-
-        if (isEnabled) {
-            _movingInstance.start();
-            
-        } else {
-            _movingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }
+        movingSound.Toggle(isEnabled);
     }
 
     public void SetMovementSpeed(float speed) {
-        if (!_movingInstance.isValid()) return;
-
-        _movingInstance.setParameterByName(speedParamName, Mathf.Clamp01(speed));
+        movingSound.SetParameterNormalized(speedParamName, speed);
     }
 
     #endregion
+
 
     #region Shield Sounds
 
     public void SetShield(bool isEnabled) {
-        if (!_movingInstance.isValid()) return;
-
-        if (isEnabled) {
-            _movingInstance.start();
-        } else {
-            _movingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        }
+        shieldSound.Toggle(isEnabled);
     }
 
     public void SetShieldStrength(float strength) {
-        if (!_shieldInstance.isValid()) return;
-
-        _shieldInstance.setParameterByName(ShiedlStrengthParamName, Mathf.Clamp01(strength));
+        shieldSound.SetParameterNormalized(ShieldStrengthParamName, strength);
     }
 
     #endregion
+
+    public void SetMiniGun(bool isEnabled) {
+        minigun.Toggle(isEnabled);
+    }
 
     #region One-Shot Sounds
 
@@ -92,10 +89,19 @@ public class PlayerSounds : MonoBehaviour {
     public void PlayTakeDamage() => PlayOneShot(takeDamage);
     public void PlayDeath() => PlayOneShot(death);
     public void PlayExplosion() => PlayOneShot(explosion);
+
     public void PlaySwordAttack() => PlayOneShot(swordAttack);
     public void PlayShooting() => PlayOneShot(shooting);
+    public void PlayShotgunAttack() => PlayOneShot(shotgunAttack);
+    public void PlayMiniGunAttack() => PlayOneShot(minigunAttack);
+
+    
     public void PlaySwordHit() => PlayOneShot(swordHit);
     public void PlayGunHit() => PlayOneShot(gunHit);
+
+    public void PlayPickUp() => PlayOneShot(pickUp);
+    public void PlayFullOil() => PlayOneShot(fullOil);
+    public void PlayFoundModule() => PlayOneShot(foundModule);
 
     public void PlayOneShot(EventReference eventReference) {
         if (!eventReference.IsNull) {
@@ -117,18 +123,11 @@ public class PlayerSounds : MonoBehaviour {
         ReleaseAllInstances();
     }
     private void ReleaseAllInstances() {
-        ReleaseInstance(ref _movingInstance);
-        ReleaseInstance(ref _shieldInstance);
+        movingSound.Release();
+        shieldSound.Release();
     }
 
-    private void ReleaseInstance(ref EventInstance instance) {
-        if (instance.isValid()) {
-            instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            instance.release();
-            instance = default;
-        }
-    }
-
+    
     #endregion
 
 #if UNITY_EDITOR
