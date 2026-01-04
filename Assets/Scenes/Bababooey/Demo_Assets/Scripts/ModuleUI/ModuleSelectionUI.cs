@@ -5,17 +5,40 @@ public class ModuleSelectionUI : MonoBehaviour
 {
     public GameObject panel;
     public ModuleButton[] moduleButtons;
+    Dictionary<string, Sprite> iconCache;
+
+    void Awake()
+    {
+        LoadIcons();
+    }
+
+    void LoadIcons()
+    {
+        iconCache = new Dictionary<string, Sprite>();
+
+        Sprite[] icons = Resources.LoadAll<Sprite>("Icons/Modules");
+
+        foreach (Sprite sprite in icons)
+        {
+            iconCache[sprite.name] = sprite;
+        }
+    }
 
     public void Show(List<ModuleJson> allModules)
     {
         panel.SetActive(true);
-        Time.timeScale = 0f; // pause game
+        Time.timeScale = 0f;
 
         List<ModuleJson> choices = GetRandomModules(allModules, 3);
 
         for (int i = 0; i < moduleButtons.Length; i++)
         {
-            moduleButtons[i].Setup(choices[i], this);
+            ModuleJson module = choices[i];
+
+            Sprite icon = null;
+            iconCache.TryGetValue(module.icon, out icon);
+
+            moduleButtons[i].Setup(module, icon, this);
         }
     }
 
