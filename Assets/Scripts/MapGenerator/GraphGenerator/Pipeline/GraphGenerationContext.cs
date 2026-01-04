@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class GraphGenerationContext {
     public Graph Graph { get; set; }
     public GraphGenerationConfig Config { get; set; }
     public Dictionary<string, object> SharedData { get; private set; }
 
+    public Random Random { get; set; }
+
     public GraphGenerationContext(GraphGenerationConfig config) {
         Config = config;
-        Graph = new Graph();
+        Random = new Random(config.Seed);
+
+        Graph = new Graph(config.seedString);
         SharedData = new Dictionary<string, object>();
     }
 

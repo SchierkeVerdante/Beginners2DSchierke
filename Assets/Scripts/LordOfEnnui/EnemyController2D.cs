@@ -2,10 +2,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyController2D : MonoBehaviour {
+
     Rigidbody2D body;
 
     [SerializeField]
-    float maxSpeed = 5, maxAcceleration = 20;
+    float maxSpeed = 7, maxAcceleration = 20, turnSpeed = 10;
+    [SerializeField]
+    FacingDirectionType facingType = FacingDirectionType.Free;
     [SerializeField]
     public bool canMove = true;
 
@@ -14,16 +17,24 @@ public class EnemyController2D : MonoBehaviour {
     [SerializeField]
     Vector3 targetVelocity, velocity;
     [SerializeField]
-    ACharacterStrategy moveStrat;
+    float trueFacingAngle;
+    [SerializeField]
+    AEnemyStrategy moveStrat;
 
     private void Start() {
         body = GetComponent<Rigidbody2D>();
-        moveStrat = GetComponent<ACharacterStrategy>();
+        moveStrat = GetComponent<AEnemyStrategy>();
+        trueFacingAngle = moveStrat.facingAngle;
     }
 
     void Update() {
-        Vector3 targetDirection = moveStrat.IdealPosition() - transform.position;
-        targetVelocity = targetDirection * maxSpeed;
+        targetVelocity = moveStrat.MoveDirection() * maxSpeed;
+        if (moveStrat.turnCharacter) {
+            Vector3 aimDirection = moveStrat.AimDirection();
+            float targetAngle = (360 + Mathf.Sign(aimDirection.y) * Mathf.Acos(Vector3.Dot(transform.right, aimDirection)) * Mathf.Rad2Deg) % 360;
+            trueFacingAngle = Mathf.MoveTowardsAngle(trueFacingAngle, targetAngle, turnSpeed * Time.deltaTime * 60f);
+            moveStrat.SetFacing(Mathf.Round(trueFacingAngle / (int) facingType) * (int) facingType);
+        }
     }
 
     private void FixedUpdate() {

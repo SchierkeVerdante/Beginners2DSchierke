@@ -439,6 +439,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 197036978442544136, guid: 3442560130db6b44d985adc4a1883e02, type: 3}
+      propertyPath: closeButton
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 197036978442544136, guid: 3442560130db6b44d985adc4a1883e02, type: 3}
       propertyPath: startVisible
       value: 1
       objectReference: {fileID: 0}

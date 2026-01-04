@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de3141787e1e66b47908b4ff20b1b102, type: 3}
   m_Name: GraphConfig
   m_EditorClassIdentifier: Assembly-CSharp::MapGenerationData
-  seed: simple_seed
-  levelCount: 8
-  initialNodesPerLevel: 4
+  instanceName: GraphGenerationConfig
+  seedString: I like onions
+  levelCount: 7
+  initialNodesPerLevel: 3
   minNodesPerLevel: 3
-  maxNodesPerLevel: 5
-  maxNodeDeviation: 1
+  maxNodesPerLevel: 7
+  maxNodeDeviation: 2
   allowGradualIncrease: 1
   allowGradualDecrease: 1
   graphPipelineConfig: {fileID: 11400000, guid: 76097d98890aff941a7b9bf8e18aef38, type: 2}

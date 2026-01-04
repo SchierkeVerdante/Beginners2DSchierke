@@ -8,7 +8,7 @@ public class GameInstaller : MonoInstaller {
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameController gameController;
 
-    [SerializeField] AudioStateConfig _audioConfig;
+    
     public override void InstallBindings() {
         Container.Bind<IGameManager>()
         .To<GameManager>()
@@ -39,7 +39,6 @@ public class GameInstaller : MonoInstaller {
         Container.Bind<InputManager>().AsSingle().NonLazy();
 
         //Services
-        Container.Bind<IAudioService>().To<FmodAudioService>().AsSingle().WithArguments(_audioConfig);
         Container.Bind<IRandomService>().To<RandomService>().AsSingle().WithArguments(_randomServiceSettings);
 
         Container.Bind<ILevelProgressService>().To<LevelProgressService>().AsSingle();
@@ -48,13 +47,17 @@ public class GameInstaller : MonoInstaller {
 
         Container.Bind<ISceneTransitionManager>().To<SceneTransitionManager>().AsSingle();
 
+        Container.Bind<IStarMapService>().To<StarMapService>().AsSingle();
+
         //Systems
 
         Container.Bind<LevelProgressSystem>().AsSingle().NonLazy();
-        Container.Bind<AudioSystem>().AsSingle().NonLazy();
+        
 
 
         Container.Bind<IDataRuntimeFactory>().To<DataRuntimeFactory>().AsSingle();
+        Container.Bind(typeof(IPresenterFactory<>)).To(typeof(PresenterPlaceholderFactory<>)).AsTransient();
+
     }
 
 

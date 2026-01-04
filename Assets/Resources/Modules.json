@@ -1,0 +1,17 @@
+{
+  "modules": [
+    {
+        "id": 1,
+        "icon":  "Cryo",
+        "name": "Freeze Dash",
+        "moduleType" : 1,
+        "description": "Freeze and damage enemies while dashing through them.",
+        "dashDamage": {
+            "damage": 2,
+            "damageType": 1,
+            "invulnerabilityType": 3
+        },
+        "rarity": "Uncommon"
+    }
+  ]
+}

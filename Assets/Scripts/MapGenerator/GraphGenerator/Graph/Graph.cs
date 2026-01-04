@@ -6,6 +6,12 @@ using UnityEngine;
 public class Graph {
     private List<List<GraphNode>> layerNodes = new();
     private int nextNodeId = 0;
+    private string seed;
+    public string Seed => seed;
+
+    public Graph(string seed) {
+        this.seed = seed;
+    }
 
     public List<List<GraphNode>> Layers => layerNodes;
 
@@ -40,8 +46,8 @@ public class Graph {
         for (int level = 0; level < layerNodes.Count; level++) {
             List<GraphNode> levelNodes = this.layerNodes[level];
             for (int i = 0; i < levelNodes.Count; i++) {
-                levelNodes[i].level = level;
-                levelNodes[i].index = i;
+                levelNodes[i].layer = level;
+                levelNodes[i].layerIndex = i;
             }
         }
     }
@@ -74,7 +80,7 @@ public class Graph {
             foreach (var node in layerNodes[level]) {
                 result += $" {node} - Connections: ";
                 var connections = node.GetAllConnections();
-                result += string.Join(", ", connections.Select(n => n.index));
+                result += string.Join(", ", connections.Select(n => n.layerIndex));
                 result += "\n";
             }
         }

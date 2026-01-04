@@ -5,34 +5,34 @@ using UnityEngine;
 public class GraphNode {
     public HashSet<GraphNode> PrevConnections = new HashSet<GraphNode>();
     public HashSet<GraphNode> NextConnections = new HashSet<GraphNode>();
-    public int level;
-    public int index;
+    public int layer;
+    public int layerIndex;
 
-    public Vector2 Position => new Vector2(level, index);
+    public Vector2 Position => new Vector2(layer, layerIndex);
 
 
     public GraphNode(int level, int index) {
-        this.level = level;
-        this.index = index;
+        this.layer = level;
+        this.layerIndex = index;
     }
 
     public void ConnectTo(GraphNode other) {
-        if (other.level > level) {
+        if (other.layer > layer) {
             ConnectToNext(other);
-        } else if (other.level < level) {
+        } else if (other.layer < layer) {
             ConnectToPrev(other);
         } else {
-            Debug.LogWarning($"Wrong connection Try to same level: {level} and {other.level}");
+            Debug.LogWarning($"Wrong connection Try to same level: {layer} and {other.layer}");
         }
     }
 
     public void Disconnect(GraphNode unconnectNode) {
-        if (unconnectNode.level > level) {
+        if (unconnectNode.layer > layer) {
             UnConnectFromNext(unconnectNode);
-        } else if (unconnectNode.level < level) {
+        } else if (unconnectNode.layer < layer) {
             UnConnectFromPrev(unconnectNode);
         } else {
-            Debug.LogWarning($"Wrong connection Try to same level: {level} and {unconnectNode.level}");
+            Debug.LogWarning($"Wrong connection Try to same level: {layer} and {unconnectNode.layer}");
         }
     }
 
@@ -114,6 +114,6 @@ public class GraphNode {
     }
 
     public override string ToString() {
-        return $"Node(L: {level}, I: {index})";
+        return $"Node(L: {layer}, I: {layerIndex})";
     }
 }

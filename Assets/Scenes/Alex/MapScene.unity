@@ -176,17 +176,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
---- !u!114 &161798164 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7502869086237089909, guid: cf5331246d880d14fbff4ca80bb50320, type: 3}
-  m_PrefabInstance: {fileID: 2433023479747541334}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca5c9565820c2c40817bce61074d743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Spaceship2DAdvanced
 --- !u!1 &232634059
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +458,7 @@ GameObject:
   - component: {fileID: 389972540}
   - component: {fileID: 389972541}
   - component: {fileID: 389972542}
+  - component: {fileID: 389972543}
   m_Layer: 0
   m_Name: MapController
   m_TagString: Untagged
@@ -504,9 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f83fafac4f74be48bdbae75196cb0d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapController
-  spaceship: {fileID: 161798164}
   generator: {fileID: 389972542}
   startButton: {fileID: 812156547}
+  starNavigation: {fileID: 389972543}
+  graphGenerationData: {fileID: 11400000, guid: b4a0e4a8ddcccdb47b6aed7ac22214a0, type: 2}
 --- !u!114 &389972542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,8 +510,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a1f57c5a852b34c9a6712560f0ff20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StarMapGenerator
-  graphGenerationData: {fileID: 11400000, guid: b4a0e4a8ddcccdb47b6aed7ac22214a0, type: 2}
-  starPrefab: {fileID: -620774274637496160, guid: c705a3d18cfb2b541aa2d589a0e3c028, type: 3}
+--- !u!114 &389972543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389972539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a9669d596716db4b86e9f0734d31f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarNavigationVisual
+  _starPrefab: {fileID: -620774274637496160, guid: c705a3d18cfb2b541aa2d589a0e3c028, type: 3}
+  spaceship: {fileID: 0}
   mapParent: {fileID: 1969847263}
   nodesXOffset: 2
   nodesYOffset: 1
@@ -946,6 +949,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf5331246d880d14fbff4ca80bb50320, type: 3}
+--- !u!1001 &3305784836929955947
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1446075222241274618, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_Name
+      value: PlayerSounds
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.90073
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.20571
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7883627484745985755, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6637085fc0cc25489acca5de68f7f0c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -957,3 +1017,4 @@ SceneRoots:
   - {fileID: 2106003829}
   - {fileID: 328055131}
   - {fileID: 2433023479747541334}
+  - {fileID: 3305784836929955947}

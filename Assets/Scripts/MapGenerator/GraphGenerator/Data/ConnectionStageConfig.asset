@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 582f5d4fd3a9c40468bfc30ccf00f98f, type: 3}
   m_Name: ConnectionStageConfig
   m_EditorClassIdentifier: Assembly-CSharp::ConnectionStageConfig
-  stageName: ConnectionStageConfig
-  MaxConnectionDistance: 1.63
+  instanceName: ConnectionStageConfig
+  MaxConnectionDistance: 1.95
   MaxConnectionsPerNode: 50
-  RandomConnectionChance: 1
+  RandomConnectionChance: 0.852
   ConnectionCandidatesCount: 3

@@ -1,99 +1,75 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(PlayerStatus2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerInputStrategy))]
 public class PlayerController2D : MonoBehaviour {
-    InputAction moveAction, sprintAction;
+    [SerializeField]
+    PlayerState pState;
+
     Rigidbody2D body;
+    PlayerInputStrategy moveStrat;
+    PlayerCollision2D status;
 
     [SerializeField]
-    Transform playerInputSpace = default;
-
-    [SerializeField]
-    float maxSpeed = 5, maxAcceleration = 20, sprintSpeed = 20f, sprintDuration = 1f, sprintCooldown = 0.1f, sprintResetCooldown = 2f;
+    float maxSpeed = 5, maxAcceleration = 20, 
+        sprintSpeed = 20f, sprintDuration = 1f, sprintCooldown = 0.1f, sprintResetCooldown = 2f;
     [SerializeField]
     int maxConsecutiveSprints = 2;
-    [SerializeField]
-    public bool canMove = true;
 
 
     [Header("Out (ReadOnly)")]
 
-    [SerializeField]
-    Vector2 playerInput;
-    [SerializeField]
-    Vector3 targetVelocity, velocity, trueAcceleration, sprintDirection;
-    [SerializeField]
-    bool sprintInput, isSprinting;
+    public Vector2 playerInput;
+    public Vector3 targetVelocity, velocity, trueAcceleration, sprintDirection;
+    public bool sprintInput;
     [SerializeField]
     int sprintPhase;
     [SerializeField]
     float timeSinceLastSprint = 0f, sprintResetTimer = 0f;
 
-    [Header("Particles")]
-
-    [SerializeField]
-    ParticleSystem[] thrustParticles;
-    [SerializeField]
-    float particlePerAcceleration = 1f;
-
     private void Start() {
-        // Find the references to the "Move" and "Jump" actions
-        moveAction = InputSystem.actions.FindAction("Move");
-        sprintAction = InputSystem.actions.FindAction("Sprint");
+        pState = LDirectory2D.Instance.pState;
         body = GetComponent<Rigidbody2D>();
-        playerInputSpace = transform;
+        moveStrat = GetComponent<PlayerInputStrategy>();
+        TryGetComponent(out status);
     }
 
     void Update() {
-        playerInput = moveAction.ReadValue<Vector2>();
-        sprintInput |= sprintAction.WasPressedThisFrame();
-        Vector3 up = playerInputSpace.up;
-        up.z = 0f;
-        up.Normalize();
-        Vector3 right = playerInputSpace.right;
-        right.z = 0f;
-        right.Normalize();
-        targetVelocity =
-            (up * playerInput.y + right * playerInput.x) * maxSpeed;
+        sprintInput = moveStrat.SprintThisFrame();
+        targetVelocity = moveStrat.canMove? moveStrat.MoveDirection() * (maxSpeed * pState.netMod.speedMultiplier) : Vector3.zero;
         timeSinceLastSprint += Time.deltaTime;
         if (sprintPhase > 0) {
             sprintResetTimer += Time.deltaTime;
-        }
-    }
-
-    private void FixedUpdate() {
-        if (!canMove) {
-            body.linearVelocity = Vector3.zero;
-            return;
-        }
-        velocity = body.linearVelocity;            
-        Vector3 prevVelocity = velocity;
-        float acceleration = maxAcceleration;
-
+        }        
         if (sprintResetTimer > sprintResetCooldown) {
             sprintPhase = 0;
             sprintResetTimer = 0;
+        } 
+    }
+
+    private void FixedUpdate() {
+        if (!moveStrat.canMove) {
+            body.linearVelocity = Vector3.zero;
+            return;
+        }
+        velocity = body.linearVelocity;         
+        Vector3 prevVelocity = velocity;
+        float acceleration = maxAcceleration;
+
+        if (sprintInput && moveStrat.sprintActive && moveStrat.canSprint && moveStrat.canMove) {
+            pState.onDash.Invoke();
+            sprintPhase++;
+            sprintResetTimer = 0;
+            timeSinceLastSprint = 0;
+            moveStrat.isSprinting = true;
+            sprintDirection = targetVelocity.normalized;
         }
 
-        if (sprintInput) {
-            sprintInput = false;
-            if ((sprintPhase < maxConsecutiveSprints || maxConsecutiveSprints < 0) && timeSinceLastSprint > sprintCooldown && !isSprinting) {
-                sprintPhase++;
-                sprintResetTimer = 0;
-                timeSinceLastSprint = 0;
-                isSprinting = true;
-                sprintDirection = targetVelocity.normalized;
-                GetComponent<PlayerStatus2D>().HandleDashInvincibility();
-            }
-        }
-
-        if (isSprinting && timeSinceLastSprint > sprintDuration) {
-            isSprinting = false;
+        if (moveStrat.isSprinting && timeSinceLastSprint > sprintDuration * pState.netMod.dashDurationMultipler) {
+            moveStrat.isSprinting = false;
             acceleration = maxAcceleration * sprintSpeed;
         }
-
-        if (isSprinting) {
+        
+        if (moveStrat.isSprinting) {
             float alignedSpeed = Vector3.Dot(velocity, sprintDirection);
             float adjustedSprintSpeed = sprintSpeed;
             if (alignedSpeed > 0f)
@@ -112,13 +88,8 @@ public class PlayerController2D : MonoBehaviour {
         trueAcceleration = (velocity - prevVelocity) / Time.fixedDeltaTime;
         trueAcceleration = velocity.magnitude > 0.1f && trueAcceleration.magnitude < 0.1f ? acceleration * velocity.normalized : trueAcceleration;
 
-        if (targetVelocity.magnitude > 0.1f) {
-            thrustParticles[0].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.left, targetVelocity) * particlePerAcceleration));
-            thrustParticles[1].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.down, targetVelocity) * particlePerAcceleration));
-            thrustParticles[2].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.right, targetVelocity) * particlePerAcceleration));
-            thrustParticles[3].Emit((int) Mathf.Floor(Vector3.Dot(Vector3.up, targetVelocity) * particlePerAcceleration));
-        }
-
-        body.linearVelocity = velocity;
+        body.linearVelocity = moveStrat.canMove ? velocity : Vector3.zero;
+        pState.moveSpeedForAudio = targetVelocity.magnitude / maxSpeed;
+        moveStrat.sprintActive = (sprintPhase < maxConsecutiveSprints || maxConsecutiveSprints < 0) && (timeSinceLastSprint > sprintCooldown || sprintCooldown < 0) && !moveStrat.isSprinting;
     }
 }

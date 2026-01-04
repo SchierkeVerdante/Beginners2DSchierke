@@ -1,9 +1,3 @@
-using UnityEngine;
-
-public class SimpleAIStrategy : ACharacterStrategy
+public class SimpleAIStrategy : AEnemyStrategy
 {
-    public override bool FireThisFrame(ABullet2D bullet) {
-        float bulletRange = bullet.bulletSpeed * bullet.lifetime;
-        return Vector3.Distance(GetFireDirection(), transform.position) < bulletRange;
-    }
 }

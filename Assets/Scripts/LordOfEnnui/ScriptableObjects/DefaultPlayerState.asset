@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9410de2211d96e34e968424178000c7c, type: 3}
+  m_Name: DefaultPlayerState
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerState
+  requiredOil: 80
+  maxHealth: 15
+  currentHealth: 15
+  maxOil: 100
+  currentOil: 0
+  flashesPerSecond: 4
+  damageIframes: 60
+  sprintIframes: 30
+  damageHitStopDuration: 0.2
+  damageHitStopTimeScale: 0
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []

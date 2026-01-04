@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
     private readonly ConnectionStageConfig config;
-    private readonly IRandomService randomService;
     public string StageName => "Connection Creation";
 
-    public ConnectionStage(ConnectionStageConfig config, IRandomService randomService) {
+    public ConnectionStage(ConnectionStageConfig config) {
         this.config = config ?? throw new ArgumentNullException(nameof(config));
-        this.randomService = randomService ?? throw new ArgumentNullException(nameof(randomService));
     }
 
     public void Execute(GraphGenerationContext context) {
@@ -20,7 +16,7 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
         List<List<GraphNode>> levelNodes = graph.Layers;
 
         for (int level = 0; level < levelNodes.Count - 1; level++) {
-            ConnectLevel(levelNodes[level], levelNodes[level + 1]);
+            ConnectLevel(levelNodes[level], levelNodes[level + 1], context);
         }
 
         EnsureAllNodesConnected(levelNodes);
@@ -28,13 +24,13 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
         context.SetData("ConnectionStageComplete", true);
     }
 
-    private void ConnectLevel(List<GraphNode> currentLevel, List<GraphNode> nextLevel) {
+    private void ConnectLevel(List<GraphNode> currentLevel, List<GraphNode> nextLevel, GraphGenerationContext context) {
         foreach (var currentNode in currentLevel) {
-            ConnectToNextLevel(currentNode, nextLevel);
+            ConnectToNextLevel(currentNode, nextLevel, context.Random);
         }
     }
 
-    private void ConnectToNextLevel(GraphNode currentNode, List<GraphNode> nextLevel) {
+    private void ConnectToNextLevel(GraphNode currentNode, List<GraphNode> nextLevel, System.Random random) {
         var nearbyNodes = GetNearbyNodesByDistance(currentNode, nextLevel);
 
         if (nearbyNodes.Count == 0) {
@@ -42,14 +38,14 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
             return;
         }
 
-        int connectionsCreated = TryCreateRandomConnections(currentNode, nearbyNodes);
+        int connectionsCreated = TryCreateRandomConnections(currentNode, nearbyNodes, random);
 
         if (connectionsCreated == 0) {
-            ConnectToRandomNearby(currentNode, nearbyNodes);
+            ConnectToRandomNearby(currentNode, nearbyNodes, random);
         }
     }
 
-    private int TryCreateRandomConnections(GraphNode currentNode, List<NodeDistance> nearbyNodes) {
+    private int TryCreateRandomConnections(GraphNode currentNode, List<NodeDistance> nearbyNodes, System.Random random) {
         int connectionsCreated = 0;
         int maxConnections = config.MaxConnectionsPerNode;
 
@@ -59,7 +55,7 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
             float distanceFactor = 1f - (nodeDistance.distance / config.MaxConnectionDistance);
             float connectionChance = config.RandomConnectionChance * distanceFactor;
 
-            if (randomService.NextFloat() <= connectionChance) {
+            if (random.Next() <= connectionChance) {
                 currentNode.ConnectTo(nodeDistance.node);
                 connectionsCreated++;
             }
@@ -68,9 +64,9 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
         return connectionsCreated;
     }
 
-    private void ConnectToRandomNearby(GraphNode currentNode, List<NodeDistance> nearbyNodes) {
+    private void ConnectToRandomNearby(GraphNode currentNode, List<NodeDistance> nearbyNodes, System.Random random) {
         int candidatesCount = Mathf.Min(config.ConnectionCandidatesCount, nearbyNodes.Count);
-        int randomIndex = randomService.Next(0, candidatesCount);
+        int randomIndex = random.Next(0, candidatesCount);
         currentNode.ConnectTo(nearbyNodes[randomIndex].node);
     }
 

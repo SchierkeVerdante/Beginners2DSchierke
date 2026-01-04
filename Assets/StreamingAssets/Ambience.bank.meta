@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 2952b07e44c12fb4481542ef9a8c7bac
+=======
+guid: a2aa46968ab2d2c4ba5ca1502ef60095
+>>>>>>> fc0f55feaf5cf9f62b97775d3f26055e34b2235a
+labels:
+- FMOD
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

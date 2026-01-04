@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 2744475563159325004}
   - component: {fileID: 1137016537078608520}
   - component: {fileID: 1051059793270253462}
+  - component: {fileID: 6960394781296729675}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -281,6 +282,37 @@ MonoBehaviour:
     Path: event:/UI/ClickButton
   Event: 
   EventPlayTrigger: 19
+  EventStopTrigger: 18
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &6960394781296729675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581385667775436879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1587655918
+      Data2: 1204254684
+      Data3: 1506380466
+      Data4: 694288723
+    Path: event:/UI/Hover Button
+  Event: 
+  EventPlayTrigger: 17
   EventStopTrigger: 18
   AllowFadeout: 1
   TriggerOnce: 0
