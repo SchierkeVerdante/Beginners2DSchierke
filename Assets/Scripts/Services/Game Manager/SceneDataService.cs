@@ -16,7 +16,7 @@ public class SceneDataService : MonoBehaviour, ISceneDataService {
     public bool IsMainMenu() {
         Scene scene = SceneManager.GetActiveScene();
 
-        return GetMenuSceneName() == sceneData.mainMenuScene.SceneName;
+        return GetMenuSceneName() == scene.name;
     }
 }
 

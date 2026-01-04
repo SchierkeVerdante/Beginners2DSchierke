@@ -97,9 +97,7 @@ public class PlayerSounds : MonoBehaviour {
     public void PlaySwordHit() => PlayOneShot(swordHit);
     public void PlayGunHit() => PlayOneShot(gunHit);
 
-
-
-    private void PlayOneShot(EventReference eventReference) {
+    public void PlayOneShot(EventReference eventReference) {
         if (!eventReference.IsNull) {
             RuntimeManager.PlayOneShot(eventReference, transform.position);
         }

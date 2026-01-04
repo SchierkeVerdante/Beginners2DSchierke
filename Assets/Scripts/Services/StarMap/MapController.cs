@@ -29,7 +29,6 @@ public class MapController : MonoBehaviour
     private void OnGenerateClicked() {
         StarMap starMap = CreateStars();
         starMapService.LoadMap(starMap);
-        starNavigation.ReGenerateMap();
     }
 
     private StarMap CreateStars() {

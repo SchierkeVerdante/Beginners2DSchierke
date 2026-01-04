@@ -4,44 +4,24 @@ using UnityEngine;
 using Zenject;
 
 public class StarNavigationVisual : MonoBehaviour {
-    [SerializeField] private StarView _starPrefab;
-    [Inject] IStarMapService starMapService;
-    [Inject] IPresenterFactory<StarPresenter> presenterFactory;
+    [SerializeField] private NavStarView _starPrefab;
+    [Inject] IPresenterFactory<NavStarPresenter> presenterFactory;
 
+    [SerializeField] private Spaceship2D spaceship;
     [SerializeField] private Transform mapParent;
     [SerializeField] private float nodesXOffset = 2f;
     [SerializeField] private float nodesYOffset = 1f;
 
-    public void ReGenerateMap() {
+    Dictionary<NavStar, NavStarPresenter> stars = new();
+    public void ReGenerateMap(StarMap map) {
         ClearParent();
-        starMapService.Clear();
-        StarMap map = starMapService.StarMap;
 
         for (int layer = 0; layer < map.LayersCount; layer++) {
             IReadOnlyList<Star> stars = map.GetStarsInLayer(layer);
             SpawnLayer(layer, stars);
         }
 
-        DrawStarConnections();
-    }
-
-    private void DrawStarConnections() {
-        StarMap map = starMapService.StarMap;
-
-        foreach (var currentStar in map.GetAllStars()) {
-            LayerCoord[] layerCoords = currentStar.GetNextConnections();
-
-            List<Star> nextStars = starMapService.GetStarsByCoords(layerCoords);
-
-            foreach (var nextStar in nextStars) {
-                Vector3 starGlobalPosition = starMapService.GetStarGlobalPosition(nextStar);
-
-                if (starMapService.TryGetStarPresenter(currentStar, out StarPresenter starPresenter)) {
-                    starPresenter.View.DrawConnectionTo(starGlobalPosition);
-                }
-            }
-
-        }
+        DrawStarConnections(map);
     }
 
     private void SpawnLayer(int layer, IReadOnlyList<Star> stars) {
@@ -52,13 +32,12 @@ public class StarNavigationVisual : MonoBehaviour {
 
             Vector3 spawnPosition = mapParent.transform.position + localPosition;
 
-            StarView view = Instantiate(_starPrefab, spawnPosition, Quaternion.identity, mapParent);
+            NavStarView view = Instantiate(_starPrefab, spawnPosition, Quaternion.identity, mapParent);
 
             view.gameObject.name = star.ToString();
 
-            StarPresenter starPresenter = presenterFactory.Create(view, star);
+            NavStarPresenter starPresenter = presenterFactory.Create(view, star);
 
-            starMapService.AddStarPresenter(starPresenter);
         }
     }
 
@@ -67,6 +46,23 @@ public class StarNavigationVisual : MonoBehaviour {
         float yOffset = (layerIndex - (layerStarsCount - 1) / 2f) * nodesYOffset;
 
         return new Vector3(xOffset, yOffset, 0);
+    }
+
+    private void DrawStarConnections(StarMap map) {
+
+        foreach (var presenter in stars.Values) {
+            LayerCoord[] layerCoords = presenter.Model.Star.GetNextConnections();
+
+            List<Star> nextStars = map.GetStarsAt(layerCoords);
+
+            foreach (var nextStar in nextStars) {
+                
+            }
+        }
+    }
+
+    private Vector3 GetStarGlobalPosition() {
+        return new Vector3();
     }
 
     private void ClearParent() {
