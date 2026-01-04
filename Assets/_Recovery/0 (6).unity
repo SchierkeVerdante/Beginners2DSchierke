@@ -867,29 +867,29 @@ MonoBehaviour:
   movingSound:
     _eventReference:
       Guid:
-        Data1: -1544703322
-        Data2: 1243344675
-        Data3: 88062883
-        Data4: 1250406548
-      Path: event:/Characters/Player/Movement/Moving
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
     _attachTransform: {fileID: 0}
   shieldSound:
     _eventReference:
       Guid:
-        Data1: 1012448806
-        Data2: 1102008287
-        Data3: -2037447003
-        Data4: 1341653319
-      Path: event:/Characters/Player/Shield
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
     _attachTransform: {fileID: 0}
   minigun:
     _eventReference:
       Guid:
-        Data1: -1101523284
-        Data2: 1268678913
-        Data3: -1163894356
-        Data4: 432043297
-      Path: event:/Weapons/MachineGun
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
     _attachTransform: {fileID: 0}
 --- !u!1 &1969847262
 GameObject:

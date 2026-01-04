@@ -51,6 +51,7 @@ public class PlayerSounds : MonoBehaviour {
     private void InitializeLoopSounds() {
         movingSound.Initialize(transform);
         shieldSound.Initialize(transform);
+        minigun.Initialize(transform);
     }
 
     #region Movement Sounds

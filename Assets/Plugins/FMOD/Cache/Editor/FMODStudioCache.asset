@@ -81,6 +81,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 705
+--- !u!114 &-7085714587182991965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapons/Shotgun
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Weapons/Shotgun
+  Guid:
+    Data1: 113601871
+    Data2: 1141261830
+    Data3: 1165153712
+    Data4: 828423210
+  Banks:
+  - {fileID: -6519788592558033503}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 679
 --- !u!114 &-6826820498207351436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +150,7 @@ MonoBehaviour:
   Path: Assets/FMOD_Banks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639031216391909052
+  lastModified: 639031262084876140
   FileSizes: []
   Exists: 1
 --- !u!114 &-6334710106937571059
@@ -400,12 +427,14 @@ MonoBehaviour:
   - {fileID: -3014808846290302875}
   - {fileID: 2609395567240927403}
   - {fileID: -7982996931357691035}
+  - {fileID: -7085714587182991965}
+  - {fileID: 4398347782196486201}
   EditorParameters: []
   MasterBanks:
   - {fileID: 1810711243387254747}
   StringsBanks:
   - {fileID: 4805561875762402096}
-  cacheTime: 639031216391909052
+  cacheTime: 639031262084876140
   cacheVersion: 131634
 --- !u!114 &350479439261332209
 MonoBehaviour:
@@ -476,7 +505,7 @@ MonoBehaviour:
   Path: Assets/FMOD_Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639031214978150229
+  lastModified: 639031262083744915
   FileSizes: []
   Exists: 1
 --- !u!114 &1865746312629859484
@@ -611,6 +640,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1724
+--- !u!114 &4398347782196486201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapons/MachineGun
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Weapons/MachineGun
+  Guid:
+    Data1: -1101523284
+    Data2: 1268678913
+    Data3: -1163894356
+    Data4: 432043297
+  Banks:
+  - {fileID: -6519788592558033503}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1619
 --- !u!114 &4407070402430779028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,10 +709,10 @@ MonoBehaviour:
   Path: Assets/FMOD_Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639031214978170332
+  lastModified: 639031262083765170
   FileSizes:
   - Name: 
-    Value: 2066
+    Value: 2166
   Exists: 1
 --- !u!114 &7344748171765714395
 MonoBehaviour:
