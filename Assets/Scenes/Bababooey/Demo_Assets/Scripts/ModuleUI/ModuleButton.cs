@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ModuleButton : MonoBehaviour
@@ -9,16 +9,16 @@ public class ModuleButton : MonoBehaviour
     public Image iconImage;
 
     private ModuleJson moduleData;
-    private ModuleSelectionUI selectionUI;
+    private UIModuleSelecter selectionUI;
 
-    public void Setup(ModuleJson data, Sprite icon, ModuleSelectionUI ui)
+    public void Setup(ModuleJson data, Sprite icon, UIModuleSelecter ui)
     {
         moduleData = data;
         selectionUI = ui;
 
         nameText.text = data.name;
         descriptionText.text = data.description;
-        iconImage.sprite = icon;
+        if (icon != null && iconImage != null) iconImage.sprite = icon;
     }
 
     public void OnClick()

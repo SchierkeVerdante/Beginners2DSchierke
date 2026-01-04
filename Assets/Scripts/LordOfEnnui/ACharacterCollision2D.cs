@@ -29,8 +29,7 @@ public abstract class ACharacterCollision2D : MonoBehaviour {
     protected virtual void OnCollisionEnter2D(Collision2D collision) {
         if (OnCollsionIsDamaged(collision.gameObject)) {
             if (!hitThisFrame) {
-                rb.AddForce(collision.GetContact(0).normal * contactKnockbackForce, ForceMode2D.Impulse);
-                OnHit();
+                OnHit(collision.gameObject);
                 hitThisFrame |= true;
             }
         }
@@ -38,5 +37,9 @@ public abstract class ACharacterCollision2D : MonoBehaviour {
 
     protected abstract bool OnCollsionIsDamaged(GameObject other);
 
-    protected abstract void OnHit();
+    public abstract void OnHit(GameObject gameObject, int damage = 1);
+
+    public virtual void Knockback(Vector3 direction, float force) {
+        rb.AddForce(direction.normalized * force * rb.mass, ForceMode2D.Impulse);
+    }
 }

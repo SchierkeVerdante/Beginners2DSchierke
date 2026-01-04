@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 6857879280152420669}
   - component: {fileID: 3129594763186776736}
   m_Layer: 5
-  m_Name: AnimatedHealthBar
+  m_Name: UIAnimatedHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

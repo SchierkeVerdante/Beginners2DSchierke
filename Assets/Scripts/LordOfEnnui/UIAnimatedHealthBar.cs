@@ -5,9 +5,6 @@ public class UIAnimatedHealthBar : MonoBehaviour {
 
     [SerializeField]
     Image[] images;
-    
-    [SerializeField]
-    PlayerState pState;
 
     [SerializeField]
     Sprite[] sprites;
@@ -15,18 +12,19 @@ public class UIAnimatedHealthBar : MonoBehaviour {
     [SerializeField]
     Shaker shaker;
 
+    [SerializeField]
+    bool shake;
+
     private void Awake() {
-        images = GetComponentsInChildren<Image>();
+        images = GetComponentsInChildren<Image>();       
         shaker = GetComponent<Shaker>();
-        pState = LDirectory2D.Instance.pState;
-        pState.onDamage.AddListener(UpdateBar);
-        UpdateBar();
+        shake = true;
     }
 
-    private void UpdateBar() {
-        shaker.ShakeObject();
+    public void UpdateBar(float currentHealth = float.MaxValue, float maxHealth = float.MaxValue) {
+        if (shaker != null && shake) shaker.ShakeObject();
         for (int i = 0; i < images.Length; i++) {
-            images[i].sprite = sprites[(int) Mathf.Min(Mathf.Max(pState.currentHealth - 6 * i, 0f), sprites.Length - 1)];
+            images[i].sprite = sprites[(int) Mathf.Min(Mathf.Max(currentHealth - 6 * i, 0f), sprites.Length - 1)];
         }
     }
 }

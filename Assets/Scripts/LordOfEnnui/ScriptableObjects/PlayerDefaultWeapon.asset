@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: PlayerDefaultWeapon
   m_EditorClassIdentifier: Assembly-CSharp::ShootParams
   fireRate: 3
-  bulletSpeed: 20
-  fireSpread: 10
+  bulletSpeed: 30
+  fireSpread: 0
   recoilForce: 5
   placeDistance: 0.5
   fireStreamType: 0
   customFireStreams:
   - 0
-  fireStreamSpacing: 30
-  fireStreamNumber: 3
+  streamSpacing: 30
+  numberOfStreams: 3
+  startUpDuration: 0
+  moveSpeedMultiplier: 1

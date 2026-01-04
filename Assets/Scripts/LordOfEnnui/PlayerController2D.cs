@@ -2,6 +2,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerInputStrategy))]
 public class PlayerController2D : MonoBehaviour {
+    [SerializeField]
+    PlayerState pState;
+
     Rigidbody2D body;
     PlayerInputStrategy moveStrat;
     PlayerCollision2D status;
@@ -24,14 +27,15 @@ public class PlayerController2D : MonoBehaviour {
     float timeSinceLastSprint = 0f, sprintResetTimer = 0f;
 
     private void Start() {
+        pState = LDirectory2D.Instance.pState;
         body = GetComponent<Rigidbody2D>();
         moveStrat = GetComponent<PlayerInputStrategy>();
-        TryGetComponent<PlayerCollision2D>(out status);
+        TryGetComponent(out status);
     }
 
     void Update() {
         sprintInput = moveStrat.SprintThisFrame();
-        targetVelocity = moveStrat.MoveDirection() * (maxSpeed * moveStrat.MoveSpeedMultiplier());
+        targetVelocity = moveStrat.canMove? moveStrat.MoveDirection() * (maxSpeed * pState.netMod.speedMultiplier) : Vector3.zero;
         timeSinceLastSprint += Time.deltaTime;
         if (sprintPhase > 0) {
             sprintResetTimer += Time.deltaTime;
@@ -51,19 +55,19 @@ public class PlayerController2D : MonoBehaviour {
         Vector3 prevVelocity = velocity;
         float acceleration = maxAcceleration;
 
-        if (sprintInput && moveStrat.sprintActive && moveStrat.canSprint) {
+        if (sprintInput && moveStrat.sprintActive && moveStrat.canSprint && moveStrat.canMove) {
+            pState.onDash.Invoke();
             sprintPhase++;
             sprintResetTimer = 0;
             timeSinceLastSprint = 0;
             moveStrat.isSprinting = true;
             sprintDirection = targetVelocity.normalized;
-            if (status != null) status.HandleDashInvincibility();
-        }        
+        }
 
-        if (moveStrat.isSprinting && timeSinceLastSprint > sprintDuration) {
+        if (moveStrat.isSprinting && timeSinceLastSprint > sprintDuration * pState.netMod.dashDurationMultipler) {
             moveStrat.isSprinting = false;
             acceleration = maxAcceleration * sprintSpeed;
-        }        
+        }
         
         if (moveStrat.isSprinting) {
             float alignedSpeed = Vector3.Dot(velocity, sprintDirection);
@@ -84,7 +88,8 @@ public class PlayerController2D : MonoBehaviour {
         trueAcceleration = (velocity - prevVelocity) / Time.fixedDeltaTime;
         trueAcceleration = velocity.magnitude > 0.1f && trueAcceleration.magnitude < 0.1f ? acceleration * velocity.normalized : trueAcceleration;
 
-        body.linearVelocity = velocity;
+        body.linearVelocity = moveStrat.canMove ? velocity : Vector3.zero;
+        pState.moveSpeedForAudio = targetVelocity.magnitude / maxSpeed;
         moveStrat.sprintActive = (sprintPhase < maxConsecutiveSprints || maxConsecutiveSprints < 0) && (timeSinceLastSprint > sprintCooldown || sprintCooldown < 0) && !moveStrat.isSprinting;
     }
 }

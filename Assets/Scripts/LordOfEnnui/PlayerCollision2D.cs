@@ -4,33 +4,56 @@ using UnityEngine;
 public class PlayerCollision2D : ACharacterCollision2D
 {
     [SerializeField]
+    Collider2D collider2d;
+
+    [SerializeField]
+    Collider2D dashHitBox;
+
+    [SerializeField]
+    float dashKnockback = 10;
+
+    [SerializeField]
     PlayerState pState;
 
     [SerializeField]
     ParticleSystem damageParticles;
 
+    [SerializeField]
+    int invCount;
+
     protected override void Start() {
         base.Start();
+        collider2d = GetComponent<Collider2D>();
         pState = LDirectory2D.Instance.pState;
         pState.onDamage.AddListener(HandleDamageInvincibility);
         pState.onDamage.AddListener(HandleDamageParticles);
+        pState.onDash.AddListener(HandleDashInvincibility);
     }
 
     protected override bool OnCollsionIsDamaged(GameObject other) {
         return other.layer == Layers.Enemy || other.layer == Layers.EnemyAbility;
     }
 
-    protected override void OnHit() {
-        pState.TakeDamage(1.0f);
+    public override void OnHit(GameObject gameObject, int damage = 1) {
+        if (dashHitBox.isActiveAndEnabled) {
+            if (TryGetComponent(out EnemyCollision2D enemy)) {
+                enemy.OnHit(gameObject, pState.netMod.dashDamage.damage);
+                enemy.Knockback(enemy.transform.position - transform.position, dashKnockback);
+            }
+        } else {
+            pState.TakeDamage(damage);
+            Knockback(transform.position - gameObject.transform.position, contactKnockbackForce);
+        }    
     }
 
     protected override void OnCollisionEnter2D(Collision2D collision) {
         base.OnCollisionEnter2D(collision);
 
         if (collision.gameObject.layer == Layers.Pickup) {
-            OilPickup oil;
-            if (collision.gameObject.TryGetComponent<OilPickup>(out oil)) {
-                pState.currentOil += oil.oilAmount;
+            if (collision.gameObject.TryGetComponent(out OilPickup oil)) {
+                pState.ObtainOil(oil);
+            } else if (collision.gameObject.TryGetComponent(out ModulePickup module)) {
+                pState.ModuleChoice(module);
             }
             Destroy(collision.gameObject);
         }
@@ -41,19 +64,31 @@ public class PlayerCollision2D : ACharacterCollision2D
     }
     
     protected void HandleDamageInvincibility() {
-        StartCoroutine(Invincibility((int) pState.damageIframes, new[] { Layers.Enemy, Layers.EnemyAbility }));
+        LayerMask invMask = Layers.GetInvMask(InvulnerabilityType.All);
+        StartCoroutine(Invincibility(pState.damageIframesDuration, invMask));
     }
     
     public void HandleDashInvincibility() {
-        StartCoroutine(Invincibility((int) pState.sprintIframes, new[] { Layers.EnemyAbility }, false));
+        float duration = pState.sprintIframesDuration * pState.netMod.dashDurationMultipler;
+        LayerMask invMask = Layers.EnemyAbilityMask;
+        if (pState.netMod.dashDamage != null) {
+            invMask = Layers.GetInvMask(pState.netMod.dashDamage.invulnerabilityType);
+            StartCoroutine(DashHitBox(duration));
+        }
+        StartCoroutine(Invincibility(duration, invMask, false)); 
     }
 
-    private IEnumerator Invincibility(int frames, int[] ignoreLayers, bool flash = true) {
-        foreach (int layer in ignoreLayers) {
-            Physics2D.IgnoreLayerCollision(Layers.Player, layer, true);
-        }
+    private IEnumerator DashHitBox(float duration) {
+        dashHitBox.gameObject.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        dashHitBox.gameObject.SetActive(false);
+    }
 
-        float iTime = frames / 60f;
+    private IEnumerator Invincibility(float duration, LayerMask ignoreMask, bool flash = true) {
+        invCount++;
+        collider2d.excludeLayers |= ignoreMask;
+
+        float iTime = duration;
         if (flash) {
             int flashes = (int) (iTime * pState.flashesPerSecond);
             WaitForSeconds timePerFlash = new WaitForSeconds(iTime / (flashes * 2));
@@ -67,10 +102,9 @@ public class PlayerCollision2D : ACharacterCollision2D
         } else {
             yield return new WaitForSeconds(iTime);
         }
+        invCount--;
 
-        foreach (int layer in ignoreLayers) {
-            Physics2D.IgnoreLayerCollision(Layers.Player, layer, false);
-        }
+        if (invCount <= 0) collider2d.excludeLayers = 0;
     }    
 
 }

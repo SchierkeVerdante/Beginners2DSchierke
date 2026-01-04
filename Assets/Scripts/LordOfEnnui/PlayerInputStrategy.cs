@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,9 @@ public class PlayerInputStrategy : ACharacterStrategy {
     
     InputSystem_Actions inputActions;
     InputAction moveAction, lookAction, sprintAction, attackAction;
+
+    [SerializeField]
+    PlayerState pState;
     
     [SerializeField, Range(0f, 0.5f)]
     float inputQueueTime = 0.1f;
@@ -40,7 +44,8 @@ public class PlayerInputStrategy : ACharacterStrategy {
     [SerializeField]
     float inputQueueTimer;
 
-    private void Awake() {         
+    private void Awake() {      
+        pState = LDirectory2D.Instance.pState;
         if (playerInputSpace == null) playerInputSpace = transform;
         inputActions = new InputSystem_Actions();
         up = playerInputSpace.up; up.z = 0f; up.Normalize();
@@ -93,7 +98,7 @@ public class PlayerInputStrategy : ACharacterStrategy {
             }
         }
 
-        if (sprintInputQueued && sprintActive && canSprint) {
+        if (sprintInputQueued && sprintActive && canSprint && canMove) {
             inputQueued = false;
             sprintInputQueued = false;
             return true;
@@ -129,7 +134,7 @@ public class PlayerInputStrategy : ACharacterStrategy {
         return aimAngle.GetAngularDistance(assistAngle) < maxAimAssist ? assistAngle : aimAngle;
     }
 
-    public float MoveSpeedMultiplier() {
-        return firingMoveSpeedMultiplier;
+    public override void OnFire() {
+        pState.onFire.Invoke();
     }
 }

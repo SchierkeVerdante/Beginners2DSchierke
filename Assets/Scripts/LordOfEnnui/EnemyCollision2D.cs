@@ -10,9 +10,9 @@ public class EnemyCollision2D : ACharacterCollision2D
         return other.layer == Layers.PlayerAbility;
     }
 
-    protected override void OnHit() {
+    public override void OnHit(GameObject other, int damage = 1) {
         currentHealth = currentHealth > maxHealth ? maxHealth : currentHealth;
-        currentHealth--;
+        currentHealth -= damage;
         StartCoroutine(DamageFlash());
         if (currentHealth < 0) {
             Destroy(gameObject);

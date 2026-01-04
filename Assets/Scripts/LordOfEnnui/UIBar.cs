@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(-20)]
 public class UIBar : MonoBehaviour
 {
     [SerializeField]
@@ -14,7 +15,7 @@ public class UIBar : MonoBehaviour
         fill = GetComponent<Image>();
     }
 
-    public void UpdateComponent(float current, float max)
+    public void UpdateBar(float current, float max)
     {
         if (enabled == false) return;
         maxValue = max;

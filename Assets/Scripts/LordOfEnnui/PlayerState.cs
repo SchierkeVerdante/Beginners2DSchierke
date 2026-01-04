@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,7 @@ public class PlayerState : ScriptableObject {
 
     [Header("Invincibility")]
     public float flashesPerSecond = 2;
-    public float damageIframes = 60, sprintIframes = 30;
+    public float damageIframesDuration = 1, sprintIframesDuration = 0.5f;
 
     [Header("HitStop")]
     public float damageHitStopDuration = 0.1f;
@@ -20,6 +21,47 @@ public class PlayerState : ScriptableObject {
     [Header("Events")]
     public UnityEvent onDamage;
     public UnityEvent onDeath;
+    public UnityEvent onFire;
+    public UnityEvent onDash;
+    public UnityEvent<ModulePickup> onModulePickup;
+    public UnityEvent<OilPickup> onOilPickup;
+
+    [Header("Audio")]
+    public float moveSpeedForAudio;
+
+    [Header("Modules")]
+    public List<ModuleJson> modules = new();
+    public ModuleJson netMod;
+
+    private void Awake() {
+        CalculateNetParams();
+    }
+
+    public void AddModule(ModuleJson module) {
+        modules.Add(module);
+        CalculateNetParams();
+    }
+
+    public void CalculateNetParams() {
+        netMod = new ModuleJson {
+            dashDamage = null,
+            speedMultiplier = 1.0f,
+            accelerationMultiplier = 1.0f,
+            dashDurationMultipler = 1.0f,
+            healthModifier = 0,
+        };
+        foreach (ModuleJson module in modules) {
+            if (module.moduleType == ModuleType.Dash) netMod.dashDamage = module.dashDamage;
+            netMod.speedMultiplier *= HandleDefaultMult(module.speedMultiplier);
+            netMod.accelerationMultiplier *= HandleDefaultMult(module.accelerationMultiplier);
+            netMod.dashDurationMultipler *= HandleDefaultMult(module.dashDurationMultipler);
+            netMod.healthModifier += module.healthModifier;
+        }
+    }
+
+    public static float HandleDefaultMult(float mult) {
+        return mult < 0.0001f ? 1.0f : mult;
+    }
 
     public void TakeDamage(float amount) {
         currentHealth -= amount;
@@ -27,5 +69,22 @@ public class PlayerState : ScriptableObject {
         if (currentHealth < 0) {
             onDeath.Invoke();
         }
+    }    
+
+    public void ObtainOil(OilPickup oil) {
+        currentOil +=  oil.amount;
+        onOilPickup.Invoke(oil);
+    }
+
+    public void OnFire() {
+        onFire.Invoke();
+    }
+
+    public void OnDash() {
+        onDash.Invoke();
+    }
+
+    public void ModuleChoice(ModulePickup module) {
+        onModulePickup.Invoke(module);
     }
 }

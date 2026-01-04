@@ -8,7 +8,7 @@ public class ModuleRewardManager : MonoBehaviour
     public GameObject moduleUIPanel;
     //public ModuleButton[] moduleButtons;
 
-    public List<ModuleData> allModules;
+    public List<ModuleJson> allModules;
 
     private void Awake()
     {
@@ -29,10 +29,10 @@ public class ModuleRewardManager : MonoBehaviour
         }*/
     }
 
-    List<ModuleData> GetRandomModules(int count)
+    List<ModuleJson> GetRandomModules(int count)
     {
-        List<ModuleData> pool = new List<ModuleData>(allModules);
-        List<ModuleData> result = new List<ModuleData>();
+        List<ModuleJson> pool = new List<ModuleJson>(allModules);
+        List<ModuleJson> result = new List<ModuleJson>();
 
         for (int i = 0; i < count; i++)
         {
@@ -44,7 +44,7 @@ public class ModuleRewardManager : MonoBehaviour
         return result;
     }
 
-    public void OnModuleChosen(ModuleData module)
+    public void OnModuleChosen(ModuleJson module)
     {
         //PlayerModuleController.Instance.AddModule(module);
 

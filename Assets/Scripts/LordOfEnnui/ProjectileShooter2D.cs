@@ -50,6 +50,7 @@ public class ProjectileShooter2D : MonoBehaviour
         bool fireInput = shootStrat.FireThisFrame(bullet, shootParams);
         if (!fireInput) bulletTimer = 0;
         if (fireInput && bulletTimer > timeToBullet) {
+            shootStrat.OnFire();
             bulletTimer = 0;
 
             float[] fireStreams = shootParams.customFireStreams;
@@ -81,7 +82,7 @@ public class ProjectileShooter2D : MonoBehaviour
                 recoilDirection += spreadDirection;
             }
 
-            rb.AddForce(shootParams.recoilForce * rb.mass * -recoilDirection / fireStreams.Length);
+            rb.AddForce(shootParams.recoilForce * rb.mass * -recoilDirection / Mathf.Min(fireStreams.Length, 1));
         }
     }
 }

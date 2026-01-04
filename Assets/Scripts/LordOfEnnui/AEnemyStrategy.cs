@@ -54,4 +54,7 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
         this.facingAngle = facingAngle;
         if (facingArrow != null) facingArrow.transform.eulerAngles = new Vector3(0, 0, facingAngle);
     }
+
+    public override void OnFire() {
+    }
 }

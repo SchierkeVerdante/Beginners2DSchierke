@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8371899358233087026}
   - component: {fileID: 2709742056831882534}
   - component: {fileID: 4177962080967060785}
-  - component: {fileID: 967289985232851520}
+  - component: {fileID: 7995796857512943963}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -33,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 17024873195368941}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &662114381079994908
@@ -55,6 +56,7 @@ MonoBehaviour:
   screenShaker: {fileID: 0}
   defaultPlayerState: {fileID: 11400000, guid: 29f02b145819a3345b8a78b7ce5afdfb, type: 2}
   pState: {fileID: 0}
+  LoadedModules: []
 --- !u!114 &8371899358233087026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +70,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager2D
   oilBar: {fileID: 0}
+  healthBar: {fileID: 0}
+  moduleSelecter: {fileID: 0}
   pState: {fileID: 0}
 --- !u!114 &2709742056831882534
 MonoBehaviour:
@@ -98,7 +102,7 @@ MonoBehaviour:
   pState: {fileID: 0}
   screenShaker: {fileID: 0}
   damageShake: {fileID: 11400000, guid: 4d171369fad5f9a499c4e80f60a1ee9b, type: 2}
---- !u!114 &967289985232851520
+--- !u!114 &7995796857512943963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,6 +111,147 @@ MonoBehaviour:
   m_GameObject: {fileID: 421787591492012111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5253479223bfe343a2aebc9931d12bd, type: 3}
+  m_Script: {fileID: 11500000, guid: cbea512ef0ccd8b48beb6127e97e77b3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSounds
+  pState: {fileID: 0}
+  jumpSound:
+    Guid:
+      Data1: -163572013
+      Data2: 1290967578
+      Data3: -1346455363
+      Data4: 37457929
+    Path: event:/Characters/Player/Movement/Jumping
+  dashSound:
+    Guid:
+      Data1: -277893273
+      Data2: 1275565488
+      Data3: 1341919372
+      Data4: -1993185319
+    Path: event:/Characters/Player/Movement/Dash
+  sword:
+    Guid:
+      Data1: -942067676
+      Data2: 1244755253
+      Data3: -829924448
+      Data4: -888732502
+    Path: event:/Characters/Player/Combat/Sword
+  shooting:
+    Guid:
+      Data1: 1964992359
+      Data2: 1139555785
+      Data3: -1054585723
+      Data4: 1624293393
+    Path: event:/Characters/Player/Combat/Shooting
+  takeDamage:
+    Guid:
+      Data1: -442384094
+      Data2: 1143953435
+      Data3: 1823187595
+      Data4: 2074071796
+    Path: event:/Characters/Player/TakeDamage
+  explosion:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  death:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  swordHit:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  gunHit:
+    Guid:
+      Data1: -53650805
+      Data2: 1129154960
+      Data3: 1028364984
+      Data4: -338122172
+    Path: event:/Characters/Player/GunHit
+  movingSound:
+    Guid:
+      Data1: -1544703322
+      Data2: 1243344675
+      Data3: 88062883
+      Data4: 1250406548
+    Path: event:/Characters/Player/Movement/Moving
+  shieldSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!1 &6705291901641519162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 17024873195368941}
+  - component: {fileID: 2144682296091145741}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &17024873195368941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705291901641519162}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5810788350882266406}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2144682296091145741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705291901641519162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Zenject::Zenject.SceneContext
+  _scriptableObjectInstallers: []
+  _monoInstallers: []
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
