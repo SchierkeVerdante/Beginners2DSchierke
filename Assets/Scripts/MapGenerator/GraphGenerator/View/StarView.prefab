@@ -428,18 +428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e937dad3ad8b6b4fa84df73c507fd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StarView
-  text: {fileID: 170229987803326518}
-  lineMaterial: {fileID: 2100000, guid: 3410314087c1fb74f909edb69c771a63, type: 2}
-  lineWidth: 0.05
-  lockedWeight: 0.5
-  unlockedWeight: 0.83
-  visitedWeight: 1
-  currentWeight: 1
-  selectedWeight: 1
-  hoveredWeight: 0.5
   _renderer: {fileID: 4642061668203219076}
+  _label: {fileID: 170229987803326518}
+  _visualRoot: {fileID: 5501640337643801176}
   _theme: {fileID: 11400000, guid: 0cce79e280a4ede4595fb100bf39dbc2, type: 2}
-  mainBody: {fileID: 0}
 --- !u!61 &7435930692125567350
 BoxCollider2D:
   m_ObjectHideFlags: 0

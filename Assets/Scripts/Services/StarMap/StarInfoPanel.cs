@@ -8,9 +8,8 @@ using Zenject;
 
 
 public class StarInfoPanel : UIPanel {
-    [SerializeField] private GameObject _panel;
-    [SerializeField] private TextMeshProUGUI _starNameText;
-    [SerializeField] private TextMeshProUGUI _starInfoText;
+    [SerializeField] private TextMeshProUGUI _coordText;
+    [SerializeField] private TextMeshProUGUI _infoText;
     [SerializeField] private Button _travelButton;
     [SerializeField] private TextMeshProUGUI _travelButtonText;
 
@@ -21,21 +20,32 @@ public class StarInfoPanel : UIPanel {
         _travelButton.onClick.AddListener(HandleTravelClicked);
     }
 
-    public void SetStarInfo(NavStar navStar) {
-        _starNameText.text = $"Star {navStar.StarCoord}";
-        _starInfoText.text = $"\nConnections: {navStar.Connections.Count}";
+    public void SetStarInfo(Star star) {
+        if (_infoText != null) {
+            _infoText.text = $"{star.Name}";
+        }
+
+        if (_coordText != null) {
+            _coordText.text = $"Star {star.Coord}";
+        }
     }
 
-    public void SetTravelAvailable(bool isEnabled) {
-        _travelButton.interactable = isEnabled;
-        _travelButtonText.text = isEnabled ? "Travel" : "Can't Travel";
+    public void SetTravelAvailable(bool available) {
+        if (_travelButton != null) {
+            _travelButton.interactable = available;
+        }
+
+        if (_travelButtonText != null) {
+            _travelButtonText.text = available ? "Travel" : "Can't Travel";
+        }
     }
 
     private void HandleTravelClicked() {
         OnTravelRequested?.Invoke();
     }
 
-    private void OnDestroy() {
+    protected override void OnDestroy() {
+        base.OnDestroy();
         _travelButton.onClick.RemoveListener(HandleTravelClicked);
     }
 }
