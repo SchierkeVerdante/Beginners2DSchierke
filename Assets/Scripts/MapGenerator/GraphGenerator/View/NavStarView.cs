@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using Zenject;
 
-public enum NavStarState {
+public enum StarState {
     Locked,
     Available,
     Visited,
@@ -16,135 +16,91 @@ public enum NavStarState {
     Selected
 }
 
-public class NavStarView : MonoBehaviour, IView, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
-    public Action<NavStarView> OnClicked { get; internal set; }
+public class StarView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler {
+    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private TextMeshPro _label;
+    [SerializeField] private Transform _visualRoot;
+    [SerializeField] private StarVisualTheme _theme;
 
-    [SerializeField] TextMeshPro text;
-    [Header("Line settings")]
-    [SerializeField] Material lineMaterial;
-    [SerializeField] float lineWidth = 0.05f;
+    private Star _star;
+    private Action<Star> _onClickCallback;
+    private bool _isSelected;
 
-    [Header("State Weights")]
-    [SerializeField] float lockedWeight = 1f;
-    [SerializeField] float unlockedWeight = 0.5f;
-    [SerializeField] float visitedWeight = 0.3f;
-    [SerializeField] float currentWeight = 0.6f;
-    [SerializeField] float selectedWeight = 0.4f;
-    [SerializeField] float hoveredWeight = 0.3f;
+    private Tween _breathingTween;
 
-    [SerializeField] SpriteRenderer _renderer;
-    [SerializeField] StarVisualTheme _theme;
+    public void Initialize(Star star, Action<Star> onClick) {
+        _star = star;
+        _onClickCallback = onClick;
 
-    [SerializeField] Transform mainBody;
+        _label.text = star.Coord.ToString();
+        star.State.OnChanged += HandleStateChanged;
+        HandleStateChanged(star.State.Value);
+    }
 
-    private NavStarState _currentState = NavStarState.Locked;
+    private void HandleStateChanged(StarState state) {
+        Color color = _theme != null ? _theme.GetColor(state) : GetDefaultColor(state);
+        _renderer.color = _isSelected ? color * 0.7f : color;
 
-    private void Awake() {
-        if (_renderer == null)
-            _renderer = GetComponentInChildren<SpriteRenderer>();
-        if (mainBody == null) {
-            if (_renderer != null) {
-                mainBody = _renderer.transform;
-            } else {
-                mainBody = transform;
-            }
+        float targetScale = state == StarState.Current ? 1.3f : 1f;
+        _visualRoot.DOScale(targetScale, 0.3f).SetEase(Ease.OutBack);
+
+        ToggleAvailableAnimation(state == StarState.Available);
+    }
+
+    public void SetSelected(bool selected) {
+        _isSelected = selected;
+        HandleStateChanged(_star.State.Value);
+    }
+
+    private void ToggleAvailableAnimation(bool isEnabled) {
+        _breathingTween?.Kill();
+
+        if (!isEnabled) {
+            _breathingTween = null;
+            return;
         }
+
+        float baseScale = _star.State.Value == StarState.Current ? 1.3f : 1f;
+        float breathScale = baseScale * 1.1f;
+        float breathDuration = 0.8f;
+
+        _breathingTween = _visualRoot.DOScale(breathScale, breathDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
-    public void RenderState(NavStarState state) {
-        _currentState = state;
-        UpdateVisuals();
-    }
+    private Color GetDefaultColor(StarState state) => state switch {
+        StarState.Locked => new Color(0.3f, 0.3f, 0.3f),
+        StarState.Available => new Color(1f, 0.9f, 0.3f),
+        StarState.Visited => new Color(0.4f, 0.6f, 1f),
+        StarState.Current => new Color(0.3f, 1f, 0.3f),
+        _ => Color.white
+    };
 
-    private void UpdateVisuals() {
-        _renderer.color = _theme.GetColor(_currentState);
-    }
-
-    public void OnPointerDown(PointerEventData eventData) {
-        Debug.Log("Clicked!");
-        OnClicked?.Invoke(this);
-    }
+    public void OnPointerClick(PointerEventData eventData) =>
+        _onClickCallback?.Invoke(_star);
 
     public void OnPointerEnter(PointerEventData eventData) {
-        mainBody.DOScale(1.2f, 0.5f).SetEase(Ease.Flash);
+        _breathingTween?.Pause();
+
+        Vector3 currentScale = _visualRoot.localScale;
+        _visualRoot.DOScale(currentScale * 1.15f, 0.2f);
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        mainBody.DOScale(1.0f, 0.5f).SetEase(Ease.Flash);
-    }
-
-    public void DrawConnectionTo(Vector3 targetPosition) {
-        var lineObj = new GameObject("ConnectionLine");
-        lineObj.transform.SetParent(transform, false);
-        var lr = lineObj.AddComponent<LineRenderer>();
-        lr.material = lineMaterial;
-        lr.widthMultiplier = lineWidth;
-        lr.positionCount = 2;
-        lr.useWorldSpace = true;
-        lr.SetPosition(0, transform.position);
-        lr.SetPosition(1, targetPosition);
-    }
-
-    private void SetBodyColor(Color newColor) {
-        if (_renderer != null)
-            _renderer.color = newColor;
-    }
-
-    public void SetText(string text) {
-        if (this.text != null)
-            this.text.text = text;
+        float targetScale = _star.State.Value == StarState.Current ? 1.3f : 1f;
+        _visualRoot.DOScale(targetScale, 0.2f)
+            .OnComplete(() => {
+                _breathingTween?.Play();
+            });
     }
 
     private void OnDestroy() {
-        mainBody.DOKill();
-    }
-    public void ToggleSelected(bool isEnabled) {
-        if (_renderer == null) return;
-
-        if (isEnabled) {
-            _renderer.color = _renderer.color * _theme.SelectedColor;
-        } else {
-            _renderer.color = _theme.GetColor(_currentState); 
+        if (_star != null) {
+            _star.State.OnChanged -= HandleStateChanged;
         }
-    }
-}
-
-public class NavStarPresenter {
-    public NavStar Model { get; private set; }
-    public NavStarView View { get; private set; }
-    private StarNavigator _starNavigation;
-
-    public NavStarPresenter(NavStar model, NavStarView view, StarNavigator starNavigation) {
-        Model = model;
-        View = view;
-        _starNavigation = starNavigation;
-
-        View.SetText($"{model.StarCoord}");
-        HandleStateChanged(Model.State.Value);
-        HandleSelection(Model.IsSelected.Value);
-
-        View.OnClicked += HandleViewClicked;
-        Model.State.OnChanged += HandleStateChanged;
-        Model.IsSelected.OnChanged += HandleSelection;
-    }
-
-    private void HandleSelection(bool isEnabled) {
-        View.ToggleSelected(isEnabled);
-    }
-
-    private void HandleStateChanged(NavStarState newState) {
-        View.RenderState(newState);
-    }
-
-    private void HandleViewClicked(NavStarView view) {
-        Debug.Log($"Star clicked: {Model}");
-
-        _starNavigation.SelectStar(Model);
-    }
-
-    public void Dispose() {
-        View.OnClicked -= HandleViewClicked;
-        Model.State.OnChanged -= HandleStateChanged;
+        _breathingTween?.Kill();
+        _visualRoot?.DOKill();
     }
 }
 
@@ -157,107 +113,41 @@ public readonly struct LayerCoord : IEquatable<LayerCoord> {
         Index = index;
     }
 
-    public bool Equals(LayerCoord other) {
-        return Layer == other.Layer && Index == other.Index;
-    }
+    public bool Equals(LayerCoord other) =>
+        Layer == other.Layer && Index == other.Index;
 
-    public override bool Equals(object obj) {
-        return obj is LayerCoord other && Equals(other);
-    }
+    public override bool Equals(object obj) =>
+        obj is LayerCoord other && Equals(other);
 
-    public override int GetHashCode() {
-        unchecked {
-            return (Layer * 397) ^ Index;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Layer, Index);
 
-    public override string ToString() {
-        return $"(L: {Layer}, I :{Index})";
-    }
+    public override string ToString() => $"L{Layer}:I{Index}";
 }
 
-public class NavStar : IModel {
+public class Star {
+    public Guid Id { get; }
+    public LayerCoord Coord { get; }
 
-    public ReactiveProperty<NavStarState> State { get; }
-    public ReactiveProperty<bool> IsSelected { get; }
+    private readonly HashSet<LayerCoord> _connections = new();
+    public string Name { get; }
 
-    public Star Star => _star;
+    public IReadOnlyCollection<LayerCoord> Connections => _connections;
 
-    public LayerCoord StarCoord => _star.StarCoord;
-    public IReadOnlyList<LayerCoord> Connections => _star.Connections;
+    public ReactiveProperty<StarState> State { get; }
 
-    private Star _star;
-
-    public NavStar(Star star) {
-        _star = star;
-        State = new ReactiveProperty<NavStarState>(NavStarState.Locked);
-        IsSelected = new(false);
-    }
-
-    public void SetState(NavStarState newState) {
-        State.Value = newState;
-    }
-
-
-    public LayerCoord[] GetNextConnections() {
-        return _star.GetNextConnections();
-    }
-
-    public bool AreConnectedTo(LayerCoord starCoord) {
-        return _star.AreConnectedTo(starCoord);
-    }
-
-    public void SetSelected(bool isEnabled) {
-        IsSelected.Value = isEnabled;
-    }
-}
-
-public class Star : IModel {
-    public Guid Id { get; protected set; }
-
-    public LayerCoord StarCoord { get; protected set; }
-
-    protected List<LayerCoord> _connections = new();
-    public IReadOnlyList<LayerCoord> Connections => _connections.AsReadOnly();
-
-    
-    public Star(int layer, int layerIndex) {
+    public Star(int layer, int index) {
         Id = Guid.NewGuid();
-        StarCoord = new LayerCoord(layer, layerIndex);
+        Coord = new LayerCoord(layer, index);
+        State = new ReactiveProperty<StarState>(StarState.Locked);
+        Name = "Unknown";
     }
 
-    
-    public bool AreConnectedTo(LayerCoord otherRef) {
-        return _connections.Contains(otherRef);
-    }
+    public void ConnectTo(LayerCoord coord) => _connections.Add(coord);
+    public bool IsConnectedTo(LayerCoord coord) => _connections.Contains(coord);
 
-    public void AddConnection(LayerCoord otherRef) {
-        if (AreConnectedTo(otherRef)) return;
-        _connections.Add(otherRef);
-    }
+    public IEnumerable<LayerCoord> GetForwardConnections() =>
+        _connections.Where(c => c.Layer > Coord.Layer);
 
-    public void AddConnection(int layer, int index) {
-        AddConnection(new LayerCoord(layer, index));
-    }
-    public void RemoveConnection(LayerCoord otherRef) {
-        if (!AreConnectedTo(otherRef)) return;
-        _connections.Remove(otherRef);
-    }
-
-    public void RemoveConnection(int layer, int index) {
-        RemoveConnection(new LayerCoord(layer, index));
-    }
-
-    public LayerCoord[] GetNextConnections() {
-        return _connections.Where(con => con.Layer > StarCoord.Layer).ToArray();
-    }
-
-    public void ClearConnections() {
-        _connections.Clear();
-    }
-
-    public override string ToString() {
-        return $"Star {StarCoord}";
-    }
+    public override string ToString() => $"Star {Coord}";
 }
 

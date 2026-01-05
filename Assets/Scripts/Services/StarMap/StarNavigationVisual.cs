@@ -6,241 +6,170 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class StarNavigationVisual : MonoBehaviour {
-    [SerializeField] private NavStarView _starPrefab;
+public class StarMapVisualizer : MonoBehaviour {
+    [Header("Prefabs")]
+    [SerializeField] private StarView _starPrefab;
+    [SerializeField] private LineRenderer _linePrefab;
 
-    [SerializeField] private Spaceship2D spaceship;
-    [SerializeField] private Transform mapParent;
-    [SerializeField] private float nodesXOffset = 2f;
-    [SerializeField] private float nodesYOffset = 1f;
+    [Header("Layout")]
+    [SerializeField] private Transform _container;
+    [SerializeField] private float _layerSpacing = 2.5f;
+    [SerializeField] private float _starSpacing = 1.2f;
 
-    private Dictionary<LayerCoord, NavStarView> starViews = new();
+    [Header("Connections")]
+    [SerializeField] private Material _lineMaterial;
+    [SerializeField] private float _lineWidth = 0.08f;
+    [SerializeField] private Color _lineColor = new Color(0.5f, 0.5f, 0.5f, 0.4f);
 
-    [SerializeField] Button travelButton;
-    public Action OnTravelRequest;
+    private readonly Dictionary<LayerCoord, StarView> _views = new();
+    private readonly List<LineRenderer> _connections = new();
 
-    private void Start() {
-        if (travelButton != null)
-        travelButton.onClick.AddListener(HandleTravelClick);
-    }
+    public StarView CreateStarView(Star star, int layerStarCount, Action<Star> onClick) {
+        Vector3 position = CalculatePosition(star.Coord, layerStarCount);
 
-    private void HandleTravelClick() {
-        OnTravelRequest?.Invoke();
-    }
+        var view = Instantiate(_starPrefab, position, Quaternion.identity, _container);
+        view.gameObject.name = $"Star_{star.Coord}";
+        view.Initialize(star, onClick);
 
-    private void OnDestroy() {
-        if (travelButton != null)
-            travelButton.onClick.RemoveListener(HandleTravelClick);
-    }
-
-    public NavStarView SpawnStar(NavStar navStar, int starsInLayer) {
-        int layer = navStar.StarCoord.Layer;
-        int index = navStar.StarCoord.Index;
-
-        Vector3 localPosition = CalculateStarPosition(layer, index, starsInLayer);
-
-        Vector3 spawnPosition = mapParent.transform.position + localPosition;
-
-        NavStarView view = Instantiate(_starPrefab, spawnPosition, Quaternion.identity, mapParent);
-
-        view.gameObject.name = navStar.ToString();
-        starViews.Add(navStar.StarCoord, view);
-
+        _views[star.Coord] = view;
         return view;
     }
 
-    public void DrawStarConnections(LayerCoord from, LayerCoord to) {
-        if (starViews.TryGetValue(from, out NavStarView fromStar)) {
-            if (starViews.TryGetValue(to, out NavStarView toStar)) {
-                fromStar.DrawConnectionTo(toStar.transform.position);
-            }
+    public void CreateConnection(LayerCoord from, LayerCoord to) {
+        if (!_views.TryGetValue(from, out var fromView) ||
+            !_views.TryGetValue(to, out var toView))
+            return;
+
+        var line = _linePrefab != null
+            ? Instantiate(_linePrefab, _container)
+            : CreateDefaultLine();
+
+        line.positionCount = 2;
+        line.useWorldSpace = true;
+        line.SetPosition(0, fromView.transform.position);
+        line.SetPosition(1, toView.transform.position);
+
+        if (_lineMaterial != null) line.material = _lineMaterial;
+        line.startWidth = line.endWidth = _lineWidth;
+        line.startColor = line.endColor = _lineColor;
+
+        _connections.Add(line);
+    }
+
+    public bool TryGetView(LayerCoord coord, out StarView view) =>
+        _views.TryGetValue(coord, out view);
+
+    public void Clear() {
+        foreach (var view in _views.Values) {
+            if (view != null) Destroy(view.gameObject);
         }
-    }
-
-    public void ClearMap() {
-        ClearParent();
-        starViews.Clear();
-    }
-
-    private Vector3 CalculateStarPosition(int layer, int layerIndex, int layerStarsCount) {
-        float xOffset = nodesXOffset * layer;
-        float yOffset = (layerIndex - (layerStarsCount - 1) / 2f) * nodesYOffset;
-
-        return new Vector3(xOffset, yOffset, 0);
-    }
-
-    private void ClearParent() {
-        foreach (Transform child in mapParent) {
-            Destroy(child.gameObject);
+        foreach (var line in _connections) {
+            if (line != null) Destroy(line.gameObject);
         }
+
+        _views.Clear();
+        _connections.Clear();
     }
 
-    public Action OnDestinationReached;
-
-    public void MoveTo(LayerCoord destinationCoord) {
-        if (starViews.TryGetValue(destinationCoord, out NavStarView destStar)) {
-            Vector3 destPos = destStar.transform.position;
-
-            spaceship.SetTarget(destPos, () => spaceship.StartOrbit());
-            
-        }
+    private Vector3 CalculatePosition(LayerCoord coord, int layerStarCount) {
+        float x = coord.Layer * _layerSpacing;
+        float y = (coord.Index - (layerStarCount - 1) / 2f) * _starSpacing;
+        return new Vector3(x, y, 0);
     }
 
+    private LineRenderer CreateDefaultLine() {
+        var obj = new GameObject("Connection");
+        obj.transform.SetParent(_container, false);
+        return obj.AddComponent<LineRenderer>();
+    }
 }
 
-public class StarNavigator {
+public interface IStarNavigationService {
+    Star CurrentStar { get; }
+    Star SelectedStar { get; }
 
-    private readonly IStarMapService _starMap;
-    private readonly IPresenterFactory<NavStarPresenter> presenterFactory;
+    void Initialize(LayerCoord startCoord);
+    void SelectStar(Star star);
+    bool TryTravelTo(Star star);
+    bool CanTravelTo(Star star);
 
-    private readonly Dictionary<LayerCoord, NavStar> _coordsToStars = new();
-    private readonly Dictionary<NavStar, NavStarPresenter> _starsToPresenters = new();
+    event Action<Star> OnCurrentStarChanged;
+    event Action<Star> OnStarSelected;
+}
 
-    private StarNavigationVisual _starNavigationVisual;
+public class StarNavigationService : IStarNavigationService {
+    private readonly StarMap _starMap;
+    private Star _currentStar;
+    private Star _selectedStar;
 
-    private NavStar _currentNavStar;
-    public NavStar CurrentNavStar => _currentNavStar;
+    public Star CurrentStar => _currentStar;
+    public Star SelectedStar => _selectedStar;
 
-    public event Action<NavStar> OnCurrentStarChanged;
+    public event Action<Star> OnCurrentStarChanged;
+    public event Action<Star> OnStarSelected;
 
-    private NavStar _selectedNavStar;
-
-    public NavStar SelectedNavStar => _selectedNavStar;
-    private List<NavStar> _availableStars = new();
-
-    public StarNavigator(StarNavigationVisual visual, IPresenterFactory<NavStarPresenter> presenterFactory, IStarMapService starMap) {
-        _starNavigationVisual = visual;
-        _starNavigationVisual.OnTravelRequest += HandleTravelRequest;
-        this.presenterFactory = presenterFactory;
-        _starMap = starMap;
+    public StarNavigationService(StarMap starMap) {
+        _starMap = starMap ?? throw new ArgumentNullException(nameof(starMap));
     }
 
-    private void HandleTravelRequest() {
-        if (_selectedNavStar == null) return;
-
-        TravelTo(_selectedNavStar);
-    }
-
-    public void ReloadMap() {
-        _starNavigationVisual.ClearMap();
-
-        _coordsToStars.Clear();
-        _starsToPresenters.Clear();
-        _currentNavStar = null;
-
-        for (int layer = 0; layer < _starMap.LayersCount; layer++) {
-            IReadOnlyList<Star> stars = _starMap.GetStarsInLayer(layer);
-            SpawnLayer(layer, stars);
-        }
-
-        DrawStarConnections();
-
-        LayerCoord startPosition = new LayerCoord(0, 0);
-        _coordsToStars.TryGetValue(startPosition, out var startStar);
-        TravelTo(startStar);
-    }
-
-    private void SpawnLayer(int layer, IReadOnlyList<Star> stars) {
-        foreach (var star in stars) {
-            NavStar navStar = new NavStar(star);
-            LayerCoord starCoord = star.StarCoord;
-
-            NavStarView view = _starNavigationVisual.SpawnStar(navStar, stars.Count);
-            NavStarPresenter starPresenter = presenterFactory.Create(view, navStar, this);
-
-
-            _coordsToStars.Add(starCoord, navStar);
-            _starsToPresenters.Add(navStar, starPresenter);
+    public void Initialize(LayerCoord startCoord) {
+        if (_starMap.TryGetStar(startCoord, out var startStar)) {
+            SetCurrentStar(startStar);
         }
     }
 
-    private void DrawStarConnections() {
-        foreach (var navStar in _starsToPresenters.Keys) {
-            LayerCoord currentCoords = navStar.StarCoord;
+    public void SelectStar(Star star) {
+        if (star == null || star == _selectedStar) return;
 
-            LayerCoord[] layerCoords = navStar.GetNextConnections();
-
-            List<Star> nextStars = _starMap.GetStarsAt(layerCoords);
-            foreach (Star star in nextStars) {
-                LayerCoord nextCoord = star.StarCoord;
-
-                _starNavigationVisual.DrawStarConnections(currentCoords, nextCoord);
-            }
-
-        }
+        _selectedStar = star;
+        OnStarSelected?.Invoke(star);
     }
 
-    public bool TravelTo(NavStar targetNavStar) {
-        if (!CanTravelTo(targetNavStar)) return false;
+    public bool TryTravelTo(Star star) {
+        if (!CanTravelTo(star)) return false;
 
-        NavStar oldStar = _currentNavStar;
-        oldStar?.SetState(NavStarState.Visited);
-
-        _currentNavStar = targetNavStar;
-
-        _currentNavStar.SetState(NavStarState.Current);
-
-        UpdateAvailableStars();
-        OnCurrentStarChanged?.Invoke(_currentNavStar);
-        _starNavigationVisual.MoveTo(_currentNavStar.StarCoord);
-
+        SetCurrentStar(star);
         return true;
     }
 
-    public bool CanTravelTo(NavStar targetNavStar) {
-        if (targetNavStar == null) return false;
+    public bool CanTravelTo(Star star) {
+        if (star == null || star == _currentStar) return false;
 
-        if (_currentNavStar == null && targetNavStar != null) return true;
-        
-        if (targetNavStar == _currentNavStar) return false;
+        // Перша зірка завжди доступна
+        if (_currentStar == null) return true;
 
-        bool isConnected = _currentNavStar.AreConnectedTo(targetNavStar.StarCoord);
-        bool isNext = _currentNavStar.StarCoord.Layer < targetNavStar.StarCoord.Layer;
-        return isNext && isConnected;
+        // Можна подорожувати тільки вперед по з'єднаним зіркам
+        return star.Coord.Layer > _currentStar.Coord.Layer &&
+               _currentStar.IsConnectedTo(star.Coord);
     }
 
-    public void SelectStar(NavStar navStar) {
-        if (navStar == null) return;
+    private void SetCurrentStar(Star star) {
+        // Оновлюємо стан попередньої зірки
+        if (_currentStar != null) {
+            _currentStar.State.Value = StarState.Visited;
+        }
 
-        _selectedNavStar?.SetSelected(false);
-        _selectedNavStar = navStar;
-        _selectedNavStar?.SetSelected(true);
-        
+        _currentStar = star;
+        _currentStar.State.Value = StarState.Current;
+
+        UpdateAvailableStars();
+        OnCurrentStarChanged?.Invoke(_currentStar);
     }
 
     private void UpdateAvailableStars() {
-        if (!_availableStars.IsEmpty()) {
-            foreach (var star in _availableStars) {
-                if (star != _currentNavStar)
-                star.SetState(NavStarState.Locked);
-            }
-            _availableStars.Clear();
-        }
-
-        _starsToPresenters.TryGetValue(_currentNavStar, out NavStarPresenter presenter);
-
-        List<NavStar> availableStars = GetNavStarsAt(_currentNavStar.GetNextConnections());
-
-        foreach (var navStar in availableStars) {
-            navStar.SetState(NavStarState.Available);
-            _availableStars.Add(navStar);
-        }
-    }
-
-    private IReadOnlyList<NavStar> GetConnectedNavStars(NavStar star) {
-        if (_currentNavStar == null) return Array.Empty<NavStar>();
-
-        return GetNavStarsAt(star.Connections);
-    }
-
-    private List<NavStar> GetNavStarsAt(IEnumerable<LayerCoord> coords) {
-        List<NavStar> foundStars = new();
-
-        foreach (var coord in coords) {
-            if (_coordsToStars.TryGetValue(coord, out var navStar)) {
-                foundStars.Add(navStar);
+        // Спочатку блокуємо всі доступні зірки
+        foreach (var star in _starMap.Stars.Values) {
+            if (star.State.Value == StarState.Available) {
+                star.State.Value = StarState.Locked;
             }
         }
-        return foundStars;
+
+        // Потім розблоковуємо наступні з'єднані зірки
+        foreach (var coord in _currentStar.GetForwardConnections()) {
+            if (_starMap.TryGetStar(coord, out var nextStar)) {
+                nextStar.State.Value = StarState.Available;
+            }
+        }
     }
 }
+

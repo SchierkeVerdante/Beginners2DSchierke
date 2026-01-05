@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StarVisualTheme
   LockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   AvailableColor: {r: 1, g: 1, b: 1, a: 1}
-  VisitedColor: {r: 0, g: 1, b: 1, a: 1}
-  CurrentColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  SelectedColor: {r: 0, g: 1, b: 0, a: 1}
+  VisitedColor: {r: 0.7783019, g: 1, b: 1, a: 0.8352941}
+  CurrentColor: {r: 0.9241657, g: 1, b: 0, a: 1}
+  SelectedColor: {r: 0.6745283, g: 1, b: 0.6745283, a: 1}
   NormalScale: 1
   HoverScale: 1.2

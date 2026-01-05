@@ -13,13 +13,13 @@ public class StarVisualTheme : ScriptableObject {
     public float NormalScale = 1f;
     public float HoverScale = 1.2f;
 
-    public Color GetColor(NavStarState state) {
+    public Color GetColor(StarState state) {
         return state switch {
-            NavStarState.Locked => LockedColor,
-            NavStarState.Available => AvailableColor,
-            NavStarState.Visited => VisitedColor,
-            NavStarState.Current => CurrentColor,
-            NavStarState.Selected => SelectedColor,
+            StarState.Locked => LockedColor,
+            StarState.Available => AvailableColor,
+            StarState.Visited => VisitedColor,
+            StarState.Current => CurrentColor,
+            StarState.Selected => SelectedColor,
             _ => Color.white
         };
     }

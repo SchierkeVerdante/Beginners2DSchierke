@@ -3,69 +3,159 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using System.Collections.Generic;
 
-public class MapController : MonoBehaviour
-{
-    [SerializeField] Button startButton;
+public class StarMapController : MonoBehaviour {
+    [Header("Dependencies")]
+    [SerializeField] private StarMapVisualizer _visualizer;
+    [SerializeField] private StarInfoPanel _infoPanel;
+    [SerializeField] private Spaceship2D _spaceship;
 
-    [SerializeField] StarMapGenerator generator;
-    [SerializeField] GraphGenerationConfig graphGenerationData;
-    [SerializeField] StarNavigationVisual starNavigationVisual;
+    [Header("UI")]
+    [SerializeField] private Button _generateButton;
+    [SerializeField] private Button _travelButton;
 
-    [Inject] IStarMapService starMapService;
-    [Inject] IDataRuntimeFactory dataRuntimeFactory;
-    [Inject] IPresenterFactory<NavStarPresenter> presenterFactory;
-    
+    [Header("Generation")]
+    [SerializeField] private GraphGenerationConfig _generationConfig;
 
-    private GraphGenerator _graphGenerator;
-    private StarNavigator starNavigation;
+    [Inject] private IDataRuntimeFactory _dataFactory;
 
-    private void Awake() {
-        _graphGenerator = dataRuntimeFactory.CreateInstance<GraphGenerator>(graphGenerationData);
-        starNavigation = new StarNavigator(starNavigationVisual, presenterFactory, starMapService);
-    }
+    private StarMap _starMap;
+    private IStarNavigationService _navigation;
 
     private void Start() {
-        if (startButton != null)
-            startButton.onClick.AddListener(OnGenerateClicked);
-
+        BindButtons();
+        GenerateNewMap();
     }
 
-    private void OnGenerateClicked() {
-        StarMap starMap = CreateStars();
-        starMapService.LoadMap(starMap);
-
-        starNavigation.ReloadMap();
+    private void BindButtons() {
+        if (_generateButton != null) {
+            _generateButton.onClick.AddListener(GenerateNewMap);
+        }
+        if (_travelButton != null) {
+            _travelButton.onClick.AddListener(HandleTravelClick);
+        }
     }
 
-    private StarMap CreateStars() {
-        Graph graph = _graphGenerator.GenerateGraph();
+    private void GenerateNewMap() {
+        CleanupCurrentMap();
 
-        StarMap map = new StarMap(graph.Seed);
+        _starMap = GenerateStarMapFromGraph();
+        _navigation = CreateNavigationService();
 
-        foreach (var layerNodes in graph.Layers) {
-            foreach (var node in layerNodes) {
-                Star star = new(node.layer, node.layerIndex);
+        BuildVisualization();
+        _navigation.Initialize(new LayerCoord(0, 0));
+
+        _infoPanel?.Hide();
+    }
+
+    private StarMap GenerateStarMapFromGraph() {
+        var generator = _dataFactory.CreateInstance<GraphGenerator>(_generationConfig);
+        var graph = generator.GenerateGraph();
+
+        var map = new StarMap(graph.Seed);
+
+        foreach (var layer in graph.Layers) {
+            foreach (var node in layer) {
+                var star = new Star(node.layer, node.layerIndex);
                 map.AddStar(star);
-                InitConnections(star, node);
+
+                foreach (var connection in node.GetAllConnections()) {
+                    star.ConnectTo(new LayerCoord(connection.layer, connection.layerIndex));
+                }
             }
         }
 
         return map;
     }
 
-    private void InitConnections(Star star, GraphNode node) {
-        List<GraphNode> connectedNodes = node.GetAllConnections();
-        foreach (var connectedNode in connectedNodes) {
-            star.AddConnection(connectedNode.layer, connectedNode.layerIndex);
-        } 
+    private IStarNavigationService CreateNavigationService() {
+        var service = new StarNavigationService(_starMap);
+        service.OnCurrentStarChanged += HandleCurrentStarChanged;
+        service.OnStarSelected += HandleStarSelected;
+        return service;
+    }
+
+    private void BuildVisualization() {
+        foreach (var layer in _starMap.GetLayers()) {
+            var stars = _starMap.GetStarsInLayer(layer);
+            foreach (var star in stars) {
+                _visualizer.CreateStarView(star, stars.Count, HandleStarClicked);
+            }
+        }
+
+        foreach (var star in _starMap.Stars.Values) {
+            foreach (var connection in star.GetForwardConnections()) {
+                _visualizer.CreateConnection(star.Coord, connection);
+            }
+        }
+    }
+
+    private void HandleStarClicked(Star star) {
+        _navigation.SelectStar(star);
+    }
+
+    private void HandleStarSelected(Star star) {
+        UpdateSelectionVisuals(star);
+        UpdateInfoPanel(star);
+    }
+
+    private void UpdateSelectionVisuals(Star star) {
+        if (_navigation.SelectedStar != null && star != _navigation.SelectedStar) {
+            if (_visualizer.TryGetView(_navigation.SelectedStar.Coord, out var oldView)) {
+                oldView.SetSelected(false);
+            }
+        }
+
+        // Підсвічуємо нову вибрану зірку
+        if (_visualizer.TryGetView(star.Coord, out var newView)) {
+            newView.SetSelected(true);
+        }
+    }
+
+    private void UpdateInfoPanel(Star star) {
+        if (_infoPanel == null) return;
+
+        _infoPanel.Show();
+        _infoPanel.SetStarInfo(star);
+        _infoPanel.SetTravelAvailable(_navigation.CanTravelTo(star));
+    }
+
+    private void HandleCurrentStarChanged(Star star) {
+        MoveSpaceshipToStar(star);
+        _infoPanel?.Hide();
+    }
+
+    private void MoveSpaceshipToStar(Star star) {
+        if (_spaceship == null) return;
+
+        if (_visualizer.TryGetView(star.Coord, out var view)) {
+            _spaceship.SetTarget(view.transform.position, () => _spaceship.StartOrbit());
+        }
+    }
+
+    private void HandleTravelClick() {
+        if (_navigation.SelectedStar != null) {
+            _navigation.TryTravelTo(_navigation.SelectedStar);
+        }
+    }
+
+    private void CleanupCurrentMap() {
+        _visualizer?.Clear();
+
+        if (_navigation != null) {
+            _navigation.OnCurrentStarChanged -= HandleCurrentStarChanged;
+            _navigation.OnStarSelected -= HandleStarSelected;
+        }
     }
 
     private void OnDestroy() {
-        if (startButton != null)
-            startButton.onClick.RemoveListener(OnGenerateClicked);
+        if (_generateButton != null) {
+            _generateButton.onClick.RemoveListener(GenerateNewMap);
+        }
+        if (_travelButton != null) {
+            _travelButton.onClick.RemoveListener(HandleTravelClick);
+        }
+
+        CleanupCurrentMap();
     }
 }
-
-
