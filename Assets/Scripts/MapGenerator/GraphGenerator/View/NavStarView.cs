@@ -5,17 +5,15 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 using Zenject;
 
-[Flags]
-public enum StarVisualState {
-    None = 0,
-    Locked = 1 << 0,      // 1
-    Unlocked = 1 << 1,    // 2
-    Visited = 1 << 2,     // 4
-    Current = 1 << 3,     // 8
-    Selected = 1 << 4,    // 16
-    Hovered = 1 << 5      // 32
+public enum NavStarState {
+    Locked,
+    Available,
+    Visited,
+    Current,
+    Selected
 }
 
 public class NavStarView : MonoBehaviour, IView, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
@@ -26,15 +24,6 @@ public class NavStarView : MonoBehaviour, IView, IPointerDownHandler, IPointerEn
     [SerializeField] Material lineMaterial;
     [SerializeField] float lineWidth = 0.05f;
 
-    [Header("State Colors")]
-    [SerializeField] Color baseColor = Color.white;
-    [SerializeField] Color lockedTint = new Color(0.5f, 0.5f, 0.5f, 1f);
-    [SerializeField] Color unlockedTint = Color.white;
-    [SerializeField] Color visitedTint = new Color(0.7f, 0.9f, 1f, 1f);
-    [SerializeField] Color currentTint = new Color(1f, 1f, 0f, 1f);
-    [SerializeField] Color selectedTint = new Color(0f, 1f, 0.5f, 1f);
-    [SerializeField] Color hoveredTint = new Color(1.2f, 1.2f, 1.2f, 1f);
-
     [Header("State Weights")]
     [SerializeField] float lockedWeight = 1f;
     [SerializeField] float unlockedWeight = 0.5f;
@@ -43,109 +32,38 @@ public class NavStarView : MonoBehaviour, IView, IPointerDownHandler, IPointerEn
     [SerializeField] float selectedWeight = 0.4f;
     [SerializeField] float hoveredWeight = 0.3f;
 
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer _renderer;
+    [SerializeField] StarVisualTheme _theme;
 
-    private StarVisualState _currentState = StarVisualState.Locked;
+    private NavStarState _currentState = NavStarState.Locked;
 
     private void Awake() {
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (_renderer == null)
+            _renderer = GetComponentInChildren<SpriteRenderer>();
     }
-   
-    public void SetState(StarVisualState state, bool active) {
-        if (active)
-            _currentState |= state;
-        else
-            _currentState &= ~state; 
 
+    public void RenderState(NavStarState state) {
+        _currentState = state;
         UpdateVisuals();
     }
 
-    public void SetAccessible(bool accessible) {
-        if (accessible) {
-            SetState(StarVisualState.Locked, false);
-            SetState(StarVisualState.Unlocked, true);
-        } else {
-            SetState(StarVisualState.Unlocked, false);
-            SetState(StarVisualState.Locked, true);
-        }
-    }
-
-    public void SetCurrent(bool isCurrent) {
-        SetState(StarVisualState.Current, isCurrent);
-    }
-
-    public void SetVisited(bool isVisited) {
-        SetState(StarVisualState.Visited, isVisited);
-    }
-
-    public void SetSelected(bool isSelected) {
-        SetState(StarVisualState.Selected, isSelected);
-    }
-
     private void UpdateVisuals() {
-        Color finalColor = baseColor;
-        float totalWeight = 0f;
-
-        if (HasState(StarVisualState.Locked)) {
-            finalColor = BlendAdditive(finalColor, lockedTint, lockedWeight);
-            totalWeight += lockedWeight;
-        }
-
-        if (HasState(StarVisualState.Unlocked)) {
-            finalColor = BlendAdditive(finalColor, unlockedTint, unlockedWeight);
-            totalWeight += unlockedWeight;
-        }
-
-        if (HasState(StarVisualState.Visited)) {
-            finalColor = BlendAdditive(finalColor, visitedTint, visitedWeight);
-            totalWeight += visitedWeight;
-        }
-
-        if (HasState(StarVisualState.Current)) {
-            finalColor = BlendAdditive(finalColor, currentTint, currentWeight);
-            totalWeight += currentWeight;
-        }
-
-        if (HasState(StarVisualState.Selected)) {
-            finalColor = BlendAdditive(finalColor, selectedTint, selectedWeight);
-            totalWeight += selectedWeight;
-        }
-
-        if (HasState(StarVisualState.Hovered)) {
-            finalColor = BlendAdditive(finalColor, hoveredTint, hoveredWeight);
-            totalWeight += hoveredWeight;
-        }
-
-
-        SetBodyColor(finalColor);
+        _renderer.color = _theme.GetColor(_currentState);
     }
 
-    private Color BlendAdditive(Color baseColor, Color tint, float weight) {
-        return baseColor + (tint - Color.white) * weight;
-    }
-
-    private bool HasState(StarVisualState state) {
-        return (_currentState & state) == state;
-    }
-
-    // UI Events
     public void OnPointerDown(PointerEventData eventData) {
         Debug.Log("Clicked!");
         OnClicked?.Invoke(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        SetState(StarVisualState.Hovered, true);
         transform.DOScale(1.2f, 0.5f).SetEase(Ease.Flash);
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        SetState(StarVisualState.Hovered, false);
         transform.DOScale(1.0f, 0.5f).SetEase(Ease.Flash);
     }
 
-    // Старі методи
     public void DrawConnectionTo(Vector3 targetPosition) {
         var lineObj = new GameObject("ConnectionLine");
         lineObj.transform.SetParent(transform, false);
@@ -159,8 +77,8 @@ public class NavStarView : MonoBehaviour, IView, IPointerDownHandler, IPointerEn
     }
 
     private void SetBodyColor(Color newColor) {
-        if (spriteRenderer != null)
-            spriteRenderer.color = newColor;
+        if (_renderer != null)
+            _renderer.color = newColor;
     }
 
     public void SetText(string text) {
@@ -170,6 +88,15 @@ public class NavStarView : MonoBehaviour, IView, IPointerDownHandler, IPointerEn
 
     private void OnDestroy() {
         transform.DOKill();
+    }
+    public void ToggleSelected(bool isEnabled) {
+        if (_renderer == null) return;
+
+        if (isEnabled) {
+            _renderer.color = _renderer.color * _theme.SelectedColor;
+        } else {
+            _renderer.color = _theme.GetColor(_currentState); 
+        }
     }
 }
 
@@ -183,34 +110,21 @@ public class NavStarPresenter {
         View = view;
         _starNavigation = starNavigation;
 
-        View.OnClicked += HandleViewClicked;
-        Model.OnAvailabilityChanged += HandleAccessChanged;
-        Model.OnCurrentChanged += HandleCurrentChanged;
-        Model.OnVisitedChanged += HandleVisitedChanged;
-        Model.OnSelectedCHanged += HandleSelectedChanged;
-
-        View.SetAccessible(model.IsAvailable);
-        View.SetCurrent(model.IsCurrent);
-        View.SetVisited(model.IsVisited);
-        View.SetSelected(model.IsSelected);
-
         View.SetText($"{model.StarCoord}");
+        HandleStateChanged(Model.State.Value);
+        HandleSelection(Model.IsSelected.Value);
+
+        View.OnClicked += HandleViewClicked;
+        Model.State.OnChanged += HandleStateChanged;
+        Model.IsSelected.OnChanged += HandleSelection;
     }
 
-    private void HandleSelectedChanged(bool isEnabled) {
-        View.SetSelected(isEnabled);
+    private void HandleSelection(bool isEnabled) {
+        View.ToggleSelected(isEnabled);
     }
 
-    private void HandleVisitedChanged(bool isEnabled) {
-        View.SetVisited(isEnabled);
-    }
-
-    private void HandleCurrentChanged(bool isEnabled) {
-        View.SetCurrent(isEnabled);
-    }
-
-    private void HandleAccessChanged(bool isEnabled) {
-        View.SetAccessible(isEnabled);
+    private void HandleStateChanged(NavStarState newState) {
+        View.RenderState(newState);
     }
 
     private void HandleViewClicked(NavStarView view) {
@@ -221,11 +135,7 @@ public class NavStarPresenter {
 
     public void Dispose() {
         View.OnClicked -= HandleViewClicked;
-
-        Model.OnAvailabilityChanged -= HandleAccessChanged;
-        Model.OnCurrentChanged -= HandleCurrentChanged;
-        Model.OnVisitedChanged -= HandleVisitedChanged;
-        Model.OnSelectedCHanged -= HandleSelectedChanged;
+        Model.State.OnChanged -= HandleStateChanged;
     }
 }
 
@@ -259,21 +169,9 @@ public readonly struct LayerCoord : IEquatable<LayerCoord> {
 
 public class NavStar : IModel {
 
-    public bool IsAvailable => _isAvailable;
-    public bool IsCurrent => _isCurrent;
-    public bool IsVisited => _isVisited;
-    public bool IsSelected => _isSelected;
+    public ReactiveProperty<NavStarState> State { get; }
+    public ReactiveProperty<bool> IsSelected { get; }
 
-    private bool _isAvailable = false;
-    private bool _isCurrent = false;
-    private bool _isVisited = false;
-    private bool _isSelected = false;
-
-    public Action<bool> OnAvailabilityChanged;
-    public Action<bool> OnCurrentChanged;
-    public Action<bool> OnVisitedChanged;
-    public Action<bool> OnSelectedCHanged;
-    
     public Star Star => _star;
 
     public LayerCoord StarCoord => _star.StarCoord;
@@ -283,13 +181,12 @@ public class NavStar : IModel {
 
     public NavStar(Star star) {
         _star = star;
+        State = new ReactiveProperty<NavStarState>(NavStarState.Locked);
+        IsSelected = new(false);
     }
 
-    public void SetAvailability(bool isEnabled) {
-        if (_isAvailable == isEnabled) return;
-
-        _isAvailable = isEnabled;
-        OnAvailabilityChanged?.Invoke(isEnabled);
+    public void SetState(NavStarState newState) {
+        State.Value = newState;
     }
 
 
@@ -301,25 +198,8 @@ public class NavStar : IModel {
         return _star.AreConnectedTo(starCoord);
     }
 
-    public void SetVisited(bool isEnabled) {
-        if (_isVisited == isEnabled) return;
-
-        _isVisited = isEnabled;
-        OnVisitedChanged?.Invoke(isEnabled);
-    }
-
-    public void SetCurrent(bool isEnabled) {
-        if (_isCurrent == isEnabled) return;
-
-        _isCurrent = isEnabled;
-        OnCurrentChanged?.Invoke(isEnabled);
-    }
-
     public void SetSelected(bool isEnabled) {
-        if (_isSelected == isEnabled) return;
-
-        _isSelected = isEnabled;
-        OnSelectedCHanged?.Invoke(isEnabled);
+        IsSelected.Value = isEnabled;
     }
 }
 
@@ -371,3 +251,4 @@ public class Star : IModel {
         return $"Star {StarCoord}";
     }
 }
+

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7883627484745985755}
-  - component: {fileID: 480477096866299338}
+  - component: {fileID: 7036476518147867135}
   m_Layer: 0
   m_Name: PlayerSounds
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &480477096866299338
+--- !u!114 &7036476518147867135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,16 +41,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1446075222241274618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbea512ef0ccd8b48beb6127e97e77b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e6f7042d2809ae4290b34110326fa93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSounds
   swordHit:
     Guid:
-      Data1: 655503028
-      Data2: 1161781543
-      Data3: -1831331912
-      Data4: 1828995726
-    Path: event:/Characters/Player/SwordHit
+      Data1: -942067676
+      Data2: 1244755253
+      Data3: -829924448
+      Data4: -888732502
+    Path: event:/Characters/Player/Combat/Sword
   gunHit:
     Guid:
       Data1: -53650805
@@ -176,3 +176,4 @@ MonoBehaviour:
         Data4: 432043297
       Path: event:/Weapons/MachineGun
     _attachTransform: {fileID: 0}
+  enableStartTest: 0

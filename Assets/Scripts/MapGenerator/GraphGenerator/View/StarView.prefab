@@ -444,7 +444,8 @@ MonoBehaviour:
   currentWeight: 1
   selectedWeight: 1
   hoveredWeight: 0.5
-  spriteRenderer: {fileID: 4642061668203219076}
+  _renderer: {fileID: 4642061668203219076}
+  _theme: {fileID: 11400000, guid: 0cce79e280a4ede4595fb100bf39dbc2, type: 2}
 --- !u!61 &7435930692125567350
 BoxCollider2D:
   m_ObjectHideFlags: 0
