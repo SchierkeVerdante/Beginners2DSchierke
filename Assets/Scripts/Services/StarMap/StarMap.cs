@@ -96,7 +96,13 @@ public class StarMap {
         return _starsByLayer.TryGetValue(layer, out var dict) ? dict.Count : 0;
     }
 
-    internal List<Star> GetStarsAt(LayerCoord[] layerCoords) {
-        throw new NotImplementedException();
+    public List<Star> GetStarsAt(LayerCoord[] layerCoords) {
+        List<Star> foundStars = new();
+        foreach (var starCoord in layerCoords) {
+            if (TryFindStarAt(starCoord, out Star star)) {
+                foundStars.Add(star);
+            }
+        }
+        return foundStars;
     }
 }

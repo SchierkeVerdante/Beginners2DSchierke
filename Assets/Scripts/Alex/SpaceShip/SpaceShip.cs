@@ -248,6 +248,12 @@ public class Spaceship2D : MonoBehaviour {
             stateMachine.OnStateChanged -= UpdateField;
         }
     }
+
+    public Action doOnTargetReached;
+    public void SetTarget(Vector3 destPos, Action value) {
+        doOnTargetReached = value;
+        SetTarget(destPos);
+    }
 }
 
 [Serializable]

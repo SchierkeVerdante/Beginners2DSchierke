@@ -11,7 +11,7 @@ public class ConnectionStage : IPipelineStage<GraphGenerationContext> {
     }
 
     public void Execute(GraphGenerationContext context) {
-        Debug.Log("Connecting nodes...");
+        //Debug.Log("Connecting nodes...");
         Graph graph = context.Graph;
         List<List<GraphNode>> levelNodes = graph.Layers;
 

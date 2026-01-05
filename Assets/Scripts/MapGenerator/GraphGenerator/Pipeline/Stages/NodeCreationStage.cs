@@ -14,7 +14,7 @@ public class NodeCreationStage : IPipelineStage<GraphGenerationContext> {
     }
 
     public void Execute(GraphGenerationContext context) {
-        Debug.Log("Creating nodes...");
+        //Debug.Log("Creating nodes...");
         GraphGenerationConfig settings = context.Config;
         Graph graph = context.Graph;
 

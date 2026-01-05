@@ -1,19 +1,24 @@
-﻿using UnityEditor.Rendering.LookDev;
+﻿using System.Linq;
+using UnityEditor.Rendering.LookDev;
 using Zenject;
-
 public interface IPresenterFactory<TPresenter> {
-    TPresenter Create(IView view, IModel model);
+    TPresenter Create(IView view, IModel model, params object[] extraArgs);
 }
 
 public class PresenterPlaceholderFactory<TPresenter> : IPresenterFactory<TPresenter> {
-    private DiContainer _container;
+    private readonly DiContainer _container;
 
     public PresenterPlaceholderFactory(DiContainer container) {
         _container = container;
     }
 
-    public TPresenter Create(IView view, IModel model) {
-        return _container.Instantiate<TPresenter>(new object[] { view, model });
+    public TPresenter Create(IView view, IModel model, params object[] extraArgs) {
+        // об'єднуємо базові аргументи з додатковими
+        var args = new object[] { view, model }
+            .Concat(extraArgs)
+            .ToArray();
+
+        return _container.Instantiate<TPresenter>(args);
     }
 }
 

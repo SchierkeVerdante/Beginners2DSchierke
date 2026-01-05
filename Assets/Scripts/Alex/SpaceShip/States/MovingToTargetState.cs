@@ -10,6 +10,7 @@ public class MovingToTargetState : State<Spaceship2D> {
     public override void Update() {
         if (Context.HasReachedTarget()) {
             Context.Stop();
+            Context.doOnTargetReached?.Invoke();
             return;
         }
 

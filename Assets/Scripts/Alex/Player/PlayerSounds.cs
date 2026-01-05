@@ -43,8 +43,11 @@ public class PlayerSounds : MonoBehaviour {
 
     [SerializeField] private LoopingSound minigun = new LoopingSound();
 
+    [SerializeField] private bool enableStartTest = false;
     private void Start() {
         InitializeLoopSounds();
+
+        if (enableStartTest)
         TestMovementSound();
     }
 

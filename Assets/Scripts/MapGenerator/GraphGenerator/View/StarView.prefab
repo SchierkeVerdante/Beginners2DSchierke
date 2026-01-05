@@ -431,6 +431,20 @@ MonoBehaviour:
   text: {fileID: 170229987803326518}
   lineMaterial: {fileID: 2100000, guid: 3410314087c1fb74f909edb69c771a63, type: 2}
   lineWidth: 0.05
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  lockedTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unlockedTint: {r: 0.4809096, g: 0.9528302, b: 0.51894504, a: 1}
+  visitedTint: {r: 1, g: 1, b: 1, a: 0.44705883}
+  currentTint: {r: 0.9569671, g: 1, b: 0, a: 1}
+  selectedTint: {r: 0, g: 0.65331364, b: 1, a: 1}
+  hoveredTint: {r: 1, g: 0.9899501, b: 0.033018887, a: 1}
+  lockedWeight: 0.5
+  unlockedWeight: 0.83
+  visitedWeight: 1
+  currentWeight: 1
+  selectedWeight: 1
+  hoveredWeight: 0.5
+  spriteRenderer: {fileID: 4642061668203219076}
 --- !u!61 &7435930692125567350
 BoxCollider2D:
   m_ObjectHideFlags: 0

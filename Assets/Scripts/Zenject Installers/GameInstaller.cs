@@ -58,6 +58,7 @@ public class GameInstaller : MonoInstaller {
         Container.Bind<IDataRuntimeFactory>().To<DataRuntimeFactory>().AsSingle();
         Container.Bind(typeof(IPresenterFactory<>)).To(typeof(PresenterPlaceholderFactory<>)).AsTransient();
 
+        
     }
 
 

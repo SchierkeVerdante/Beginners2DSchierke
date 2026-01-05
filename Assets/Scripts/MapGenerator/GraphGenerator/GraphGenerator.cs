@@ -24,7 +24,7 @@ public class GraphGenerator {
 
         pipeline.Execute(context);
 
-        Debug.Log($"Generated graph {context.Graph}");
+        //Debug.Log($"Generated graph {context.Graph}");
 
         return context.Graph;
     }

@@ -7,28 +7,36 @@ using System.Collections.Generic;
 
 public class MapController : MonoBehaviour
 {
-    [SerializeField] StarMapGenerator generator;
     [SerializeField] Button startButton;
-    [SerializeField] StarNavigationVisual starNavigation;
 
+    [SerializeField] StarMapGenerator generator;
     [SerializeField] GraphGenerationConfig graphGenerationData;
-    private GraphGenerator _graphGenerator;
+    [SerializeField] StarNavigationVisual starNavigationVisual;
 
     [Inject] IStarMapService starMapService;
-    [Inject] private IDataRuntimeFactory dataRuntimeFactory;
+    [Inject] IDataRuntimeFactory dataRuntimeFactory;
+    [Inject] IPresenterFactory<NavStarPresenter> presenterFactory;
+    
+
+    private GraphGenerator _graphGenerator;
+    private StarNavigator starNavigation;
 
     private void Awake() {
         _graphGenerator = dataRuntimeFactory.CreateInstance<GraphGenerator>(graphGenerationData);
+        starNavigation = new StarNavigator(starNavigationVisual, presenterFactory, starMapService);
     }
 
     private void Start() {
         if (startButton != null)
             startButton.onClick.AddListener(OnGenerateClicked);
+
     }
 
     private void OnGenerateClicked() {
         StarMap starMap = CreateStars();
         starMapService.LoadMap(starMap);
+
+        starNavigation.ReloadMap();
     }
 
     private StarMap CreateStars() {
