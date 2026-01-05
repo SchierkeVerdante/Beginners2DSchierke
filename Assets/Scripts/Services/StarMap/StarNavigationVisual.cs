@@ -174,13 +174,11 @@ public class StarNavigator {
         if (!CanTravelTo(targetNavStar)) return false;
 
         NavStar oldStar = _currentNavStar;
-        oldStar?.SetAvailability(false);
-        oldStar?.SetVisited(true);
-        oldStar?.SetCurrent(false);
+        oldStar?.SetState(NavStarState.Visited);
 
         _currentNavStar = targetNavStar;
 
-        _currentNavStar.SetCurrent(true);
+        _currentNavStar.SetState(NavStarState.Current);
 
         UpdateAvailableStars();
         OnCurrentStarChanged?.Invoke(_currentNavStar);
@@ -190,8 +188,10 @@ public class StarNavigator {
     }
 
     public bool CanTravelTo(NavStar targetNavStar) {
-        if (_currentNavStar == null && targetNavStar != null) return true;
         if (targetNavStar == null) return false;
+
+        if (_currentNavStar == null && targetNavStar != null) return true;
+        
         if (targetNavStar == _currentNavStar) return false;
 
         bool isConnected = _currentNavStar.AreConnectedTo(targetNavStar.StarCoord);
@@ -204,14 +204,15 @@ public class StarNavigator {
 
         _selectedNavStar?.SetSelected(false);
         _selectedNavStar = navStar;
-        _selectedNavStar.SetSelected(true);
+        _selectedNavStar?.SetSelected(true);
         
     }
 
     private void UpdateAvailableStars() {
         if (!_availableStars.IsEmpty()) {
             foreach (var star in _availableStars) {
-                star.SetAvailability(false);
+                if (star != _currentNavStar)
+                star.SetState(NavStarState.Locked);
             }
             _availableStars.Clear();
         }
@@ -221,7 +222,7 @@ public class StarNavigator {
         List<NavStar> availableStars = GetNavStarsAt(_currentNavStar.GetNextConnections());
 
         foreach (var navStar in availableStars) {
-            navStar?.SetAvailability(true);
+            navStar.SetState(NavStarState.Available);
             _availableStars.Add(navStar);
         }
     }
