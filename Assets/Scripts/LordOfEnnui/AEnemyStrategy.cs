@@ -15,7 +15,7 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
     protected GameObject facingArrow;
 
     [SerializeField]
-    public float facingAngle;
+    public float facingAngle, speed;
 
     [SerializeField]
     protected float idealDistanceFromTarget;
@@ -23,9 +23,13 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
     [SerializeField]
     public bool turnCharacter = true;
 
+    [SerializeField]
+    LevelState lState;
+
     protected virtual void Awake() {
         if (target == null) target = LDirectory2D.Instance.player;
         if (facingArrow != null) facingAngle = facingArrow.transform.rotation.eulerAngles.z;
+        lState = LDirectory2D.Instance.lState;
     }
 
     public override Vector3 AimDirection() {
@@ -50,12 +54,14 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
         return facingAngle;
     }
 
-    public void SetFacing(float facingAngle) {
+    public void SetFacingAndSpeed(float facingAngle, float speed) {
         this.facingAngle = facingAngle;
+        this.speed = speed;
         if (facingArrow != null) facingArrow.transform.eulerAngles = new Vector3(0, 0, facingAngle);
     }
 
     public override void OnFire() {
+        lState.onEnemyFire.Invoke(transform);
     }
 
     public override Vector3 TargetLocation() {

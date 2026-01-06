@@ -20,6 +20,7 @@ public class Trigger2D : MonoBehaviour
         if (collision.gameObject.layer == Layers.Player && triggerActive) {
             playerInside = true;
             triggerEvent.Invoke(collision.gameObject, playerInside);
+            UpdateColor();
         }
     }
 
@@ -27,13 +28,18 @@ public class Trigger2D : MonoBehaviour
         if (collision.gameObject.layer == Layers.Player && triggerActive) {
             playerInside = false;
             triggerEvent.Invoke(collision.gameObject, playerInside);
+            UpdateColor();
         }
     }
 
     public void SetActive(bool active) {
         triggerActive = active;
-        if (spriteRenderer != null) spriteRenderer.color = triggerActive ? playerInside ? Color.blue : Color.green : Color.red;
+        UpdateColor();
         OnValidate();
+    }
+
+    private void UpdateColor() {
+        if (spriteRenderer != null) spriteRenderer.color = triggerActive ? playerInside ? Color.blue : Color.green : Color.red;
     }
 
     private void OnValidate() {

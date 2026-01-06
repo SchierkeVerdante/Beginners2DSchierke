@@ -17,11 +17,11 @@ public class GameManager2D : MonoBehaviour
         if (levelExitTrigger != null) levelExitTrigger.triggerEvent.AddListener(OnLevelComplete);
         pState = LDirectory2D.Instance.pState;
         pState.onDeath.AddListener(OnDeath);
+        pState.onSufficientOil.AddListener(SetLevelTriggerState);
     }
 
-    void Update()
-    {
-        if (levelExitTrigger != null) levelExitTrigger.SetActive(pState.currentOil >= pState.requiredOil);
+    private void SetLevelTriggerState() {
+        if (levelExitTrigger != null) levelExitTrigger.SetActive(true);
     }
 
     public void OnLevelComplete(GameObject player, bool entered) {

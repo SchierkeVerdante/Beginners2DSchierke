@@ -6,6 +6,13 @@ public class EnemyCollision2D : ACharacterCollision2D
     [SerializeField]
     protected int maxHealth = 5, currentHealth = 4;
 
+    [SerializeField]
+    LevelState lState;
+
+    private void Awake() {
+        lState = LDirectory2D.Instance.lState;
+    }
+
     protected override bool OnCollsionIsDamaged(GameObject other) {
         return other.layer == Layers.PlayerAbility;
     }
@@ -15,6 +22,7 @@ public class EnemyCollision2D : ACharacterCollision2D
         currentHealth = currentHealth > maxHealth ? maxHealth : currentHealth;
         currentHealth -= damage;
         damageParticles.transform.localEulerAngles = new Vector3(0, 0, (transform.position - other.transform.position).Get2DAngle());
+        lState.EnemyHit(transform);
         StartCoroutine(DamageFlash());
         HandleDamageParticles();
         if (currentHealth < 0) {

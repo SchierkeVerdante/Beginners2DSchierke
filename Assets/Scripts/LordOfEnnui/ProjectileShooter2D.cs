@@ -31,6 +31,9 @@ public class ProjectileShooter2D : MonoBehaviour
     [SerializeField]
     float highVelolcityFudge = 5f;
 
+    [SerializeField]
+    float verticalOffset = 0f;
+
     [Header("ReadOnly")]
     [SerializeField]
     float timeToBullet;
@@ -75,7 +78,7 @@ public class ProjectileShooter2D : MonoBehaviour
             }
 
             Vector3 recoilDirection = Vector3.zero;
-            Vector3 startPosition = transform.position + highVelolcityFudge * Time.fixedDeltaTime * (Vector3) rb.linearVelocity;
+            Vector3 startPosition = transform.position + new Vector3(0, verticalOffset, 0) + highVelolcityFudge * Time.fixedDeltaTime * (Vector3) rb.linearVelocity;
             float targetAngle = (shootStrat.TargetLocation() - startPosition).Get2DAngle();
             foreach (float fireStreamOffset in fireStreams) {
                 Vector3 spreadDirection = Quaternion.AngleAxis(Random.Range(-shootParams.fireSpread, shootParams.fireSpread) + targetAngle + fireStreamOffset, transform.forward) * transform.right;

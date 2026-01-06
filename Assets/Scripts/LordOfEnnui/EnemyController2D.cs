@@ -33,7 +33,7 @@ public class EnemyController2D : MonoBehaviour {
             Vector3 aimDirection = moveStrat.AimDirection();
             float targetAngle = (360 + Mathf.Sign(aimDirection.y) * Mathf.Acos(Vector3.Dot(transform.right, aimDirection)) * Mathf.Rad2Deg) % 360;
             trueFacingAngle = Mathf.MoveTowardsAngle(trueFacingAngle, targetAngle, turnSpeed * Time.deltaTime * 60f);
-            moveStrat.SetFacing(Mathf.Round(trueFacingAngle / (int) facingType) * (int) facingType);
+            moveStrat.SetFacingAndSpeed(Mathf.Round(trueFacingAngle / (int) facingType) * (int) facingType, targetVelocity.magnitude);
         }
     }
 

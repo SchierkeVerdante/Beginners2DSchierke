@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public static class Layers {
+    public static int DashableObstacle = LayerMask.NameToLayer("DashableObstacle");
     public static int Enemy = LayerMask.NameToLayer("Enemy");
     public static int EnemyAbility = LayerMask.NameToLayer("EnemyAbility");
     public static int Player = LayerMask.NameToLayer("Player");
@@ -9,6 +10,7 @@ public static class Layers {
 
     public static LayerMask EnemyMask = GetMask(Enemy);
     public static LayerMask EnemyAbilityMask = GetMask(EnemyAbility);
+    public static LayerMask DashableObstacleMask = GetMask(DashableObstacle);
 
     public static LayerMask GetInvMask(InvulnerabilityType type) {
         switch (type) {
@@ -19,7 +21,7 @@ public static class Layers {
             case InvulnerabilityType.EnemyAbility:
                 return EnemyAbilityMask;
             case InvulnerabilityType.All:
-                return EnemyAbilityMask | EnemyMask;
+                return EnemyAbilityMask | EnemyMask | DashableObstacleMask;
             default:
                 return 0;
         }

@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LordOfEnnui/Prototype 2D.unity
     guid: e8870e823470bf746881bf323c8a86e7
+  - enabled: 1
+    path: Assets/Scenes/LordOfEnnui/Level_1.unity
+    guid: 466f4611cbf6e2f479069cd5dbd88c14
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 50c86100d5266c047b63425b10fd49dc, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

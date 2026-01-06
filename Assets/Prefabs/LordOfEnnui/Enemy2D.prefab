@@ -270,8 +270,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   spriteRenderer: {fileID: 0}
   damageParticles: {fileID: 7038712518958855077}
-  maxHealth: 50
-  currentHealth: 50
+  maxHealth: 5
+  currentHealth: 5
 --- !u!1 &5446497294059313999
 GameObject:
   m_ObjectHideFlags: 0

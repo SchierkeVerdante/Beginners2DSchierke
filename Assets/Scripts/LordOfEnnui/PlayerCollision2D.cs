@@ -69,7 +69,7 @@ public class PlayerCollision2D : ACharacterCollision2D
             invMask = Layers.GetInvMask(pState.netMod.dashDamage.invulnerabilityType);
             StartCoroutine(DashHitBox(duration));
         }
-        StartCoroutine(Invincibility(duration, invMask, false)); 
+        StartCoroutine(Invincibility(duration, invMask | Layers.DashableObstacleMask, false)); 
     }
 
     private IEnumerator DashHitBox(float duration) {

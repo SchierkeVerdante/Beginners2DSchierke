@@ -17,5 +17,6 @@ public abstract class ABullet2D : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) {
         Destroy(gameObject);
+        LDirectory2D.Instance.lState.onBulletHit.Invoke();
     }
 }

@@ -16,7 +16,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - DashableObstacle
   - Player
   - PlayerAbility
   - Enemy
@@ -48,6 +48,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1569564547
+    locked: 0
+  - name: Levitating
+    uniqueID: 3434617833
     locked: 0
   m_RenderingLayers:
   - Default

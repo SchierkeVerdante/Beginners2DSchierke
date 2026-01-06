@@ -7,6 +7,9 @@ public class AudioManager2D : MonoBehaviour {
 
     [SerializeField]
     PlayerState pState;
+
+    [SerializeField]
+    LevelState lState;
     
     [Header("One-Shot Events")]
     [SerializeField] private EventReference swordHit;
@@ -46,6 +49,7 @@ public class AudioManager2D : MonoBehaviour {
 
     private void Start() {
         pState = LDirectory2D.Instance.pState;
+        lState = LDirectory2D.Instance.lState;
         InitializeLoopSounds();
 
         pState.onDamage.AddListener(PlayTakeDamage);
@@ -54,6 +58,10 @@ public class AudioManager2D : MonoBehaviour {
         pState.onFire.AddListener(PlayShooting);
         pState.onModulePickup.AddListener(mod => PlayFoundModule());
         pState.onOilPickup.AddListener(oil => PlayPickUp());
+        pState.onSufficientOil.AddListener(PlayFullOil);
+
+        lState.onEnemyHit.AddListener(transform => PlayGunHit());
+        lState.onEnemyFire.AddListener(transform => PlayShotgunAttack());
         MoveMusic().Forget();
     }
 

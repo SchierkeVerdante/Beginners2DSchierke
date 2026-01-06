@@ -26,7 +26,7 @@ public abstract class ACharacterCollision2D : MonoBehaviour {
 
     protected virtual void Start() {
         rb = GetComponent<Rigidbody2D>();
-        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision) {
