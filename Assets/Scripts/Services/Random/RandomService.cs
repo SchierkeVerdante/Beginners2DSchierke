@@ -6,9 +6,12 @@ public class RandomService : IRandomService {
     private readonly object _lock = new object();
     private bool _disposed;
 
+    public int Seed { get; }
+
     public RandomService(RandomServiceSettings settings) {
         _random = new Random(settings.Seed);
         UnityEngine.Random.InitState(settings.Seed);
+        Seed = settings.Seed;
     }
 
     public int Next(int minValue, int maxValue) {

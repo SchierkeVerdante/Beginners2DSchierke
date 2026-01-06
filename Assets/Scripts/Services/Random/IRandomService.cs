@@ -1,4 +1,6 @@
 ﻿public interface IRandomService {
+    int Seed { get; }
+
     int Next();
     int Next(int maxValue);
     int Next(int minValue, int maxValue);
