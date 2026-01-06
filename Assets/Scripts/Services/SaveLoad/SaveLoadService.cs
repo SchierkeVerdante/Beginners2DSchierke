@@ -1,55 +1,55 @@
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class SaveLoadService : ISaveLoadService {
-    private readonly IDataSerializer _serializer;
-    private readonly ISaveStorage _storage;
-    private readonly List<(string key, Action save, Action load)> _operations = new();
+    private readonly List<IDataLoader> _loaders = new();
+    private readonly List<IDataSaveable> _saveables = new();
 
-    public SaveLoadService(IDataSerializer serializer, ISaveStorage storage) {
-        _serializer = serializer;
-        _storage = storage;
+    public SaveLoadService(IEnumerable<IDataLoader> loaders, IEnumerable<IDataSaveable> saveables) {
+        _loaders = loaders.ToList();
+        _saveables = saveables.ToList();
     }
 
-    public void Register<T>(ISaveable<T> saveable) {
-        Action saveAction = () => {
+    public void RegisterReceiver(IDataLoader receiver) {
+        if (!_loaders.Contains(receiver)) {
+            _loaders.Add(receiver);
+        }
+    }
+
+    public void RegisterSubmitter(IDataSaveable submitter) {
+        if (!_saveables.Contains(submitter)) {
+            _saveables.Add(submitter);
+        }
+    }
+    
+    public void LoadAll() {
+        int succeeded = 0;
+        foreach (var loader in _loaders) {
             try {
-                T state = saveable.CaptureState();
-                string json = _serializer.Serialize(state);
-                _storage.Save(saveable.SaveKey, json);
+                loader.Load();
+                succeeded++;
             } catch (Exception ex) {
-                Debug.LogError($"Save failed for '{saveable.SaveKey}': {ex}");
+                Debug.LogError($"Failed to load data for key '{loader}': {ex.Message}");
             }
-        };
-
-        Action loadAction = () => {
-            try {
-                if (!_storage.HasKey(saveable.SaveKey)) return;
-
-                string json = _storage.Load(saveable.SaveKey);
-                T state = _serializer.Deserialize<T>(json);
-                saveable.ApplyState(state);
-            } catch (Exception ex) {
-                Debug.LogError($"Load failed for '{saveable.SaveKey}': {ex}");
-            }
-        };
-
-        _operations.Add((saveable.SaveKey, saveAction, loadAction));
+        }
+        Debug.Log($"Loaded {succeeded} resources");
     }
 
     public void SaveAll() {
-        foreach (var (key, save, _) in _operations)
-            save();
-
-        _storage.Commit();
-        Debug.Log($"Saved {_operations.Count} items");
-    }
-
-    public void LoadAll() {
-        foreach (var (key, _, load) in _operations)
-            load();
-
-        Debug.Log($"Loaded {_operations.Count} items");
+        int succeeded = 0;
+        foreach (var saveable in _saveables) {
+            try {
+                saveable.Save();
+                succeeded++;
+            } catch (Exception ex) {
+                Debug.LogError($"Failed to save data for '{saveable}': {ex.Message}");
+            }
+        }
+        Debug.Log($"Saved {succeeded} resources");
     }
 }

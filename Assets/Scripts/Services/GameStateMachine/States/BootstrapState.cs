@@ -1,5 +1,6 @@
 using System;
 using Tymski;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BootstrapState : State<GameManager> {
@@ -12,6 +13,7 @@ public class BootstrapState : State<GameManager> {
     }
 
     public override void Enter() {
+        Application.targetFrameRate = 60; 
         _saveLoadService.LoadAll();
 
 

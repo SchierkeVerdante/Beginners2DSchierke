@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -21,6 +23,7 @@ public class StarMapController : MonoBehaviour {
 
     private StarMap _starMap;
     private IStarNavigationService _navigation;
+    [Inject] StarNamerService starDataService;
 
     private void Start() {
         BindButtons();
@@ -54,9 +57,13 @@ public class StarMapController : MonoBehaviour {
 
         var map = new StarMap(graph.Seed);
 
-        foreach (var layer in graph.Layers) {
-            foreach (var node in layer) {
-                var star = new Star(node.layer, node.layerIndex);
+        for (int i = 0; i < graph.Layers.Count; i++) {
+            var layer = graph.Layers[i];
+
+            for (int j = 0; j < layer.Count; j++) {
+                var node = layer[j];
+
+                var star = new Star(node.layer, node.layerIndex, starDataService.GetUniqueName());
                 map.AddStar(star);
 
                 foreach (var connection in node.GetAllConnections()) {
@@ -106,7 +113,6 @@ public class StarMapController : MonoBehaviour {
             }
         }
 
-        // Підсвічуємо нову вибрану зірку
         if (_visualizer.TryGetView(star.Coord, out var newView)) {
             newView.SetSelected(true);
         }

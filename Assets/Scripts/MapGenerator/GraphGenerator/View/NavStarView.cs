@@ -129,17 +129,17 @@ public class Star {
     public LayerCoord Coord { get; }
 
     private readonly HashSet<LayerCoord> _connections = new();
-    public string Name { get; }
+    public string Name { get; set; }
 
     public IReadOnlyCollection<LayerCoord> Connections => _connections;
 
     public ReactiveProperty<StarState> State { get; }
 
-    public Star(int layer, int index) {
+    public Star(int layer, int index, string name = "Unknown") {
         Id = Guid.NewGuid();
         Coord = new LayerCoord(layer, index);
         State = new ReactiveProperty<StarState>(StarState.Locked);
-        Name = "Unknown";
+        Name = name;
     }
 
     public void ConnectTo(LayerCoord coord) => _connections.Add(coord);
@@ -148,6 +148,6 @@ public class Star {
     public IEnumerable<LayerCoord> GetForwardConnections() =>
         _connections.Where(c => c.Layer > Coord.Layer);
 
-    public override string ToString() => $"Star {Coord}";
+    public override string ToString() => $"{Name} {Coord}";
 }
 

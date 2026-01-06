@@ -1,12 +1,36 @@
-public class AudioSystem : SaveableSystem<AudioSettings> {
-    private readonly IAudioService _audioService;
-    public override string SaveKey => "audio_settings";
+using Mono.Cecil;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
-    public AudioSystem(IAudioService audioService, ISaveLoadService saveLoadService) : base(saveLoadService) {
+public class AudioSystem : IDataLoader, IDataSaveable {
+    private readonly IAudioService _audioService;
+    private readonly IDataRepository<AudioSettings> _dataRepository;
+
+    public AudioSystem(IAudioService audioService, IDataRepository<AudioSettings> dataRepository) {
         _audioService = audioService;
+        _dataRepository = dataRepository;
+    }
+    public void Load() {
+        AudioSettings audioSettings = _dataRepository.Load();
+        if (audioSettings == null) {
+            audioSettings = new AudioSettings();
+        }
+        ApplyAudioData(audioSettings);
     }
 
-    public override AudioSettings CaptureState() {
+    public void Save() {
+        AudioSettings audioSettings = CollectAudioData();
+        _dataRepository.Save(audioSettings);
+    }
+
+    private void ApplyAudioData(AudioSettings data) {
+        foreach (var channel in data.channels) {
+            _audioService.SetVolume(channel.ChannelType, channel.Volume);
+        }
+    }
+
+    private AudioSettings CollectAudioData() {
         var settings = new AudioSettings();
         foreach (var channelType in _audioService.GetSupportedChannelsTypes()) {
             settings.channels.Add(new AudioChannel {
@@ -16,10 +40,18 @@ public class AudioSystem : SaveableSystem<AudioSettings> {
         }
         return settings;
     }
-
-    public override void ApplyState(AudioSettings state) {
-        foreach (var channel in state.channels) {
-            _audioService.SetVolume(channel.ChannelType, channel.Volume);
-        }
-    }
 }
+
+[Serializable]
+[DataSource(DataSourceType.PlayerPrefs, "star_names")]
+public class AudioSettings {
+    public List<AudioChannel> channels = new();
+}
+
+[Serializable]
+public class AudioChannel {
+    public string name;
+    public AudioChannelType ChannelType;
+    public float Volume;
+}
+
