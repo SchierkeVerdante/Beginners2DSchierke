@@ -1,13 +1,17 @@
+using System;
 using UnityEngine.Audio;
 
 public interface IStarMapGenerator {
     StarMap GenerateNewMap(StarMapGenerationConfig _config);
 }
 
-public class StarMapGenerator : IStarMapGenerator {
+public class StarMapGenerator : IStarMapGenerator, IDataLoader {
     private readonly IDataRuntimeFactory _dataFactory;
     private readonly StarNamerService _starNamer;
     private readonly GraphGenerator graphGenerator;
+    
+    private readonly IDataRepository<PlanetsData> planetsRepo;
+    private PlanetsData planetsData;
 
     public StarMapGenerator(
         IDataRuntimeFactory dataFactory,
@@ -22,6 +26,10 @@ public class StarMapGenerator : IStarMapGenerator {
         StarMap starMap = CreateFromGraph(_config);
         PopulatePlanetData(starMap);
         return starMap;
+    }
+
+    public void Load() {
+        planetsData = planetsRepo.Load();
     }
 
     private StarMap CreateFromGraph(StarMapGenerationConfig _config) {
@@ -47,7 +55,8 @@ public class StarMapGenerator : IStarMapGenerator {
 
     private void PopulatePlanetData(StarMap starMap) {
         int seed = starMap.Seed.GetHashCode();
-        
+        Random random = new Random(seed);
+
         foreach (Star star in starMap.Stars.Values) {
             PlanetConfig planetConfig = new PlanetConfig();
             planetConfig.seed = seed;

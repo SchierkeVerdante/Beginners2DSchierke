@@ -10,7 +10,10 @@ public class PlanetGenerator : MonoBehaviour {
     [SerializeField] private PlanetsData _planetsData;
     private Pipeline<PlanetGenContext> planetGenPipeline;
     [Inject] IDataRuntimeFactory _runtimeFactory;
-    [SerializeField] private Tilemap _terrainTilemap;
+
+    [SerializeField] private WorldTilemapGrid _terrainGridPrefab;
+
+    private readonly IStarNavigationService _starNavigationService;
 
     private void Start() {
         PlanetConfig planetGenData = new();
@@ -27,9 +30,16 @@ public class PlanetGenerator : MonoBehaviour {
 
     public void GeneratePlanet(PlanetConfig planetGenConfig) {
         Debug.Log($"Generating {planetGenConfig.BiomeLabel} biome label");
+        if (_terrainGridPrefab == null) {
+            Debug.LogWarning("TilemapPrefab not assigned");
+            return;
+        }
+
+        WorldTilemapGrid worldTilemapGrid = Instantiate(_terrainGridPrefab, Vector3.zero, Quaternion.identity);
+        Tilemap tilemap = worldTilemapGrid.tilemap;
 
         BiomeData choosendBiome = DefineBiomeData(planetGenConfig);
-        PlanetGenContext planetGen = new(_planetsData, planetGenConfig, choosendBiome, _terrainTilemap);
+        PlanetGenContext planetGen = new(_planetsData, planetGenConfig, choosendBiome, tilemap);
         planetGenPipeline.Execute(planetGen);
     }
 

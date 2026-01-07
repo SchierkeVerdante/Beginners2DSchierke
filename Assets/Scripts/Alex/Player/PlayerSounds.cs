@@ -9,10 +9,10 @@ public class PlayerSounds : EntitySounds {
     PlayerSoundProfile playerSoundProfile;
 
     [Header("Player Looped Sounds")]
-    [SerializeField] private LoopingSound shieldSound = new LoopingSound();
+     private LoopingSound shieldSound = new LoopingSound();
     private const string ShieldStrengthParamName = "Strength";
 
-    [SerializeField] private LoopingSound minigunSound = new LoopingSound();
+    private LoopingSound minigunSound = new LoopingSound();
 
     protected override void Start() {
         if (soundProfile is PlayerSoundProfile playerProfile) {
