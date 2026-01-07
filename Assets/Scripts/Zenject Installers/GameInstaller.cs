@@ -11,13 +11,16 @@ public class GameInstaller : MonoInstaller {
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private GameController gameController;
 
-    
+    [SerializeField] PlanetGenerator _planetGenPrefab;
+
     public override void InstallBindings() {
         Container.Bind<IGameManager>()
         .To<GameManager>()
         .FromComponentInNewPrefab(_gameBootstrapper)
         .AsSingle()
         .NonLazy();
+
+        Container.BindInterfacesAndSelfTo<PlanetGenerator>().FromComponentInNewPrefab(_planetGenPrefab).AsSingle().NonLazy();
 
         Container.BindInterfacesAndSelfTo<UIManager>()
             .FromComponentInNewPrefab(_uiManager)

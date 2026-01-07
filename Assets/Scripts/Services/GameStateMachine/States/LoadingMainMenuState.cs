@@ -56,9 +56,13 @@ public class LoadingTerrainState : State<GameManager> {
     private readonly ISceneLoader _sceneLoader;
     private readonly ILoadingScreenService _loadingScreenService;
     private readonly ISceneDataService _sceneData;
-    public LoadingTerrainState(ISceneLoader sceneLoader, ISceneDataService sceneData) {
+    private readonly IStarNavigationService _starNavigationService;
+    private readonly PlanetGenerator planetGenerator;
+    public LoadingTerrainState(ISceneLoader sceneLoader, ISceneDataService sceneData, IStarNavigationService starNavigationService, PlanetGenerator planetGenerator) {
         _sceneLoader = sceneLoader;
         _sceneData = sceneData;
+        _starNavigationService = starNavigationService;
+        this.planetGenerator = planetGenerator;
     }
     public override void Enter() {
         LoadScene().Forget();
@@ -66,6 +70,8 @@ public class LoadingTerrainState : State<GameManager> {
 
     private async UniTaskVoid LoadScene() {
         await _sceneLoader.LoadAsync(_sceneData.GetTerrainSceneName());
+        Star currentStar = _starNavigationService.CurrentStar;
+        planetGenerator.GeneratePlanet(currentStar.PlanetConfig);
         Context.StateMachine.ChangeState<GameLoopState>();
     }
 

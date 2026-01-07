@@ -19,7 +19,9 @@ public class StarMapGenerator : IStarMapGenerator {
     }
 
     public StarMap GenerateNewMap(StarMapGenerationConfig _config) {
-        return CreateFromGraph(_config);
+        StarMap starMap = CreateFromGraph(_config);
+        PopulatePlanetData(starMap);
+        return starMap;
     }
 
     private StarMap CreateFromGraph(StarMapGenerationConfig _config) {
@@ -28,7 +30,10 @@ public class StarMapGenerator : IStarMapGenerator {
 
         foreach (var layer in graph.Layers) {
             foreach (var node in layer) {
-                var star = new Star(node.layer, node.layerIndex, _starNamer.GetUniqueName());
+
+                string starName = _starNamer.GetUniqueName();
+
+                var star = new Star(node.layer, node.layerIndex, starName);
                 map.AddStar(star);
 
                 foreach (var connection in node.GetAllConnections()) {
@@ -38,5 +43,17 @@ public class StarMapGenerator : IStarMapGenerator {
         }
 
         return map;
+    }
+
+    private void PopulatePlanetData(StarMap starMap) {
+        int seed = starMap.Seed.GetHashCode();
+        
+        foreach (Star star in starMap.Stars.Values) {
+            PlanetConfig planetConfig = new PlanetConfig();
+            planetConfig.seed = seed;
+            planetConfig.BiomeLabel = "desert";
+
+            star.SetPlanetData(planetConfig);
+        }
     }
 }

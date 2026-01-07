@@ -9,6 +9,8 @@ public class Star {
     private readonly HashSet<LayerCoord> _connections = new();
     public string Name { get; set; }
 
+    public PlanetConfig PlanetConfig;
+
     public IReadOnlyCollection<LayerCoord> Connections => _connections;
 
     public ReactiveProperty<StarState> State { get; }
@@ -27,5 +29,9 @@ public class Star {
         _connections.Where(c => c.Layer > Coord.Layer);
 
     public override string ToString() => $"{Name} {Coord}";
+
+    public void SetPlanetData(PlanetConfig planetConfig) {
+        this.PlanetConfig = planetConfig;
+    }
 }
 

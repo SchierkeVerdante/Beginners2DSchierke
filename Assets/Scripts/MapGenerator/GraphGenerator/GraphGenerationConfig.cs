@@ -1,8 +1,7 @@
-﻿// Клас вузла залишаємо майже без змін
-using System;
+﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MapGenerationData", menuName = "StarMap/GraphGenerationData")]
+[CreateAssetMenu(fileName = "MapGenerationData", menuName = "Graph Generation/GraphConfig")]
 public class GraphGenerationConfig : GenericInstanсeConfig<GraphGenerator> {
     public string seedString = "simple_seed";
 

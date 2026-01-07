@@ -81,7 +81,7 @@ MonoBehaviour:
   _randomServiceSettings:
     seedString: I like onions!
   _uiManager: {fileID: 2689825059751701066, guid: 495c270d0171ddf438db734788f88f91, type: 3}
-  _audioConfig: {fileID: 11400000, guid: a9522949ec7849748bff26396dbb94fc, type: 2}
+  _planetGenPrefab: {fileID: 7814673816139290924, guid: 6d152de755760a54396f2a194c09f2ec, type: 3}
 --- !u!114 &4837949137049871013
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -172,7 +172,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2, y: 158}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 260, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8859173521715663483
 CanvasRenderer:
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Info
+  m_text: 'Proxima Centauri '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -229,14 +229,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -292,11 +292,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_AnchorMin.x
@@ -304,15 +304,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -512
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -40
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -344,7 +344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 256
+      value: 164
       objectReference: {fileID: 0}
     - target: {fileID: 3074867393219784077, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -386,14 +386,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4134625108328502168, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3096624649345820599}
+      addedObject: {fileID: 2024196979644681480}
   m_SourcePrefab: {fileID: 100100000, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
 --- !u!1 &2321942646365332894 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4134625108328502168, guid: 610c81bfea065b24bbf9a83ed1301dea, type: 3}
   m_PrefabInstance: {fileID: 1826228520384951814}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3096624649345820599
+--- !u!114 &2024196979644681480
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2321942646365332894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 452be7db5ba676a449dfe78a0337a780, type: 3}
+  m_Script: {fileID: 11500000, guid: 139854cd332e1934b92bcb22d7b85628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StarInfoPanel
   canvasGroup: {fileID: 7068931158923522728}

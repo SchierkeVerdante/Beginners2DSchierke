@@ -8,7 +8,7 @@ public interface IPipelineStage<TContext> where TContext : class {
     void Execute(TContext context);
 }
 
-public abstract class Pipeline<TContext> where TContext : class {
+public class Pipeline<TContext> where TContext : class {
     protected List<IPipelineStage<TContext>> stages = new List<IPipelineStage<TContext>>();
 
     public Pipeline<TContext> AddStage(IPipelineStage<TContext> stage) {

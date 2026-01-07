@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7fa0f81a37ae443af37c6a606cb423, type: 3}
+  m_Name: Lava
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeData
+  biomeLabel: lava
+  displayName: Lava
+  tiles:
+  - {fileID: 11400000, guid: 56794b81943b54043b66f4a6188aad89, type: 2}
+  - {fileID: 11400000, guid: 649eda75c88b891438909bfec762e46a, type: 2}
+  - {fileID: 11400000, guid: b91eaf0437886b743a5b2ab2f6b58615, type: 2}
+  - {fileID: 11400000, guid: 5f7e070bd7e53be45bba5eb96756668b, type: 2}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  obstaclePrefabs: []
+  enemyPrefabs: []
+  movementSpeedMultiplier: 1
+  parallaxPrefab: {fileID: 0}

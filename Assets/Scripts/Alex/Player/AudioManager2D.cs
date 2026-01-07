@@ -37,6 +37,14 @@ public class AudioManager2D : MonoBehaviour {
     [SerializeField] private EventReference fullOil;
     [SerializeField] private EventReference foundModule;
 
+    [SerializeField]
+    private EventReference movingSoundRef;
+
+    [SerializeField]
+    private EventReference shieldSoundRef;
+
+    [SerializeField]
+    private EventReference minigunRef;
 
     [Header("Looped Events")]
     [SerializeField] private LoopingSound movingSound = new LoopingSound();
@@ -66,9 +74,9 @@ public class AudioManager2D : MonoBehaviour {
     }
 
     private void InitializeLoopSounds() {
-        movingSound.Initialize(transform);
-        shieldSound.Initialize(transform);
-        minigun.Initialize(transform);
+        movingSound.Initialize(movingSoundRef, transform);
+        shieldSound.Initialize(shieldSoundRef, transform);
+        minigun.Initialize(minigunRef, transform);
     }
 
     #region Movement Sounds

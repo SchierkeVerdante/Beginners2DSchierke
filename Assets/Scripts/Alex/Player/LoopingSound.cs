@@ -3,21 +3,19 @@ using FMODUnity;
 using System;
 using UnityEngine;
 
-[System.Serializable]
 public class LoopingSound {
-    [SerializeField] private EventReference _eventReference;
-    [SerializeField] private Transform _attachTransform;
+    private Transform _attachTransform;
+    private EventReference _eventReference;
 
     private EventInstance _instance;
     private bool _isInitialized;
 
     public bool IsValid => _isInitialized && _instance.isValid();
 
-    public void Initialize(Transform attachTransform = null) {
-        if (_eventReference.IsNull || _isInitialized)
-            return;
-
+    public void Initialize(EventReference eventReference, Transform attachTransform = null) {
+        _eventReference = eventReference;
         _attachTransform = attachTransform;
+
         _instance = RuntimeManager.CreateInstance(_eventReference);
 
         if (_attachTransform != null) {

@@ -105,6 +105,7 @@ MonoBehaviour:
   pState: {fileID: 0}
   screenShaker: {fileID: 0}
   damageShake: {fileID: 11400000, guid: 4d171369fad5f9a499c4e80f60a1ee9b, type: 2}
+  fireShake: {fileID: 0}
 --- !u!114 &2431824988463353019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSounds
   pState: {fileID: 0}
+  lState: {fileID: 0}
   swordHit:
     Guid:
       Data1: 655503028
@@ -223,33 +225,27 @@ MonoBehaviour:
       Data3: 2007932546
       Data4: -351504194
     Path: event:/Characters/Player/Inventory/FoundModule
-  movingSound:
-    _eventReference:
-      Guid:
-        Data1: -1544703322
-        Data2: 1243344675
-        Data3: 88062883
-        Data4: 1250406548
-      Path: event:/Characters/Player/Movement/Moving
-    _attachTransform: {fileID: 0}
-  shieldSound:
-    _eventReference:
-      Guid:
-        Data1: 1012448806
-        Data2: 1102008287
-        Data3: -2037447003
-        Data4: 1341653319
-      Path: event:/Characters/Player/Shield
-    _attachTransform: {fileID: 0}
-  minigun:
-    _eventReference:
-      Guid:
-        Data1: -1101523284
-        Data2: 1268678913
-        Data3: -1163894356
-        Data4: 432043297
-      Path: event:/Weapons/MachineGun
-    _attachTransform: {fileID: 0}
+  movingSoundRef:
+    Guid:
+      Data1: -1544703322
+      Data2: 1243344675
+      Data3: 88062883
+      Data4: 1250406548
+    Path: event:/Characters/Player/Movement/Moving
+  shieldSoundRef:
+    Guid:
+      Data1: 1012448806
+      Data2: 1102008287
+      Data3: -2037447003
+      Data4: 1341653319
+    Path: event:/Characters/Player/Shield
+  minigunRef:
+    Guid:
+      Data1: -1101523284
+      Data2: 1268678913
+      Data3: -1163894356
+      Data4: 432043297
+    Path: event:/Weapons/MachineGun
 --- !u!1 &6705291901641519162
 GameObject:
   m_ObjectHideFlags: 0

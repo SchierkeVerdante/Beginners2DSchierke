@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7fa0f81a37ae443af37c6a606cb423, type: 3}
+  m_Name: Icy
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeData
+  biomeLabel: ice
+  displayName: Icy
+  tiles:
+  - {fileID: 11400000, guid: 36cfbb701dd923a439d1d052a0ab5b11, type: 2}
+  - {fileID: 11400000, guid: 2e69191692f95a54d9b761c8965546eb, type: 2}
+  - {fileID: 11400000, guid: f572c81ed30e1f04fba4bcf95cf63e78, type: 2}
+  - {fileID: 11400000, guid: 2320889a60ecacf4bb931ca77d1ebd93, type: 2}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  obstaclePrefabs: []
+  enemyPrefabs: []
+  movementSpeedMultiplier: 1
+  parallaxPrefab: {fileID: 0}
