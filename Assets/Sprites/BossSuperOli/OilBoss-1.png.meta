@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 614d3db3dfcc3484d9658e03a5f88aa7
+guid: c26d883a82bf4f14695e50e0c28c1804
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 595237528762620299
-    second: Boss image_0
+      213: 8868298141998122713
+    second: OilBoss-1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Boss image_0
+      name: OilBoss-1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 514
-        height: 511
+        y: 3
+        width: 128
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b8990e2f065b24800800000000000000
-      internalID: 595237528762620299
+      spriteID: 9d60e048c26821b70800000000000000
+      internalID: 8868298141998122713
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Boss image_0: 595237528762620299
+      OilBoss-1_0: 8868298141998122713
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
