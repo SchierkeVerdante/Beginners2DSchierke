@@ -1,12 +1,12 @@
 using System;
 
 public class LevelProgressService : ILevelProgressService, IDataLoader, IDataSaveable {
-    private LevelProgressData _levelProgress = new() { CurrentLevel = 1, HighestLevelUnlocked = 1 };
+    private PlayerProgressData _levelProgress = new() { CurrentLevel = 1, HighestLevelUnlocked = 1 };
 
     private const string LevelNamePrefix = "Level_";
-    private readonly IDataRepository<LevelProgressData> dataRepository;
+    private readonly IDataRepository<PlayerProgressData> dataRepository;
 
-    public LevelProgressService(IDataRepository<LevelProgressData> dataRepository) {
+    public LevelProgressService(IDataRepository<PlayerProgressData> dataRepository) {
         this.dataRepository = dataRepository;
     }
 
@@ -14,16 +14,16 @@ public class LevelProgressService : ILevelProgressService, IDataLoader, IDataSav
         return LevelNamePrefix + _levelProgress.CurrentLevel;
     }
 
-    public LevelProgressData GetProgress() {
+    public PlayerProgressData GetProgress() {
         return _levelProgress;
     }
 
-    public void SetProgress(LevelProgressData progress) {
+    public void SetProgress(PlayerProgressData progress) {
         _levelProgress = progress;
     }
 
     public void Load() {
-        LevelProgressData levelProgressData = dataRepository.Load();
+        PlayerProgressData levelProgressData = dataRepository.Load();
         SetProgress(levelProgressData);
     }
 
@@ -34,7 +34,7 @@ public class LevelProgressService : ILevelProgressService, IDataLoader, IDataSav
 
 [Serializable]
 [DataSource(DataSourceType.PlayerPrefs, "level_progress")]
-public class LevelProgressData {
+public class PlayerProgressData {
     public int CurrentLevel;
     public int HighestLevelUnlocked;
 }

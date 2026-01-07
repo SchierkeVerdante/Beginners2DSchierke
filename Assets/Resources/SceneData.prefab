@@ -48,3 +48,9 @@ MonoBehaviour:
     mainMenuScene:
       sceneAsset: {fileID: 102900000, guid: 978ccb3c3f925f34382ba0e9f3538503, type: 3}
       scenePath: Assets/Scenes/Alex/Main Menu Test (Alex)).unity
+    terrainScene:
+      sceneAsset: {fileID: 102900000, guid: 0771e6102c1302247828e313785dd436, type: 3}
+      scenePath: Assets/Scenes/Alex/TerrainScene.unity
+    mapScene:
+      sceneAsset: {fileID: 102900000, guid: 06f8eb27d72b2694692dd39b449d47bd, type: 3}
+      scenePath: Assets/Scenes/Alex/MapScene.unity

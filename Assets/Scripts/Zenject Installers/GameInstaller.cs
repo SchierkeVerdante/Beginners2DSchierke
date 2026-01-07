@@ -46,7 +46,8 @@ public class GameInstaller : MonoInstaller {
         Container.Bind<IRandomService>().To<RandomService>().AsSingle().WithArguments(_randomServiceSettings);
         
         Container.Bind<IStarMapService>().To<StarMapService>().AsSingle();
-        Container.Bind<IStarMapGenerationService>().To<StarMapGenerationService>().AsSingle();
+        Container.Bind<IStarMapGenerator>().To<StarMapGenerator>().AsSingle();
+        Container.Bind<IStarNavigationService>().To<StarNavigationService>().AsSingle();
 
         //Systems
 
@@ -54,7 +55,7 @@ public class GameInstaller : MonoInstaller {
         Container.Bind(typeof(IPresenterFactory<>)).To(typeof(PresenterPlaceholderFactory<>)).AsTransient();
 
         InstalRepos();
-
+        
     }
 
     private void StateMachineInstall() {

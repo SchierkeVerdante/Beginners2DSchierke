@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -14,46 +15,46 @@ public class StarMapController : MonoBehaviour {
     [SerializeField] private Button _generateButton;
 
     [Header("Generation")]
-    [SerializeField] private GraphGenerationConfig _generationConfig;
+    [SerializeField] private StarMapGenerationConfig _generationConfig;
 
-    [Inject] private IStarMapGenerationService _generation;
+    [Inject] private IStarMapGenerator _generation;
     [Inject] private IGameManager _gameManager; 
 
-    private IStarNavigationService _navigation;
+    [Inject] private IStarNavigationService _navigation;
     private List<IDisposable> _presenters = new();
 
     private void Start() {
-        InitializeServices();
         InitializePresenters();
+        UpdateNavigation();
         BindUI();
-        GenerateNewMap();
     }
 
-    private void InitializeServices() {
-        _navigation = new StarNavigationService();
+    private void UpdateNavigation() {
+        if (_navigation.HasEmptyMap) {
+            StarMap starMap = _generation.GenerateNewMap(_generationConfig);
+            _navigation.UpdateMap(starMap);
+
+            LayerCoord beginningCoords = starMap.GetBeginningCoords();
+            _navigation.SetCurrentPosition(beginningCoords);
+        } else {
+            _navigation.RefreshMap();
+        }
     }
 
     private void InitializePresenters() {
         _presenters.Add(new NavigationPresenter(_navigation, _infoPanel, _gameManager));
-        _presenters.Add(new StarMapPresenter(_navigation, _visualizer));
-        _presenters.Add(new ShipNavigationPresenter(_spaceship, _navigation, _visualizer));
+        _presenters.Add(new StarMapPresenter(_spaceship, _navigation, _visualizer));
         _presenters.Add(new SelectionPresenter(_navigation, _visualizer));
     }
 
     private void BindUI() {
-        _generateButton?.onClick.AddListener(GenerateNewMap);
+        _generateButton?.onClick.AddListener(UpdateNavigation);
     }
 
-    private void GenerateNewMap() {
-        StarMap starMap = _generation.GenerateNewMap(_generationConfig);
-        _navigation.UpdateMap(starMap);
-        _navigation.SetCurrentPosition(new LayerCoord(0, 0));
-    }
-
+    
     private void OnDestroy() {
-        _generateButton?.onClick.RemoveListener(GenerateNewMap);
+        _generateButton?.onClick.RemoveListener(UpdateNavigation);
 
-        // Cleanup βρ³υ presenters
         foreach (var presenter in _presenters) {
             presenter?.Dispose();
         }
@@ -89,13 +90,12 @@ public class NavigationPresenter : IDisposable {
     }
 
     private void HandleStarSelected(Star star) {
+        _infoPanel.Show();
         UpdateStarInfo(star);
     }
 
     private void HandleCurrentStarChanged(Star star) {
-        if (_navigation.SelectedStar == star) {
-            UpdateStarInfo(star);
-        }
+        UpdateStarInfo(star);
     }
 
     private void HandleTravelRequest() {
@@ -116,7 +116,6 @@ public class NavigationPresenter : IDisposable {
     }
 
     private void UpdateStarInfo(Star star) {
-        _infoPanel.Show();
         _infoPanel.SetStarInfo(star);
 
         var interaction = GetInteractionType(star);
@@ -165,17 +164,30 @@ public class NavigationPresenter : IDisposable {
 public class StarMapPresenter : IDisposable {
     private readonly IStarNavigationService _navigation;
     private readonly StarMapVisualizer _visualizer;
+    private readonly Spaceship2D _spaceship;
 
-    public StarMapPresenter(IStarNavigationService navigation, StarMapVisualizer visualizer) {
+    public StarMapPresenter(Spaceship2D spaceship, IStarNavigationService navigation, StarMapVisualizer visualizer) {
         _navigation = navigation;
         _visualizer = visualizer;
+        _spaceship = spaceship;
 
-        _navigation.OnMapUpdated += HandleMapUpdate;
+        _navigation.OnMapUpdated += RebuildMapVisuals;
+        _navigation.OnCurrentStarChanged += HandleStarChanged;
+
+        HandleStarChanged(_navigation.CurrentStar);
     }
 
-    private void HandleMapUpdate(StarMap map) {
+    private void RebuildMapVisuals(StarMap map) {
         CleanCurrentVisuals();
         BuildVisualization(map);
+
+        Star currentStar = _navigation.CurrentStar;
+        if (currentStar == null) return;
+        if (_visualizer.TryGetView(currentStar.Coord, out var view)) {
+            Vector3 gloablPosition = view.transform.position;
+            _spaceship.transform.position = gloablPosition;
+        }
+        
     }
 
     private void BuildVisualization(StarMap map) {
@@ -193,14 +205,26 @@ public class StarMapPresenter : IDisposable {
             }
         }
     }
+    private void HandleStarClicked(Star star) {
+        _navigation.SelectStar(star);
+    }
 
     private void CleanCurrentVisuals() {
         UnsubscribeViews();
         _visualizer.Clear();
     }
 
-    private void HandleStarClicked(Star star) {
-        _navigation.SelectStar(star);
+    private void HandleStarChanged(Star star) {
+        MoveSpaceshipToStar(star);
+    }
+
+    private void MoveSpaceshipToStar(Star star) {
+        if (star == null) return;
+
+        if (_spaceship == null || !_visualizer.TryGetView(star.Coord, out var view))
+            return;
+
+        _spaceship.SetTarget(view.transform.position, () => _spaceship.StartOrbit());
     }
 
     private void UnsubscribeViews() {
@@ -211,39 +235,8 @@ public class StarMapPresenter : IDisposable {
     }
 
     public void Dispose() {
-        _navigation.OnMapUpdated -= HandleMapUpdate;
-        UnsubscribeViews();
-    }
-}
-
-public class ShipNavigationPresenter : IDisposable {
-    private readonly IStarNavigationService _navigation;
-    private readonly Spaceship2D _spaceship;
-    private readonly StarMapVisualizer _visualizer;
-
-    public ShipNavigationPresenter(
-        Spaceship2D ship,
-        IStarNavigationService navigation,
-        StarMapVisualizer visualizer) {
-        _spaceship = ship;
-        _navigation = navigation;
-        _visualizer = visualizer;
-
-        _navigation.OnCurrentStarChanged += HandleStarChanged;
-    }
-
-    private void HandleStarChanged(Star star) {
-        MoveSpaceshipToStar(star);
-    }
-
-    private void MoveSpaceshipToStar(Star star) {
-        if (_spaceship == null || !_visualizer.TryGetView(star.Coord, out var view))
-            return;
-
-        _spaceship.SetTarget(view.transform.position, () => _spaceship.StartOrbit());
-    }
-
-    public void Dispose() {
+        _navigation.OnMapUpdated -= RebuildMapVisuals;
+        CleanCurrentVisuals();
         _navigation.OnCurrentStarChanged -= HandleStarChanged;
     }
 }
@@ -257,6 +250,7 @@ public class SelectionPresenter : IDisposable {
         _visualizer = visualizer;
 
         _navigation.OnStarSelected += HandleStarSelected;
+        HandleStarSelected(_navigation.SelectedStar);
     }
 
     private void HandleStarSelected(Star star) {
@@ -264,6 +258,8 @@ public class SelectionPresenter : IDisposable {
     }
 
     private void UpdateSelectionVisuals(Star star) {
+        if (star == null) return;
+
         if (_navigation.SelectedStar != null && star != _navigation.SelectedStar) {
             if (_visualizer.TryGetView(_navigation.SelectedStar.Coord, out var oldView)) {
                 oldView.SetSelected(false);

@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MapGenerationData", menuName = "StarMap/MapGenerationData")]
+[CreateAssetMenu(fileName = "MapGenerationData", menuName = "StarMap/GraphGenerationData")]
 public class GraphGenerationConfig : GenericInstanсeConfig<GraphGenerator> {
     public string seedString = "simple_seed";
 

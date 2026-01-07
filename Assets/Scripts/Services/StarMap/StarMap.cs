@@ -35,4 +35,8 @@ public class StarMap {
             : Array.Empty<Star>();
 
     public IEnumerable<int> GetLayers() => _starsByLayer.Keys.OrderBy(l => l);
+
+    public LayerCoord GetBeginningCoords() {
+        return new LayerCoord(0, 0);
+    }
 }

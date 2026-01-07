@@ -1,6 +1,6 @@
 public interface ILevelProgressService {
     string GetCurrentLevelName();
-    LevelProgressData GetProgress();
-    void SetProgress(LevelProgressData progress);
+    PlayerProgressData GetProgress();
+    void SetProgress(PlayerProgressData progress);
 }
 

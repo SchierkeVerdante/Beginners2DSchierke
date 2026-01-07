@@ -2,23 +2,20 @@
 using Zenject;
 
 public class GraphGenerator {
-    private readonly GraphGenerationConfig graphGenerationData;
     private readonly IDataRuntimeFactory dataRuntimeFactory;
 
-    public GraphGenerator(GraphGenerationConfig graphGenerationData, IDataRuntimeFactory dataRuntimeFactory) {
-        this.graphGenerationData = graphGenerationData;
+    public GraphGenerator(IDataRuntimeFactory dataRuntimeFactory) {
         this.dataRuntimeFactory = dataRuntimeFactory;
     }
 
-   
     private GraphGenerationPipeline pipeline;
 
-    public Graph GenerateGraph() {
+    public Graph GenerateGraph(GraphGenerationConfig graphGenerationData) {
         if (graphGenerationData.graphPipelineConfig == null) {
             Debug.LogError("GraphPipelineConfig is not assigned!");
         }
 
-        if (pipeline == null)  pipeline = CreatePipeline();
+        if (pipeline == null)  pipeline = CreatePipeline(graphGenerationData);
 
         var context = new GraphGenerationContext(graphGenerationData);
 
@@ -29,7 +26,7 @@ public class GraphGenerator {
         return context.Graph;
     }
 
-    private GraphGenerationPipeline CreatePipeline() {
+    private GraphGenerationPipeline CreatePipeline(GraphGenerationConfig graphGenerationData) {
         var pipeline = new GraphGenerationPipeline();
         var stages = graphGenerationData.graphPipelineConfig.stageConfigs;
 
