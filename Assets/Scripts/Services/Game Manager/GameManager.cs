@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour, IGameManager {
     }
 
     private void OnDestroy() {
+        if (_gameStateMachine != null)
         _gameStateMachine.OnStateEnter -= HandleStateChanged;
     }
 
