@@ -174,5 +174,3 @@ public class StarView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
     }
 }
-
-InstanceConfig
