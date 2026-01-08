@@ -21,10 +21,11 @@ public class UIAnimatedHealthBar : MonoBehaviour {
         shake = true;
     }
 
-    public void UpdateBar(float currentHealth = float.MaxValue, float maxHealth = float.MaxValue) {
-        if (shaker != null && shake) shaker.ShakeObject();
+    public void UpdateBar(float currentHealth = float.MaxValue, float maxHealth = float.MaxValue, bool shakeBar = true) {
+        if (shaker != null && shake && shakeBar) shaker.ShakeObject();
         for (int i = 0; i < images.Length; i++) {
             images[i].sprite = sprites[(int) Mathf.Min(Mathf.Max(currentHealth - 6 * i, 0f), sprites.Length - 1)];
+            images[i].gameObject.SetActive(i < Mathf.CeilToInt(maxHealth / 6));
         }
     }
 }

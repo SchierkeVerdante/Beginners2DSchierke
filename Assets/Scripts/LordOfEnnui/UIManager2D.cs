@@ -20,14 +20,14 @@ public class UIManager2D : MonoBehaviour
     private void Awake() {
         pState = LDirectory2D.Instance.pState;
         lState = LDirectory2D.Instance.lState;
-        pState.onDamage.AddListener(UpdateHealthBar);
+        pState.onDamage.AddListener(() => UpdateHealthBar(true));
         pState.onOilPickup.AddListener(UpdateOilBar);
         pState.onModulePickup.AddListener(OnModulePickup);
         moduleSelecter.onSelectModule.AddListener(OnModuleSelect);
     }
 
     private void Start() {
-        UpdateHealthBar();
+        UpdateHealthBar(false);
         UpdateOilBar();
     }
 
@@ -35,8 +35,8 @@ public class UIManager2D : MonoBehaviour
         oilBar.UpdateBar(pState.currentOil, pState.maxOil);
     }
 
-    private void UpdateHealthBar() {
-        healthBar.UpdateBar(pState.currentHealth, pState.maxHealth);
+    private void UpdateHealthBar(bool shake) {
+        healthBar.UpdateBar(pState.currentHealth, pState.maxHealth, shake);
     }
 
     private void OnModulePickup(ModulePickup module) {
@@ -48,6 +48,6 @@ public class UIManager2D : MonoBehaviour
     private void OnModuleSelect(ModuleJson module) {
         lState.SetUIActive(false);
         pState.AddModule(module);
-        UpdateHealthBar();
+        UpdateHealthBar(false);
     }
 }

@@ -11,6 +11,7 @@ public class EnemyAnimator2D : ASpriteAnimator2D
     }
 
     private void FixedUpdate() {
-        SetAnimatorValues(strat.facingAngle, strat.speed);
+        ComputeAnimatorValues(strat.facingAngle, strat.speed);
+        SetAnimatorValues();
     }
 }

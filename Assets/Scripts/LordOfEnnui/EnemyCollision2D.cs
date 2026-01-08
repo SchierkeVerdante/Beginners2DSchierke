@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -9,8 +10,12 @@ public class EnemyCollision2D : ACharacterCollision2D
     [SerializeField]
     LevelState lState;
 
+    [SerializeField]
+    Collider2D collider2d;
+
     private void Awake() {
         lState = LDirectory2D.Instance.lState;
+        if (collider2d == null) collider2d = GetComponent<Collider2D>();
     }
 
     protected override bool OnCollsionIsDamaged(GameObject other) {
@@ -26,7 +31,8 @@ public class EnemyCollision2D : ACharacterCollision2D
         StartCoroutine(DamageFlash());
         HandleDamageParticles();
         if (currentHealth < 0) {
-            Destroy(gameObject);
+            collider2d.enabled = false;
+            spriteRenderer.DOFade(0f, 0.5f).SetLink(gameObject).OnComplete(() => Destroy(gameObject));
         }
     }
 

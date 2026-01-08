@@ -11,9 +11,6 @@ public enum FireStreamType {
 public class ProjectileShooter2D : MonoBehaviour
 {
     [SerializeField]
-    PlayerState pState;
-
-    [SerializeField]
     ACharacterStrategy shootStrat;
     
     [SerializeField]
@@ -44,7 +41,6 @@ public class ProjectileShooter2D : MonoBehaviour
 
     void Start()
     {
-        if (pState == null) pState = LDirectory2D.Instance.pState;
         if (shootStrat == null) shootStrat = GetComponent<ACharacterStrategy>();
         if (bullet == null) bullet = bulletObject.GetComponent<ABullet2D>();
         if (shootParams == null) shootParams = ScriptableObject.CreateInstance<ShootParams>();
@@ -52,7 +48,7 @@ public class ProjectileShooter2D : MonoBehaviour
     }
 
     private void Update() {
-        float effectiveFireRate = shootParams.fireRate * pState.netMod.fireRateMultiplier;
+        float effectiveFireRate = shootParams.fireRate * shootStrat.GetFireRateMult();
         timeToBullet = 1f / effectiveFireRate;
         bulletTimer += Time.deltaTime;
     }
@@ -60,9 +56,11 @@ public class ProjectileShooter2D : MonoBehaviour
     private void FixedUpdate() {
         bool fireInput = shootStrat.FireThisFrame(bullet, shootParams);
         if (!fireInput) bulletTimer = 0;
-        if (fireInput && bulletTimer > timeToBullet) {
+        bool fire = fireInput && bulletTimer > timeToBullet;
+        shootStrat.SetTimeToFire((timeToBullet - bulletTimer) / timeToBullet, fire);
 
-            shootStrat.OnFire();
+        if (fire) {
+            
             bulletTimer = 0;
 
             float[] fireStreams = shootParams.customFireStreams;
@@ -85,7 +83,8 @@ public class ProjectileShooter2D : MonoBehaviour
 
             Vector3 recoilDirection = Vector3.zero;
             Vector3 startPosition = transform.position + new Vector3(0, verticalOffset, 0) + highVelolcityFudge * Time.fixedDeltaTime * (Vector3) rb.linearVelocity;
-            float targetAngle = (shootStrat.TargetLocation() - startPosition).Get2DAngle();
+            float targetAngle = shootStrat.FireAngle();
+            targetAngle = targetAngle < 0 ? (shootStrat.TargetLocation() - startPosition).Get2DAngle() : targetAngle;
             foreach (float fireStreamOffset in fireStreams) {
                 Vector3 spreadDirection = Quaternion.AngleAxis(Random.Range(-shootParams.fireSpread, shootParams.fireSpread) + targetAngle + fireStreamOffset, transform.forward) * transform.right;
                 Vector3 placePosition = startPosition + spreadDirection * shootParams.placeDistance; 

@@ -33,8 +33,7 @@ public class PlayerInputStrategy : ACharacterStrategy {
     Vector3 moveDirection, lookDirection, lookPoint;
     [SerializeField]
     float firingMoveSpeedMultiplier = 1.0f;
-    [SerializeField]
-    GameObject closestEnemy;
+    public GameObject closestEnemy;
 
     [Header("State")]
     public bool sprintActive = true, canSprint = true, canAttack = true, canMove = true;
@@ -120,9 +119,7 @@ public class PlayerInputStrategy : ACharacterStrategy {
     }
 
     public override float FireAngle() {
-        SetAssistAngle();
-
-        return aimAngle;
+        return -1;
     }
 
     private bool SetAssistAngle() {
@@ -141,8 +138,10 @@ public class PlayerInputStrategy : ACharacterStrategy {
         return assist && (closestEnemy != null);
     }
 
-    public override void OnFire() {
-        pState.onFire.Invoke();
+    public override void SetTimeToFire(float timeToFire, bool thisFrame) {
+        if (thisFrame) {
+            pState.onFire.Invoke();
+        }
     }
 
     public override Vector3 TargetLocation() {
@@ -152,5 +151,9 @@ public class PlayerInputStrategy : ACharacterStrategy {
         } else {
             return transform.position + lookDirection * 300f;
         }
+    }
+
+    public override float GetFireRateMult() {
+        return pState.netMod.fireRateMultiplier;
     }
 }

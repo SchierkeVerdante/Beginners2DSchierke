@@ -7,8 +7,9 @@ public class LDirectory2D : MonoBehaviour {
 
     public GameObject pCamera;
     public GameObject player;
+    public PlayerInputStrategy playerInputStrategy;
     public PlayerController2D playerController;
-    public PlayerCollision2D playerStatus;
+    public PlayerCollision2D playerCollision;
     public Shaker screenShaker;
 
     public PlayerState defaultPlayerState;
@@ -30,6 +31,10 @@ public class LDirectory2D : MonoBehaviour {
         pState = Instantiate(defaultPlayerState);
         lState = Instantiate(defaultLevelState);
         LoadModules();
+
+        playerInputStrategy = player.GetComponent<PlayerInputStrategy>();
+        playerController = player.GetComponent<PlayerController2D>();
+        playerCollision = player.GetComponent<PlayerCollision2D>();
     }
 
     void LoadModules() {

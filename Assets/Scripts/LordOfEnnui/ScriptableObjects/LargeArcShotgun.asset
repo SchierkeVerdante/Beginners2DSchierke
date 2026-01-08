@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed10cdcd2b03ccf4cb08d2144fe10efd, type: 3}
   m_Name: LargeArcShotgun
   m_EditorClassIdentifier: Assembly-CSharp::ShootParams
-  fireRate: 0.5
+  fireRate: 0.4
   bulletSpeed: 20
   fireSpread: 0
   recoilForce: 50

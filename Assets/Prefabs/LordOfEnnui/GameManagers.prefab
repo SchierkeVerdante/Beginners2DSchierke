@@ -51,8 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LDirectory2D
   pCamera: {fileID: 0}
   player: {fileID: 0}
+  playerInputStrategy: {fileID: 0}
   playerController: {fileID: 0}
-  playerStatus: {fileID: 0}
+  playerCollision: {fileID: 0}
   screenShaker: {fileID: 0}
   defaultPlayerState: {fileID: 11400000, guid: 29f02b145819a3345b8a78b7ce5afdfb, type: 2}
   defaultLevelState: {fileID: 0}
@@ -105,7 +106,7 @@ MonoBehaviour:
   pState: {fileID: 0}
   screenShaker: {fileID: 0}
   damageShake: {fileID: 11400000, guid: 4d171369fad5f9a499c4e80f60a1ee9b, type: 2}
-  fireShake: {fileID: 0}
+  fireShake: {fileID: 11400000, guid: c68ee3b65bd62774a9cd246b89f061b7, type: 2}
 --- !u!114 &2431824988463353019
 MonoBehaviour:
   m_ObjectHideFlags: 0

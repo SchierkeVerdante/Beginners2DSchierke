@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.STP;
 
 [CreateAssetMenu(fileName = "PlanetData", menuName = "PlanetGen/Planets Data")]
 [DataSource(DataSourceType.Resources, "StarMap/PlanetData")]
@@ -24,5 +23,5 @@ public class PlanetsData : ScriptableObject {
         return biomes[UnityEngine.Random.Range(0, biomes.Count)];
     }
 
-    public List<InstanñeConfig> pipelineStages = new();
+    public List<IInstanceConfig> pipelineStages = new();
 }
