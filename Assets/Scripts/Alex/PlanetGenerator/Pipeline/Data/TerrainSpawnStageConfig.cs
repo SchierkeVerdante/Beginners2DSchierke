@@ -10,7 +10,8 @@ public class TerrainSpawnStageConfig : ScriptableObject {
     public string terrainType = "crater";
     public int spawnRate = 1;
     public int obstacleDensity = 1;
+    public int oilCount = 6;
+    public int moduleCount = 3;
+    public List<GameObject> enemyList;
     // public List<string> _modulesList = {"0","0","0","0"};
-
-
 }

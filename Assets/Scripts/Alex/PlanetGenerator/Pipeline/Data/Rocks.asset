@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f747d7c4eb69c4596e22e699ad4b04, type: 3}
   m_Name: Rocks
   m_EditorClassIdentifier: Assembly-CSharp::TerrainSpawnStageConfig
-  terrainType: rocks
+  terrainType: rock
   spawnRate: 2
   obstacleDensity: 1
+  oilCount: 6
+  moduleCount: 3
+  enemyList:
+  - {fileID: 2499486110265015892, guid: 4e3acc79275eab84e97d4d7ecad9ca52, type: 3}

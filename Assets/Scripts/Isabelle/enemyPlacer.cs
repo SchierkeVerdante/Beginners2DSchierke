@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class enemyPlacer : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class enemyPlacer : MonoBehaviour
     }
 
 
-    public void MakeEnemies(int spawnRate, int _borderSizeX, int _borderSizeY){
+    public void MakeEnemies(int spawnRate, int _borderSizeX, int _borderSizeY,List<GameObject> enemyOptions){
         BoundsInt bounds = _tilemap.cellBounds;
         int width = bounds.size.x;
         int height = bounds.size.y;
@@ -39,6 +40,8 @@ public class enemyPlacer : MonoBehaviour
         int lowY = bounds.yMin+_borderSizeY;
         int hiX = bounds.xMax-_borderSizeX;
         int hiY = bounds.yMax-_borderSizeY;
+
+        int numEnemyOptions = enemyOptions.Count;
 
         for(int i=lowX; i<hiX+1;i++){
             for(int j=lowY; j<hiY+1;j++){
@@ -48,8 +51,10 @@ public class enemyPlacer : MonoBehaviour
                     hasEnemy=false;
                 }
                 if(hasEnemy){
+                    int enemyChoice = Random.Range( 0, numEnemyOptions);
                     //Create prefab
-                    GameObject enemyInstance = Instantiate(_enemy);
+                    GameObject enemyInstance = Instantiate(enemyOptions[enemyChoice]);
+                    // GameObject enemyInstance = Instantiate(_enemy);
 
                     //Set prefab location
                     enemyInstance.transform.position=new Vector3(i,j,0);

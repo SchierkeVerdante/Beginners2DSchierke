@@ -15,3 +15,7 @@ MonoBehaviour:
   terrainType: water
   spawnRate: 1
   obstacleDensity: 2
+  oilCount: 6
+  moduleCount: 3
+  enemyList:
+  - {fileID: 2499486110265015892, guid: 4e3acc79275eab84e97d4d7ecad9ca52, type: 3}
