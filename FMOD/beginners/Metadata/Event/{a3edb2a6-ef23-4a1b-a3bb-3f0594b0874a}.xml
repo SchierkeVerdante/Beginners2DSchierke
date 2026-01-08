@@ -173,7 +173,7 @@
 	<object class="MixerBusFader" id="{dc93db2e-b884-4554-9f56-ae88cc6139a4}" />
 	<object class="SFXReverbEffect" id="{28832663-e099-46a6-9642-c2d8712d17b1}">
 		<property name="decayTime">
-			<value>4600</value>
+			<value>260</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{e9a361a2-2d4c-4cb0-a6c3-50db59876144}">
@@ -181,7 +181,7 @@
 			<value>0.0014124293785310734</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-20.5</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{bd655923-6da0-43c2-94ca-9a346c4abd8b}">
@@ -189,7 +189,7 @@
 			<value>0.99293785310734461</value>
 		</property>
 		<property name="value">
-			<value>0</value>
+			<value>10</value>
 		</property>
 	</object>
 </objects>
