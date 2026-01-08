@@ -83,7 +83,7 @@ public class StarView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
 
         _baseScale = newScale;
-        _visualRoot.DOScale(newScale, _breathingDuration).SetEase(Ease.Linear);
+        _visualRoot.localScale = _baseScale;
 
         if (wasBreathing) {
             ToggleAvailableAnimation(true);
@@ -114,14 +114,18 @@ public class StarView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private Tween _breathingTween;
 
     private void ToggleAvailableAnimation(bool isEnabled) {
-        _breathingTween?.Kill();
+        bool wasBreathing = _breathingTween != null && _breathingTween.IsPlaying();
 
-        if (!isEnabled || _visualRoot == null) {
+        if (_visualRoot == null) return;
+
+        if (!isEnabled && wasBreathing) {
+            _breathingTween?.Kill();
             _breathingTween = null;
-            _visualRoot.DOScale(_baseScale, _breathingDuration).SetEase(Ease.Linear);
+            _visualRoot.localScale = _baseScale;
 
             return;
         }
+
         _visualRoot.localScale = _baseScale;
         Vector3 targetScale = _baseScale * _breathingScaleMultiplier;
 
@@ -130,6 +134,7 @@ public class StarView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             .SetLoops(-1, LoopType.Yoyo)
             .OnKill(() => _breathingTween = null);
     }
+
 
     public void OnPointerClick(PointerEventData eventData) {
         if (_star != null) {
