@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TerrainSpawnStage : IPipelineStage<PlanetGenContext> {
+    [SerializeField]
     TerrainSpawnStageConfig config;
+
     public TerrainSpawnStage(TerrainSpawnStageConfig config) {
         this.config = config;
     }
