@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class TerrainPicker : MonoBehaviour
 { 
@@ -142,7 +143,15 @@ public class TerrainPicker : MonoBehaviour
     public string _terrainLabel = "rock";
 
     void Start(){
-        setTiles(_terrainLabel);
+        // setTiles(_terrainLabel);
+    }    
+    
+    private void OnSceneLoaded(Scene level, object data)
+    {
+        if (level.name == "Level_1" && data is TerrainSpawnStageConfig terrain)
+        {
+            setTiles(terrain.terrainType,terrain.spawnRate,terrain.obstacleDensity);
+        }
     }
 
     private void setTiles(string selectedTerrain="random", int enemyRate=1,int obsDensity=1){
