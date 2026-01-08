@@ -53,7 +53,7 @@ public class PlayerController2D : MonoBehaviour {
         }
         velocity = body.linearVelocity;         
         Vector3 prevVelocity = velocity;
-        float acceleration = maxAcceleration;
+        float acceleration = maxAcceleration * pState.netMod.accelerationMultiplier;
 
         if (sprintInput && moveStrat.sprintActive && moveStrat.canSprint && moveStrat.canMove) {
             pState.onDash.Invoke();

@@ -1,17 +1,59 @@
 {
   "modules": [
+
     {
-        "id": 1,
-        "icon":  "Cryo",
-        "name": "Freeze Dash",
-        "moduleType" : 1,
-        "description": "Freeze and damage enemies while dashing through them.",
-        "dashDamage": {
-            "damage": 2,
-            "damageType": 1,
-            "invulnerabilityType": 3
-        },
-        "rarity": "Uncommon"
+      "id": 1,
+      "icon": "RTG",
+      "name": "Thermoelectric Generator",
+      "moduleType": 0,
+      "description": "+15% Move Speed",
+      "speedMultiplier": 1.15
+    },
+
+    {
+      "id": 2,
+      "icon": "OilSiphon",
+      "name": "Oil Siphon",
+      "moduleType": 0,
+      "description": "+15% Oil Collected",
+      "oilMultiplier": 1.15
+    },
+
+    {
+      "id": 3,
+      "icon": "Chassis",
+      "name": "Reinforced Chassis",
+      "moduleType": 0,
+      "description": "+1 Max Health",
+      "healthModifier": 1
+    },
+
+    {
+      "id": 4,
+      "icon": "TerrainAI",
+      "name": "Terrain Adaptation",
+      "moduleType": 0,
+      "description": "+30% Acceleration",
+      "accelerationMultiplier": 1.3
+    },
+
+    {
+      "id": 5,
+      "icon": "ThermalControl",
+      "name": "Thermal Control System",
+      "moduleType": 0,
+      "description": "+5% Move Speed • +0.3s Damage I-Frames",
+      "speedMultiplier": 1.05,
+      "damageIframesBonus": 0.3
+    },
+
+    {
+      "id": 6,
+      "icon": "ServoBoost",
+      "name": "Servo Actuator Upgrade",
+      "moduleType": 3,
+      "description": "+15% Fire Rate",
+      "fireRateMultiplier": 1.15
     }
   ]
 }

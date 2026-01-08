@@ -11,6 +11,9 @@ public enum FireStreamType {
 public class ProjectileShooter2D : MonoBehaviour
 {
     [SerializeField]
+    PlayerState pState;
+
+    [SerializeField]
     ACharacterStrategy shootStrat;
     
     [SerializeField]
@@ -41,6 +44,7 @@ public class ProjectileShooter2D : MonoBehaviour
 
     void Start()
     {
+        if (pState == null) pState = LDirectory2D.Instance.pState;
         if (shootStrat == null) shootStrat = GetComponent<ACharacterStrategy>();
         if (bullet == null) bullet = bulletObject.GetComponent<ABullet2D>();
         if (shootParams == null) shootParams = ScriptableObject.CreateInstance<ShootParams>();
@@ -48,7 +52,8 @@ public class ProjectileShooter2D : MonoBehaviour
     }
 
     private void Update() {
-        timeToBullet = 1 / shootParams.fireRate;
+        float effectiveFireRate = shootParams.fireRate * pState.netMod.fireRateMultiplier;
+        timeToBullet = 1f / effectiveFireRate;
         bulletTimer += Time.deltaTime;
     }
 
@@ -56,6 +61,7 @@ public class ProjectileShooter2D : MonoBehaviour
         bool fireInput = shootStrat.FireThisFrame(bullet, shootParams);
         if (!fireInput) bulletTimer = 0;
         if (fireInput && bulletTimer > timeToBullet) {
+
             shootStrat.OnFire();
             bulletTimer = 0;
 

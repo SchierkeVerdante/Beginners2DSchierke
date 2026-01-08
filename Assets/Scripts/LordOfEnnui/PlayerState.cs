@@ -7,7 +7,7 @@ public class PlayerState : ScriptableObject {
    
     [Header("Status")]
     public float requiredOil = 80;
-    public float maxHealth = 5, currentHealth = 4;
+    public float maxHealth = 15, currentHealth = 15;
     public float maxOil = 100, currentOil = 0;
 
     [Header("Invincibility")]
@@ -30,17 +30,24 @@ public class PlayerState : ScriptableObject {
     [Header("Audio")]
     public float moveSpeedForAudio;
 
+    [Header("Base Stats")]
+    public float baseMaxHealth = 15;
+    public float baseDamageIframesDuration = 1f;
+
     [Header("Modules")]
     public List<ModuleJson> modules = new();
     public ModuleJson netMod;
 
     private void Awake() {
         CalculateNetParams();
+        DebugPlayerState();
     }
 
     public void AddModule(ModuleJson module) {
         modules.Add(module);
         CalculateNetParams();
+        ApplyNetStats();
+        DebugPlayerState();
     }
 
     public void CalculateNetParams() {
@@ -50,6 +57,9 @@ public class PlayerState : ScriptableObject {
             accelerationMultiplier = 1.0f,
             dashDurationMultipler = 1.0f,
             healthModifier = 0,
+            oilMultiplier = 1f,
+            fireRateMultiplier = 1f,
+            damageIframesBonus = 0f
         };
         foreach (ModuleJson module in modules) {
             if (module.moduleType == ModuleType.Dash) netMod.dashDamage = module.dashDamage;
@@ -57,11 +67,31 @@ public class PlayerState : ScriptableObject {
             netMod.accelerationMultiplier *= HandleDefaultMult(module.accelerationMultiplier);
             netMod.dashDurationMultipler *= HandleDefaultMult(module.dashDurationMultipler);
             netMod.healthModifier += module.healthModifier;
+            netMod.oilMultiplier *= HandleDefaultMult(module.oilMultiplier);
+            netMod.fireRateMultiplier *= HandleDefaultMult(module.fireRateMultiplier);
+            netMod.damageIframesBonus += module.damageIframesBonus;
         }
     }
 
     public static float HandleDefaultMult(float mult) {
         return mult < 0.0001f ? 1.0f : mult;
+    }
+
+    public void ApplyNetStats()
+    {
+        float newMaxHealth = baseMaxHealth + netMod.healthModifier;
+        newMaxHealth = Mathf.Max(1, newMaxHealth); // never allow 0 or less
+
+        //adjusting health proportionally
+        float healthPercent = currentHealth / Mathf.Max(1, maxHealth);
+        maxHealth = newMaxHealth;
+        currentHealth = Mathf.Clamp(maxHealth * healthPercent, 1, maxHealth);
+        Debug.Log("max-health: " + maxHealth);
+        Debug.Log("current-health: " + currentHealth);
+
+        damageIframesDuration = baseDamageIframesDuration + netMod.damageIframesBonus;
+        damageIframesDuration = Mathf.Max(0.05f, damageIframesDuration);
+
     }
 
     public void TakeDamage(float amount) {
@@ -73,7 +103,7 @@ public class PlayerState : ScriptableObject {
     }    
 
     public void ObtainOil(OilPickup oil) {
-        currentOil +=  oil.amount;
+        currentOil +=  (oil.amount * netMod.oilMultiplier);
         onOilPickup.Invoke(oil);
         if (currentOil >= requiredOil) {
             onSufficientOil.Invoke();
@@ -90,5 +120,51 @@ public class PlayerState : ScriptableObject {
 
     public void ModuleChoice(ModulePickup module) {
         onModulePickup.Invoke(module);
+    }
+
+    [ContextMenu("Debug Player State")]
+    public void DebugPlayerState()
+    {
+        Debug.Log("===== PLAYER STATE DEBUG =====");
+
+        Debug.Log($"Health: {currentHealth}/{maxHealth}");
+        Debug.Log($"Oil: {currentOil}/{maxOil}");
+
+        Debug.Log("--- NET MULTIPLIERS (After Modules) ---");
+        Debug.Log($"Speed Multiplier: {netMod.speedMultiplier}");
+        Debug.Log($"Acceleration Multiplier: {netMod.accelerationMultiplier}");
+        Debug.Log($"Dash Duration Multiplier: {netMod.dashDurationMultipler}");
+        Debug.Log($"Oil Multiplier: {netMod.oilMultiplier}");
+        Debug.Log($"BonusIframes: {netMod.damageIframesBonus}");
+        Debug.Log($"Health Modifier: {netMod.healthModifier}");
+
+        if (netMod.dashDamage != null)
+        {
+            Debug.Log($"Dash Damage: {netMod.dashDamage.damage}");
+        }
+        else
+        {
+            Debug.Log("Dash Damage: None");
+        }
+
+        Debug.Log("--- ACTIVE MODULES ---");
+        if (modules.Count == 0)
+        {
+            Debug.Log("No modules equipped.");
+        }
+
+        foreach (ModuleJson module in modules)
+        {
+            Debug.Log(
+                $"[{module.name}] " +
+                $"Type: {module.moduleType}, " +
+                $"Speed x{HandleDefaultMult(module.speedMultiplier)}, " +
+                $"Accel x{HandleDefaultMult(module.accelerationMultiplier)}, " +
+                $"Dash x{HandleDefaultMult(module.dashDurationMultipler)}, " +
+                $"Health {module.healthModifier}"
+            );
+        }
+
+        Debug.Log("===== END DEBUG =====");
     }
 }

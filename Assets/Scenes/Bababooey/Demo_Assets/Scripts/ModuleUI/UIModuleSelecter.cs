@@ -12,6 +12,7 @@ public class UIModuleSelecter : MonoBehaviour
 
     private void Awake() {
         LoadIcons();
+        Debug.Log(iconCache);
     }
 
     void LoadIcons() {

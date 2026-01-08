@@ -1,27 +1,31 @@
 using System;
 
-public enum ModuleType {
+public enum ModuleType
+{
     Custom = 0,
     Dash = 1,
     Movement = 2,
     Attack = 3
 }
 
-public enum DamageType {
+public enum DamageType
+{
     Regular = 0,
     Ice = 1,
     Fire = 2
 }
 
-public enum InvulnerabilityType {
+public enum InvulnerabilityType
+{
     None = 0,
     Enemy = 1,
     EnemyAbility = 2,
     All = 3
-}    
+}
 
 [Serializable]
-public class DashWeapon {
+public class DashWeapon
+{
     public int damage;
     public DamageType damageType;
     public InvulnerabilityType invulnerabilityType;
@@ -30,14 +34,35 @@ public class DashWeapon {
 [Serializable]
 public class ModuleJson
 {
+    // --- Core ---
     public int id;
     public string icon;
     public string name;
     public ModuleType moduleType;
-    public string description;    
+    public string description;
     public string rarity;
+
+    // --- Dash ---
     public DashWeapon dashDamage;
-    public float speedMultiplier, accelerationMultiplier, dashDurationMultipler;
+    public float dashDurationMultipler;
+
+    // --- Movement ---
+    public float speedMultiplier;
+    public float accelerationMultiplier;
+
+    // --- Survivability ---
     public int healthModifier;
-    public string[] abilities;
+    public float damageIframesBonus;
+    public bool grantsDashIframes;
+
+    // --- Economy ---
+    public float oilMultiplier;
+
+    // --- Combat ---
+    public float fireRateMultiplier;
+
+    // --- Special / Legendary ---
+    public bool oneTimeActivation;
+    public bool preventsDeathOnce;
+
 }

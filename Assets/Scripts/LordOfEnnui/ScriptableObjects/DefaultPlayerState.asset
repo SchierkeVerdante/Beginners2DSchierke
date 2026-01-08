@@ -18,8 +18,8 @@ MonoBehaviour:
   maxOil: 100
   currentOil: 0
   flashesPerSecond: 4
-  damageIframes: 60
-  sprintIframes: 30
+  damageIframesDuration: 1
+  sprintIframesDuration: 0.5
   damageHitStopDuration: 0.2
   damageHitStopTimeScale: 0
   onDamage:
@@ -28,3 +28,40 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+  onDash:
+    m_PersistentCalls:
+      m_Calls: []
+  onModulePickup:
+    m_PersistentCalls:
+      m_Calls: []
+  onOilPickup:
+    m_PersistentCalls:
+      m_Calls: []
+  moveSpeedForAudio: 0
+  baseMaxHealth: 15
+  baseDamageIframesDuration: 1
+  modules: []
+  netMod:
+    id: 0
+    icon: 
+    name: 
+    moduleType: 0
+    description: 
+    rarity: 
+    dashDamage:
+      damage: 0
+      damageType: 0
+      invulnerabilityType: 0
+    dashDurationMultipler: 1
+    speedMultiplier: 1
+    accelerationMultiplier: 1
+    healthModifier: 0
+    damageIframesBonus: 0
+    grantsDashIframes: 0
+    oilMultiplier: 1
+    damageMultiplier: 0
+    oneTimeActivation: 0
+    preventsDeathOnce: 0

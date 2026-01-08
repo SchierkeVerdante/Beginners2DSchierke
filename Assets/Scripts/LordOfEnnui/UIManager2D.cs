@@ -48,5 +48,6 @@ public class UIManager2D : MonoBehaviour
     private void OnModuleSelect(ModuleJson module) {
         lState.SetUIActive(false);
         pState.AddModule(module);
+        UpdateHealthBar();
     }
 }
