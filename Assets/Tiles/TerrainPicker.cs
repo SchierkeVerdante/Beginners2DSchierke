@@ -55,7 +55,13 @@ public class TerrainPicker : MonoBehaviour
     private Grid _tilegrid;
 
     [SerializeField]
-    private TileBase _tilebase;
+    private GameObject _leftWall;
+    [SerializeField]
+    private GameObject _rightWall;
+    [SerializeField]
+    private GameObject _topWall;
+    [SerializeField]
+    private GameObject _bottomWall;
 
     [SerializeField]
     private Tile _jungle1;
@@ -147,7 +153,16 @@ public class TerrainPicker : MonoBehaviour
     private Color islandColor;
 
     [SerializeField]
+    private Color grayWalls;
+    [SerializeField]
+    private Color brownWalls;
+    [SerializeField]
+    private Color iceWalls;
+
+    [SerializeField]
     private TerrainSpawnStageConfig terrainDefault;
+
+    private bool levelisLoaded=false;
 
 
     // private Tile TerrainBase;
@@ -161,12 +176,14 @@ public class TerrainPicker : MonoBehaviour
 
     void Start(){
         // setTiles(_terrainLabel);
-        setTiles(terrainDefault.enemyList,terrainDefault.terrainType,terrainDefault.spawnRate,terrainDefault.obstacleDensity,terrainDefault.moduleCount,terrainDefault.oilCount);
+        if(levelisLoaded==false){
+            setTiles(terrainDefault.enemyList,terrainDefault.terrainType,terrainDefault.spawnRate,terrainDefault.obstacleDensity,terrainDefault.moduleCount,terrainDefault.oilCount);
+        }
     }    
     
     private void OnSceneLoaded(Scene level, object data)
     {
-        if (level.name == "Level_1" && data is TerrainSpawnStageConfig terrain)
+        if (level.name == "Level_1" && data is TerrainSpawnStageConfig terrain && levelisLoaded==false)
         {
             setTiles(terrain.enemyList,terrain.terrainType,terrain.spawnRate,terrain.obstacleDensity,terrain.moduleCount,terrain.oilCount);
         }
@@ -255,35 +272,45 @@ public class TerrainPicker : MonoBehaviour
 
         //Set the Color to the values gained from the Sliders
         Color background_color;
+        Color wall_color;
 
         //enums? (ess ints)
         switch(_terrainLabel){
             case "crater":
                 background_color = craterColor;
+                wall_color = brownWalls;
                 break;
             case "sand":
                 background_color = sandColor;
+                wall_color = brownWalls;
                 break;
             case "rock":
                 background_color = rockColor;
+                wall_color = brownWalls;
                 break;
             case "lava":
                 background_color = lavaColor;
+                wall_color = brownWalls;
                 break;
             case "jungle":
                 background_color = jungleColor;
+                wall_color = brownWalls;
                 break;
             case "island":
                 background_color = islandColor;
+                wall_color = grayWalls;
                 break;
             case "snow":
                 background_color = snowColor;
+                wall_color = iceWalls;
                 break;
             case "water":
                 background_color = waterColor;
+                wall_color = grayWalls;
                 break;
             default:
                 background_color = new Color(255,255,255);
+                wall_color = brownWalls;
                 break;
         }
 
@@ -291,6 +318,15 @@ public class TerrainPicker : MonoBehaviour
         SpriteRenderer spriteRending= _background.GetComponent<SpriteRenderer>();
         //Set the SpriteRenderer to the Color defined by the Sliders
         spriteRending.color = background_color;
+
+        SpriteRenderer wallRendingT = _topWall.GetComponent<SpriteRenderer>();
+        wallRendingT.color = wall_color;
+        SpriteRenderer wallRendingB = _bottomWall.GetComponent<SpriteRenderer>();
+        wallRendingB.color = wall_color;
+        SpriteRenderer wallRendingL = _leftWall.GetComponent<SpriteRenderer>();
+        wallRendingL.color = wall_color;
+        SpriteRenderer wallRendingR = _rightWall.GetComponent<SpriteRenderer>();
+        wallRendingR.color = wall_color;
 
         for(int i=lowX; i<hiX+1;i++){
             for(int j=lowY; j<hiY+1;j++){

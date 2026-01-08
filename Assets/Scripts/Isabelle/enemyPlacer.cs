@@ -24,7 +24,7 @@ public class enemyPlacer : MonoBehaviour
 
     bool CheckSpot(int spawnRate){
         //Spawn rate is value 1 to 10 (1 to 10 enemies for a 20x20 grid)
-        int enemyChance = Random.Range(1,401);
+        int enemyChance = Random.Range(1,801);
         if(enemyChance<=spawnRate){
             return true;
         }
