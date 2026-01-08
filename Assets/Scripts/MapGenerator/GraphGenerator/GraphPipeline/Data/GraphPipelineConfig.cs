@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "GraphPipelineConfig", menuName = "Graph Generation/Pipeline Configuration")]
 public class GraphPipelineConfig : GenericInstanceConfig<GraphGenerationPipeline> {
-    public List<InstanсeConfig> stageConfigs;
+    public List<InstanceConfig> stageConfigs;
 
     protected override void OnValidate() {
         base.OnValidate();

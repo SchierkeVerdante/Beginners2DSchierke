@@ -28,7 +28,7 @@ public class PlanetsData : ScriptableObject {
         return biomes[UnityEngine.Random.Range(0, biomes.Count)];
     }
 
-    public List<InstanñeConfig> pipelineStages = new();
+    public List<InstanceConfig> pipelineStages = new();
 
    
 }
