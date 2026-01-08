@@ -13,8 +13,8 @@ public class TerrainPicker : MonoBehaviour
     // [SerializeField]
     // private int _obstacleDensity=5; //Set from 1-20: % of tiles to be covered by obstacles.
 
-    // [SerializeField]
-    // private List<string> _modulesList;
+    [SerializeField]
+    private List<string> _modulesList;
 
     [SerializeField]
     private int _borderSizeX=17;
@@ -30,6 +30,9 @@ public class TerrainPicker : MonoBehaviour
 
     [SerializeField]
     private modulePlacer _modulePlacer;
+
+    [SerializeField]
+    private oilPlacer _oilPlacer;
 
     [SerializeField]
     private GameObject _background;
@@ -132,6 +135,9 @@ public class TerrainPicker : MonoBehaviour
     [SerializeField]
     private Color islandColor;
 
+    [SerializeField]
+    private TerrainSpawnStageConfig terrainDefault;
+
 
     // private Tile TerrainBase;
 
@@ -144,17 +150,18 @@ public class TerrainPicker : MonoBehaviour
 
     void Start(){
         // setTiles(_terrainLabel);
+        setTiles(terrainDefault.terrainType,terrainDefault.spawnRate,terrainDefault.obstacleDensity,terrainDefault.moduleCount,terrainDefault.oilCount);
     }    
     
     private void OnSceneLoaded(Scene level, object data)
     {
         if (level.name == "Level_1" && data is TerrainSpawnStageConfig terrain)
         {
-            setTiles(terrain.terrainType,terrain.spawnRate,terrain.obstacleDensity);
+            setTiles(terrain.terrainType,terrain.spawnRate,terrain.obstacleDensity,terrain.moduleCount,terrain.oilCount);
         }
     }
 // Isabelle to add oil count and module count, oil spawners, enemy list for each land (serialize this)
-    private void setTiles(string selectedTerrain="random", int enemyRate=1,int obsDensity=1){
+    private void setTiles(string selectedTerrain="random", int enemyRate=1,int obsDensity=1,int moduleCount=3,int oilCount=6){
         BoundsInt bounds = _tilemap.cellBounds;
         Debug.Log("Size:");
         int width = bounds.size.x;
@@ -299,12 +306,14 @@ public class TerrainPicker : MonoBehaviour
             }
         }
 
-        // Debug.Log("Making Modules");
-        // _modulePlacer.MakeModules(_modulesList,_borderSizeX,_borderSizeY);
+        Debug.Log("Making Modules");
+        _modulePlacer.MakeModules(_modulesList,_borderSizeX,_borderSizeY,moduleCount);
+
+        Debug.Log("Making Oil");
+        _oilPlacer.MakeOil(_borderSizeX,_borderSizeY,oilCount);
 
         Debug.Log("Making obstacles");
         // _obstaclePlacer.MakeObstacles(_terrainLabel,_obstacleDensity);//set input to % of tiles having obstacles, 1-20
-    
         _obstaclePlacer.MakeObstacles(_terrainLabel,obsDensity,_borderSizeX,_borderSizeY);//set input to % of tiles having obstacles, 1-20
         
         Debug.Log("Making Enemies"); 

@@ -139,6 +139,54 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -42.48
       objectReference: {fileID: 0}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _storm
+      value: 
+      objectReference: {fileID: 2146828524736656195, guid: bcedab2272b21f14b9a0a9602589e8d4, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _lavaFlow
+      value: 
+      objectReference: {fileID: 1681198171873476479, guid: e8189a2f5e66f554a86d8f93615355b1, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _obstacle1x2
+      value: 
+      objectReference: {fileID: 9066407159989406065, guid: efdcb6ffa2306684bb4307ef980a3a7d, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _obstacle2x1
+      value: 
+      objectReference: {fileID: 9066407159989406065, guid: fc268dbe75d80c34c8ccc0c3621d37b3, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _obstacle2x2
+      value: 
+      objectReference: {fileID: 9066407159989406065, guid: 41ca4ca269267bf4986cbbe7de3d240b, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _lavaObstacle
+      value: 
+      objectReference: {fileID: 1681198171873476479, guid: e8189a2f5e66f554a86d8f93615355b1, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _rockObstacle
+      value: 
+      objectReference: {fileID: 6799328843310190840, guid: 4b00705039a09764195bbfc0a3c1e08c, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _snowObstacle
+      value: 
+      objectReference: {fileID: -3891187355723801943, guid: 0eef59ac86837514aa5da838b29b13c1, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _waterObstacle
+      value: 
+      objectReference: {fileID: 1185061804905305837, guid: a66fdbb3c33cb8f49b811cd5f339f522, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _craterObstacle
+      value: 
+      objectReference: {fileID: -2490500734628361817, guid: c59288e567be5f64a9c3dbabba9f4b4d, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _islandObstacle
+      value: 
+      objectReference: {fileID: 6477890322741802205, guid: 932338588af44d3408b43c42d80c7133, type: 3}
+    - target: {fileID: 1690664815066682306, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _jungleObstacle
+      value: 
+      objectReference: {fileID: -2655264577459245595, guid: d3a564254f0773846880d7ec93a5158b, type: 3}
     - target: {fileID: 1995294322208773503, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
       propertyPath: _module
       value: 
@@ -160,9 +208,85 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _island1
+      value: 
+      objectReference: {fileID: 11400000, guid: a7ea269850f7e4e438cabbcb7702b279, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _island2
+      value: 
+      objectReference: {fileID: 11400000, guid: 520db4fc3f33ef94da014ace4b3c1a4e, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _island3
+      value: 
+      objectReference: {fileID: 11400000, guid: d99e745b8c753864787002ef123cf20e, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _island4
+      value: 
+      objectReference: {fileID: 11400000, guid: 8b4eab1821c0aa241a24c125b430d2f5, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _jungle1
+      value: 
+      objectReference: {fileID: 11400000, guid: f3951ff2e5359dd4a89784a578f0c33b, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _jungle2
+      value: 
+      objectReference: {fileID: 11400000, guid: aa17bf157a768f54f949b0e01e11b94f, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _jungle3
+      value: 
+      objectReference: {fileID: 11400000, guid: 89a19cc88745da24a9674465eb193743, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _jungle4
+      value: 
+      objectReference: {fileID: 11400000, guid: d569fff2616bea04e9ce01516716912d, type: 2}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _oilPlacer
+      value: 
+      objectReference: {fileID: 1165291748}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
       propertyPath: _background
       value: 
       objectReference: {fileID: 193896133}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: lavaColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: rockColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: sandColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: snowColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: waterColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: _terrainLabel
+      value: random
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: craterColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: islandColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: jungleColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643211083270445983, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      propertyPath: terrainDefault
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ef47e10b2cd17a4fb3f316005187683, type: 2}
     - target: {fileID: 6114614558435041862, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -233,9 +357,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7358495106583065902, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1165291747}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+--- !u!4 &87734704 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7358495106583065902, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+  m_PrefabInstance: {fileID: 87734703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!156049354 &87734705 stripped
+Grid:
+  m_CorrespondingSourceObject: {fileID: 389763985010066333, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+  m_PrefabInstance: {fileID: 87734703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &87734706 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 1242526248915816848, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
+  m_PrefabInstance: {fileID: 87734703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &193896133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6730106295963449208, guid: 6df5f82b51b46e44d8a2815b96a5319b, type: 3}
@@ -788,6 +930,53 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &1165291746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1165291747}
+  - component: {fileID: 1165291748}
+  m_Layer: 0
+  m_Name: OilPlacer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1165291747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165291746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 87734704}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1165291748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165291746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3a427c869552244a0db47e30163c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::oilPlacer
+  _oil: {fileID: 864498372558334797}
+  _tilegrid: {fileID: 87734705}
+  _tilemap: {fileID: 87734706}
 --- !u!114 &1176888442 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2709742056831882534, guid: 65163cecc52a8da4592138cff01bbb41, type: 3}
@@ -1756,7 +1945,31 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
---- !u!1001 &2188074369116602769
+--- !u!1 &864498372558334797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7275294244138327643, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
+  m_PrefabInstance: {fileID: 864498372558334796}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1907643715143140422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5476807571790608230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08a5f7fd0a240a4da1908fd76752c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  target: {fileID: 0}
+  facingArrow: {fileID: 0}
+  facingAngle: 0
+  speed: 0
+  idealDistanceFromTarget: 0
+  turnCharacter: 1
+  lState: {fileID: 0}
+--- !u!1001 &2144158912702775911
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2225,6 +2438,66 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65163cecc52a8da4592138cff01bbb41, type: 3}
+--- !u!114 &7329295834136823900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5476807571790608230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc038cf3d1c7d1a4eb955cf262c41e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  pState: {fileID: 0}
+  shootStrat: {fileID: 0}
+  bulletObject: {fileID: 456869138}
+  bullet: {fileID: 0}
+  rb: {fileID: 0}
+  shootParams: {fileID: 11400000, guid: b40e13be959b7ff449217a00bf860cee, type: 2}
+  inheritVelocityMultiplier: 0
+  highVelolcityFudge: 5
+  verticalOffset: 2
+  timeToBullet: 0
+--- !u!114 &7493845133475827349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5476807571790608230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47490cdc3b4a8464ea1d29996155d875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  contactKnockbackForce: 10
+  hitThisFrame: 0
+  rb: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  damageParticles: {fileID: 1285622135}
+  maxHealth: 5
+  currentHealth: 5
+  lState: {fileID: 0}
+--- !u!4 &7890016822105779831
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5476807571790608230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.75, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 696674878}
+  - {fileID: 456869143}
+  - {fileID: 81813810}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8530010782642305760
 PrefabInstance:
   m_ObjectHideFlags: 0

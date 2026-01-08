@@ -13,8 +13,8 @@ public class modulePlacer : MonoBehaviour
     [SerializeField]
     private Tilemap _tilemap;
 
-    [SerializeField]
-    private int moduleCount;
+    // [SerializeField]
+    // private int moduleCount;
 
     [SerializeField]
     private Sprite _module1;
@@ -61,7 +61,7 @@ public class modulePlacer : MonoBehaviour
     }
 
 
-    public void MakeModules(List<string> moduleOptions, int _borderSizeX, int _borderSizeY){
+    public void MakeModules(List<string> moduleOptions, int _borderSizeX, int _borderSizeY, int moduleCount){
         BoundsInt bounds = _tilemap.cellBounds;
         int width = bounds.size.x;
         int height = bounds.size.y;

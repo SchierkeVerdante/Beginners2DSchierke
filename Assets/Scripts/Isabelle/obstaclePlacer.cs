@@ -149,8 +149,8 @@ public class obstaclePlacer : MonoBehaviour
                             spriteRending.sprite=_islandObstacle;
                             break;
                         case "snow":
-                            spriteRending.sprite=_storm;
-                            // spriteRending.sprite=_snowObstacle;
+                            // spriteRending.sprite=_storm;
+                            spriteRending.sprite=_snowObstacle;
                             break;
                         case "water":
                             spriteRending.sprite=_waterObstacle;
