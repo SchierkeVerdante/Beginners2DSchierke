@@ -17,10 +17,10 @@ public class TerrainPicker : MonoBehaviour
     // private List<string> _modulesList;
 
     [SerializeField]
-    private int _borderSizeX=15;
+    private int _borderSizeX=17;
 
     [SerializeField]
-    private int _borderSizeY=5;
+    private int _borderSizeY=7;
 
     [SerializeField]
     private obstaclePlacer _obstaclePlacer;
@@ -153,7 +153,7 @@ public class TerrainPicker : MonoBehaviour
             setTiles(terrain.terrainType,terrain.spawnRate,terrain.obstacleDensity);
         }
     }
-
+// Isabelle to add oil count and module count, oil spawners, enemy list for each land (serialize this)
     private void setTiles(string selectedTerrain="random", int enemyRate=1,int obsDensity=1){
         BoundsInt bounds = _tilemap.cellBounds;
         Debug.Log("Size:");
@@ -238,7 +238,7 @@ public class TerrainPicker : MonoBehaviour
         //Set the Color to the values gained from the Sliders
         Color background_color;
 
-
+        //enums? (ess ints)
         switch(_terrainLabel){
             case "crater":
                 background_color = craterColor;
@@ -305,7 +305,7 @@ public class TerrainPicker : MonoBehaviour
         Debug.Log("Making obstacles");
         // _obstaclePlacer.MakeObstacles(_terrainLabel,_obstacleDensity);//set input to % of tiles having obstacles, 1-20
     
-        _obstaclePlacer.MakeObstacles(_terrainLabel,obsDensity);//set input to % of tiles having obstacles, 1-20
+        _obstaclePlacer.MakeObstacles(_terrainLabel,obsDensity,_borderSizeX,_borderSizeY);//set input to % of tiles having obstacles, 1-20
         
         Debug.Log("Making Enemies"); 
         // _enemyPlacer.MakeEnemies(_spawnRate,_borderSizeX,_borderSizeY);//set input to spawn rate (avg # of enemies to spawn in a 20x20 grid)

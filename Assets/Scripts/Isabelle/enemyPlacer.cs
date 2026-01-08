@@ -43,7 +43,7 @@ public class enemyPlacer : MonoBehaviour
         for(int i=lowX; i<hiX+1;i++){
             for(int j=lowY; j<hiY+1;j++){
                 bool hasEnemy = CheckSpot(spawnRate);
-                if(Mathf.Abs(i)<_noSpawnRadius&Mathf.Abs(j)<_noSpawnRadius){
+                if(Mathf.Abs(i)<=_noSpawnRadius&Mathf.Abs(j)<=_noSpawnRadius){
                 // if(i==_playerSpawnX&j==_playerSpawnY){
                     hasEnemy=false;
                 }
