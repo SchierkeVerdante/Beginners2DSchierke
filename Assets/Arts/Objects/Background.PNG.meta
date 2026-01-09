@@ -1,25 +1,10 @@
 fileFormatVersion: 2
-guid: b32f86f30247549089ec20243ac7a1f8
+guid: d29c2735bdcc415d39b2c43016e7c4cc
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: -1955448553306655712
     second: Background_0
-  - first:
-      213: 7014286043975846214
-    second: Background_1
-  - first:
-      213: -9078219959484023005
-    second: Background_2
-  - first:
-      213: -4817409605821441833
-    second: Background_3
-  - first:
-      213: -2146368423942107817
-    second: Background_4
-  - first:
-      213: -3958678274390686719
-    second: Background_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -118,10 +103,10 @@ TextureImporter:
       name: Background_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 46
-        width: 9
-        height: 10
+        x: 10
+        y: 18
+        width: 272
+        height: 174
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,116 +117,6 @@ TextureImporter:
       bones: []
       spriteID: 024fa93b6e9dcd4e0800000000000000
       internalID: -1955448553306655712
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Background_1
-      rect:
-        serializedVersion: 2
-        x: 7
-        y: 11
-        width: 293
-        height: 184
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 64909246effb75160800000000000000
-      internalID: 7014286043975846214
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Background_2
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 3
-        width: 10
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 32ff71a9b0fa30280800000000000000
-      internalID: -9078219959484023005
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Background_3
-      rect:
-        serializedVersion: 2
-        x: 52
-        y: 3
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7d8557bbc7f152db0800000000000000
-      internalID: -4817409605821441833
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Background_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 47
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 75dc0d55a419632e0800000000000000
-      internalID: -2146368423942107817
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Background_5
-      rect:
-        serializedVersion: 2
-        x: 143
-        y: 7
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 10403ea5513ff09c0800000000000000
-      internalID: -3958678274390686719
       vertices: []
       indices: 
       edges: []
@@ -261,11 +136,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Background_0: -1955448553306655712
-      Background_1: 7014286043975846214
-      Background_2: -9078219959484023005
-      Background_3: -4817409605821441833
-      Background_4: -2146368423942107817
-      Background_5: -3958678274390686719
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
