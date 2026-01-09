@@ -26,7 +26,6 @@ public class StarView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private Tween _breathingTween;
     private Tween _hoverTween;
 
-    // Словник для зберігання ліній (але не для керування їх кольором)
     private Dictionary<LayerCoord, LineRenderer> _connectionLines = new();
 
     private void Awake() {
