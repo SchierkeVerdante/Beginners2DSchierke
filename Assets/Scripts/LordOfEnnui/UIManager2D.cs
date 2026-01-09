@@ -39,6 +39,10 @@ public class UIManager2D : MonoBehaviour
     }
 
     private void ShowLevelCompletePanel() {
+        if (LDirectory2D.Instance.lastLevel) {
+            ShowGameSuccessPanel();
+        }
+
         Time.timeScale = 0.0f;
         lState.SetUIActive(true);
         levelCompletePanel.gameObject.SetActive(true);

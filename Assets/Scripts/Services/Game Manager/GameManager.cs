@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour, IGameManager {
     #endregion
 
     public void ExitToMainMenu() {
+        Time.timeScale = 1.0f;
         _gameStateMachine.ChangeState<LoadingMainMenuState>();
     }
 
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour, IGameManager {
 
     public void FinishGame() {
         Debug.Log("Request to finish game");
+        Time.timeScale = 1.0f;
         _gameStateMachine.ChangeState<LoadingMainMenuState>();
         _levelProgress.SetPlayerState(null);
     }
