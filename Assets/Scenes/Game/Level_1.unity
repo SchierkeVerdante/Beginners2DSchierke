@@ -422,11 +422,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27011641}
   m_CullTransparentMesh: 1
---- !u!156049354 &35646909 stripped
-Grid:
-  m_CorrespondingSourceObject: {fileID: 7667654803614771492, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
-  m_PrefabInstance: {fileID: 1324205930}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &129046109
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,11 +608,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1839735485 &344364730 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 7073458129860626167, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
-  m_PrefabInstance: {fileID: 1324205930}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &403338155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1044,7 +1034,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7275294244138327643, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1843,7 +1833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &974328318
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2277,7 +2267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7275294244138327643, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2364,36 +2354,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstaclePlacer
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8480395198820801889, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4756554128922055835, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1324205932}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
---- !u!1 &1324205931 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4756554128922055835, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
+--- !u!114 &1324205932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 289297302192912754, guid: c0aa7bc962f7d8e448e889ed28097210, type: 3}
   m_PrefabInstance: {fileID: 1324205930}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1324205932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324205931}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31c7a2e83ec10d94d92c9cfba1956d6c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
-  _module: {fileID: 1835361299675822293, guid: 6282a84119b07d14f8c36d7388e73272, type: 3}
-  _platform: {fileID: 0}
-  _tilegrid: {fileID: 35646909}
-  _tilemap: {fileID: 344364730}
+  m_EditorClassIdentifier: Assembly-CSharp::ModulePlacer
 --- !u!1001 &1339660637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2974,7 +2950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7275294244138327643, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3697,7 +3673,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7275294244138327643, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8877645893995908892, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
+      propertyPath: amount
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4224,6 +4204,10 @@ PrefabInstance:
       propertyPath: moduleSelecter
       value: 
       objectReference: {fileID: 2147189980}
+    - target: {fileID: 8371899358233087026, guid: 65163cecc52a8da4592138cff01bbb41, type: 3}
+      propertyPath: gameCompletePanel
+      value: 
+      objectReference: {fileID: 974328319}
     - target: {fileID: 8371899358233087026, guid: 65163cecc52a8da4592138cff01bbb41, type: 3}
       propertyPath: levelCompletePanel
       value: 

@@ -11,6 +11,10 @@ public class LDirectory2D : MonoBehaviour {
     public IGameManager gameManager;
     public ILevelProgressService levelProgress;
 
+    [Inject]
+    public IStarNavigationService starNavigationService;
+    public bool lastLevel;
+
     public GameObject pCamera;
     public GameObject player;
     public PlayerInputStrategy playerInputStrategy;
@@ -42,6 +46,8 @@ public class LDirectory2D : MonoBehaviour {
         }        
         pState.OnNewLevel();
         lState = Instantiate(defaultLevelState);
+
+        lastLevel = starNavigationService.CurrentStar.IsLast;
 
         LoadModules(pState.modules);
 

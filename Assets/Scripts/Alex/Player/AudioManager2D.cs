@@ -55,6 +55,8 @@ public class AudioManager2D : MonoBehaviour {
 
     [SerializeField] private LoopingSound minigun = new LoopingSound();
 
+    bool oilFull;
+
     private void Start() {
         pState = LDirectory2D.Instance.pState;
         lState = LDirectory2D.Instance.lState;
@@ -66,10 +68,15 @@ public class AudioManager2D : MonoBehaviour {
         pState.onFire.AddListener(PlayShooting);
         pState.onModulePickup.AddListener(mod => PlayFoundModule());
         pState.onOilPickup.AddListener(oil => PlayPickUp());
-        pState.onSufficientOil.AddListener(PlayFullOil);
+        pState.onSufficientOil.AddListener(
+            () => {
+                if (!oilFull) PlayFullOil();
+                oilFull = true;
+            });
 
         lState.onEnemyHit.AddListener(transform => PlayGunHit());
         lState.onEnemyFire.AddListener(transform => PlayShotgunAttack());
+        lState.onUI.AddListener((active) => { if (active) SetMovementSpeed(0f); });
         MoveMusic().Forget();
     }
 
