@@ -63,15 +63,15 @@ public class modulePlacer : MonoBehaviour
         return false; 
     }
 
-    public void MakePlatform(int _borderSizeX,int _borderSizeY){
+    public void MakePlatform(int _borderSizeXlw, int _borderSizeYlw,int _borderSizeXhi, int _borderSizeYhi){
 
         BoundsInt bounds = _tilemap.cellBounds;
         int width = bounds.size.x;
         int height = bounds.size.y;
-        int lowX = bounds.xMin+_borderSizeX;
-        int lowY = bounds.yMin+_borderSizeY;
-        int hiX = bounds.xMax-_borderSizeX;
-        int hiY = bounds.yMax-_borderSizeY;
+        int lowX = bounds.xMin+_borderSizeXlw;
+        int lowY = bounds.yMin+_borderSizeYlw;
+        int hiX = bounds.xMax-_borderSizeXhi;
+        int hiY = bounds.yMax-_borderSizeYhi;
         int modulesPlaced = 0;
 
         int pickX = Random.Range(lowX,hiX);
@@ -86,14 +86,14 @@ public class modulePlacer : MonoBehaviour
 
     }
 
-    public void MakeModules(List<string> moduleOptions, int _borderSizeX, int _borderSizeY, int moduleCount){
+    public void MakeModules(List<string> moduleOptions,int _borderSizeXlw, int _borderSizeYlw,int _borderSizeXhi, int _borderSizeYhi, int moduleCount){
         BoundsInt bounds = _tilemap.cellBounds;
         int width = bounds.size.x;
         int height = bounds.size.y;
-        int lowX = bounds.xMin+_borderSizeX;
-        int lowY = bounds.yMin+_borderSizeY;
-        int hiX = bounds.xMax-_borderSizeX;
-        int hiY = bounds.yMax-_borderSizeY;
+        int lowX = bounds.xMin+_borderSizeXlw;
+        int lowY = bounds.yMin+_borderSizeYlw;
+        int hiX = bounds.xMax-_borderSizeXhi;
+        int hiY = bounds.yMax-_borderSizeYhi;
         int modulesPlaced = 0;
 
         while(modulesPlaced<moduleCount-1){

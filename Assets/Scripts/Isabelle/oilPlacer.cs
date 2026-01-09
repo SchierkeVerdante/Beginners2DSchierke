@@ -37,14 +37,14 @@ public class oilPlacer : MonoBehaviour
     }
 
 
-    public void MakeOil(int _borderSizeX, int _borderSizeY,int oilCount){
+    public void MakeOil(int _borderSizeXlw, int _borderSizeYlw,int _borderSizeXhi, int _borderSizeYhi,int oilCount){
         BoundsInt bounds = _tilemap.cellBounds;
         int width = bounds.size.x;
         int height = bounds.size.y;
-        int lowX = bounds.xMin+_borderSizeX;
-        int lowY = bounds.yMin+_borderSizeY;
-        int hiX = bounds.xMax-_borderSizeX;
-        int hiY = bounds.yMax-_borderSizeY;
+        int lowX = bounds.xMin+_borderSizeXlw;
+        int lowY = bounds.yMin+_borderSizeYlw;
+        int hiX = bounds.xMax-_borderSizeXhi;
+        int hiY = bounds.yMax-_borderSizeYhi;
         int oilPlaced = 0;
 
         while(oilPlaced<oilCount-1){
