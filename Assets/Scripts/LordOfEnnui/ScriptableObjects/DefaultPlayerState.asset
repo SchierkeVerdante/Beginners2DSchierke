@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DefaultPlayerState
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
   requiredOil: 80
-  maxHealth: 15
-  currentHealth: 15
+  maxHealth: 6
+  currentHealth: 6
   maxOil: 100
   currentOil: 0
   flashesPerSecond: 4
@@ -40,6 +40,9 @@ MonoBehaviour:
   onOilPickup:
     m_PersistentCalls:
       m_Calls: []
+  onSufficientOil:
+    m_PersistentCalls:
+      m_Calls: []
   moveSpeedForAudio: 0
   baseMaxHealth: 15
   baseDamageIframesDuration: 1
@@ -51,6 +54,7 @@ MonoBehaviour:
     moduleType: 0
     description: 
     rarity: 
+    unique: 0
     dashDamage:
       damage: 0
       damageType: 0
@@ -62,6 +66,6 @@ MonoBehaviour:
     damageIframesBonus: 0
     grantsDashIframes: 0
     oilMultiplier: 1
-    damageMultiplier: 0
+    fireRateMultiplier: 1
     oneTimeActivation: 0
     preventsDeathOnce: 0

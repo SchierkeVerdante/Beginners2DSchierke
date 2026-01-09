@@ -10,6 +10,9 @@ public class LevelState : ScriptableObject {
     public UnityEvent<Transform> onEnemyHit;
     public UnityEvent onBulletHit;
     public UnityEvent<Transform> onEnemyFire;
+    public UnityEvent onLevelComplete, onDeath;
+
+    [Header("Drops")]
     public OilPickup oilPrefab;
     public ModulePickup modulePrefab;
 

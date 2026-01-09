@@ -18,7 +18,7 @@ MonoBehaviour:
   levelCount: 7
   initialNodesPerLevel: 3
   minNodesPerLevel: 3
-  maxNodesPerLevel: 7
+  maxNodesPerLevel: 5
   maxNodeDeviation: 3
   allowGradualIncrease: 1
   allowGradualDecrease: 1

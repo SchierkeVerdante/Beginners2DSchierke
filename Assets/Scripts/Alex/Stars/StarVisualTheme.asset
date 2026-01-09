@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0718fc18cd2bfef458ff4ddc2729fff8, type: 3}
   m_Name: StarVisualTheme
   m_EditorClassIdentifier: Assembly-CSharp::StarVisualTheme
-  LockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  LockedColor: {r: 0.46091634, g: 0.46091634, b: 0.46091634, a: 1}
   AvailableColor: {r: 1, g: 1, b: 1, a: 1}
   VisitedColor: {r: 1, g: 1, b: 1, a: 0.6666667}
-  CurrentColor: {r: 0.9241657, g: 1, b: 0, a: 1}
-  SelectedColor: {r: 0.6745283, g: 1, b: 0.6745283, a: 1}
+  CurrentColor: {r: 1, g: 1, b: 1, a: 1}
+  SelectedColor: {r: 1, g: 1, b: 1, a: 1}
   NormalScale: 1
-  HoverScale: 1.2
+  HoverScale: 1.5

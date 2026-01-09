@@ -39,15 +39,20 @@ public class PlayerState : ScriptableObject {
     public ModuleJson netMod;
 
     private void Awake() {
+        OnNewLevel();
+        //DebugPlayerState();
+    }
+
+    public void OnNewLevel() {
         CalculateNetParams();
-        DebugPlayerState();
+        currentOil = 0f;
     }
 
     public void AddModule(ModuleJson module) {
         modules.Add(module);
         CalculateNetParams();
         ApplyNetStats();
-        DebugPlayerState();
+        //DebugPlayerState();
     }
 
     public void CalculateNetParams() {
@@ -79,11 +84,11 @@ public class PlayerState : ScriptableObject {
 
     public void ApplyNetStats()
     {
-        float newMaxHealth = baseMaxHealth + netMod.healthModifier;
-        newMaxHealth = Mathf.Max(1, newMaxHealth); // never allow 0 or less
-
+        float newMaxHealth = baseMaxHealth + netMod.healthModifier;        
+        currentHealth = Mathf.Clamp(currentHealth + (newMaxHealth - maxHealth), 1, newMaxHealth);
+        newMaxHealth = Mathf.Min(Mathf.Max(1, newMaxHealth), 18f); // never allow 0 or less
         maxHealth = newMaxHealth;
-        currentHealth = Mathf.Clamp(currentHealth + netMod.healthModifier, 1, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 1, maxHealth);
 
         damageIframesDuration = baseDamageIframesDuration + netMod.damageIframesBonus;
         damageIframesDuration = Mathf.Max(0.05f, damageIframesDuration);

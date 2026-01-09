@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager2D : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class UIManager2D : MonoBehaviour
 
     [SerializeField]
     UIModuleSelecter moduleSelecter;
+
+    [SerializeField]
+    Image gameOverPanel, levelCompletePanel, gameCompletePanel;
 
     [SerializeField]
     PlayerState pState;
@@ -24,6 +28,26 @@ public class UIManager2D : MonoBehaviour
         pState.onOilPickup.AddListener(UpdateOilBar);
         pState.onModulePickup.AddListener(OnModulePickup);
         moduleSelecter.onSelectModule.AddListener(OnModuleSelect);
+        pState.onDeath.AddListener(ShowDeathPanel);
+        lState.onLevelComplete.AddListener(ShowLevelCompletePanel);
+    }
+
+    private void ShowDeathPanel() {
+        Time.timeScale = 0.0f;
+        lState.SetUIActive(true);
+        gameOverPanel.gameObject.SetActive(true);
+    }
+
+    private void ShowLevelCompletePanel() {
+        Time.timeScale = 0.0f;
+        lState.SetUIActive(true);
+        levelCompletePanel.gameObject.SetActive(true);
+    }
+
+    private void ShowGameSuccessPanel() {
+        Time.timeScale = 0.0f;
+        lState.SetUIActive(true);
+        gameCompletePanel.gameObject.SetActive(true);
     }
 
     private void Start() {

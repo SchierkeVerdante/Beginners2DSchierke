@@ -6,6 +6,8 @@ public class PlayerInputStrategy : ACharacterStrategy {
     
     InputSystem_Actions inputActions;
     InputAction moveAction, lookAction, sprintAction, attackAction;
+    Action<InputAction.CallbackContext> moveC, lookC, sprintC, attackC;
+    Action<InputAction.CallbackContext> moveCC,attackCC;
 
     [SerializeField]
     PlayerState pState;
@@ -55,16 +57,16 @@ public class PlayerInputStrategy : ACharacterStrategy {
         sprintAction = InputSystem.actions.FindAction("Sprint");
         attackAction = InputSystem.actions.FindAction("Attack");
 
-        moveAction.performed += ctx => {
+        moveAction.performed += moveC = ctx => {
             moveInput = ctx.ReadValue<Vector2>();
             moveDirection = right * moveInput.x + up * moveInput.y;
         };
-        moveAction.canceled += ctx => {
+        moveAction.canceled += moveCC = ctx => {
             moveInput = Vector2.zero;
             moveDirection = Vector3.zero;
         };
 
-        lookAction.performed += ctx => {
+        lookAction.performed += lookC = ctx => {
             lookInput = ctx.ReadValue<Vector2>();
             mouseUsed = ctx.control.device is Mouse;
             if (!mouseUsed) {
@@ -75,14 +77,23 @@ public class PlayerInputStrategy : ACharacterStrategy {
             aimAngle = lookDirection.Get2DAngle();
         };
 
-        attackAction.performed += ctx => attackInput = true;
-        attackAction.canceled += ctx => attackInput = false;
+        attackAction.performed += attackC = ctx => attackInput = true;
+        attackAction.canceled += attackCC = ctx => attackInput = false;
 
-        sprintAction.performed += ctx => {
+        sprintAction.performed += sprintC = ctx => {
             sprintInputQueued = true;
             inputQueued = true;
             inputQueueTimer = 0f;
         };
+    }
+
+    private void OnDestroy() {
+        moveAction.performed -= moveC;
+        moveAction.canceled -= moveCC;
+        lookAction.performed -= lookC;
+        attackAction.performed -= attackC;
+        attackAction.canceled -= attackCC;
+        sprintAction.performed -= sprintC;
     }
 
     private void Update() {
