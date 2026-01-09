@@ -75,8 +75,8 @@ public class GameManager : MonoBehaviour, IGameManager {
 
     public void LoadStarExploration(Star selectedStar) {
         Debug.Log("Request to load: " + selectedStar);
-        //_gameStateMachine.ChangeState<LoadingLevelState>();
-        _gameStateMachine.ChangeState<LoadingTerrainState>(); // for quick test
+        _gameStateMachine.ChangeState<LoadingLevelState>();
+        //_gameStateMachine.ChangeState<LoadingTerrainState>(); // for quick test
     }
 
     public void LoadMapScene() {
