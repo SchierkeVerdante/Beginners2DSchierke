@@ -5,7 +5,7 @@ public interface IInstanceConfig {
     public Type RuntimeType { get; }
 }
 
-public abstract class InstanсeConfig : ScriptableObject, IInstanceConfig {
+public abstract class InstanceConfig : ScriptableObject, IInstanceConfig {
     [SerializeField] public string instanceName;
 
     public abstract Type RuntimeType { get; }
@@ -21,7 +21,7 @@ public interface IGenericInstanceConfig<out T> : IInstanceConfig where T : class
 
 }
 
-public class GenericInstanсeConfig<TContext> : InstanсeConfig, IGenericInstanceConfig<TContext>
+public class GenericInstanceConfig<TContext> : InstanceConfig, IGenericInstanceConfig<TContext>
     where TContext : class {
     public override Type RuntimeType => typeof(TContext);
 }

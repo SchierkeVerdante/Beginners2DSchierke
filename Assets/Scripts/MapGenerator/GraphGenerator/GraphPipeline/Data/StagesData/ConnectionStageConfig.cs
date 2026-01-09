@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [CreateAssetMenu(fileName = "ConnectionStageConfig", menuName = "Graph Generation/Stages/Connection Config")]
-public class ConnectionStageConfig : GenericInstanсeConfig<ConnectionStage> {
+public class ConnectionStageConfig : GenericInstanceConfig<ConnectionStage> {
 
     [Min(min: 0f)]
     public float MaxConnectionDistance = 1.5f;

@@ -167,10 +167,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6231397198111873271, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
-      propertyPath: orthographic size
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 8363870935365649865, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -178,10 +174,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8363870935365649865, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 474103727}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
 --- !u!1 &232634059
 GameObject:
@@ -472,46 +465,8 @@ MonoBehaviour:
   _container: {fileID: 1969847263}
   _layerSpacing: 2.5
   _starSpacing: 1.2
-  _lineMaterial: {fileID: 2100000, guid: 3410314087c1fb74f909edb69c771a63, type: 2}
   _lineWidth: 0.08
   _lineColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!1 &474103721 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8363870935365649865, guid: a231a29c930eef647b5d6ac0cf0ee89e, type: 3}
-  m_PrefabInstance: {fileID: 115864303}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &474103727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474103721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBrain
-  ShowDebugText: 0
-  ShowCameraFrustum: 1
-  IgnoreTimeScale: 0
-  WorldUpOverride: {fileID: 0}
-  ChannelMask: -1
-  UpdateMethod: 2
-  BlendUpdateMethod: 1
-  LensModeOverride:
-    Enabled: 0
-    DefaultMode: 2
-  DefaultBlend:
-    Style: 1
-    Time: 2
-    CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  CustomBlends: {fileID: 0}
 --- !u!1 &526627200
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +733,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 2.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0

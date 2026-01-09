@@ -3,5 +3,5 @@ using UnityEngine;
 using Zenject;
 
 [CreateAssetMenu(fileName = "NodeCreationStageConfig", menuName = "Graph Generation/Stages/Node Creation Config")]
-public class NodeCreationStageConfig : GenericInstanсeConfig<NodeCreationStage> {
+public class NodeCreationStageConfig : GenericInstanceConfig<NodeCreationStage> {
 }

@@ -1,5 +1,8 @@
 ﻿using System;
 using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public interface IStarNavigationService {
     Star CurrentStar { get; }
@@ -23,24 +26,23 @@ public class StarNavigationService : IStarNavigationService {
     private StarMap _starMap;
     private Star _currentStar;
     private Star _selectedStar;
+
     public Star CurrentStar => _currentStar;
     public Star SelectedStar => _selectedStar;
-
     public bool HasEmptyMap => _starMap == null;
 
     public event Action<Star> OnCurrentStarChanged;
     public event Action<Star> OnStarSelected;
     public event Action<StarMap> OnNewMapSet;
 
-    public StarNavigationService(StarMap starMap) {
-        _starMap = starMap ?? throw new ArgumentNullException(nameof(starMap));
-    }
-    public StarNavigationService() {
+    public StarNavigationService(StarMap starMap = null) {
+        _starMap = starMap;
     }
 
     public void SetNewMap(StarMap newMap) {
-        _starMap = newMap;
+        CleanupCurrentStar();
 
+        _starMap = newMap;
         LayerCoord beginningCoords = _starMap.GetBeginningCoords();
         SetCurrentPosition(beginningCoords);
 
@@ -53,11 +55,17 @@ public class StarNavigationService : IStarNavigationService {
         }
     }
 
-    public void SelectStar(Star star) {
-        if (star == null) return;
+    public void SelectStar(Star selectedStar) {
+        if (selectedStar == null) return;
 
-        _selectedStar = star;
-        OnStarSelected?.Invoke(star);
+        if (_selectedStar != null) {
+            _selectedStar.IsSelected.Value = false;
+        }
+
+        _selectedStar = selectedStar;
+        _selectedStar.IsSelected.Value = true;
+
+        OnStarSelected?.Invoke(_selectedStar);
     }
 
     public bool TryTravelTo(Star star) {
@@ -69,38 +77,61 @@ public class StarNavigationService : IStarNavigationService {
 
     public bool CanTravelTo(Star star) {
         if (star == null || star == _currentStar) return false;
-
         if (_currentStar == null) return true;
 
-        //If player didnt visited current star dont allow next star
-        //if (_currentStar.State.Value == StarState.Visited) return false;
+        bool currentStarVisited = _currentStar.IsVisited.Value;
+        bool isNextLayer = star.Coord.Layer > _currentStar.Coord.Layer;
+        bool isConnected = _currentStar.IsConnectedTo(star.Coord);
 
-        return star.Coord.Layer > _currentStar.Coord.Layer &&
-               _currentStar.IsConnectedTo(star.Coord);
+        return currentStarVisited && isNextLayer && isConnected;
     }
 
     private void SetCurrentStar(Star star) {
-        if (_currentStar != null) {
-            _currentStar.State.Value = StarState.Visited;
-        }
+        CleanupCurrentStar();
 
         _currentStar = star;
-        _currentStar.State.Value = StarState.Current;
+        _currentStar.IsCurrent.Value = true;
 
-        UpdateAvailableStars();
+        _currentStar.IsVisited.OnChanged += OnCurrentStarVisited;
+
+        UpdateStarAvailability();
+
         OnCurrentStarChanged?.Invoke(_currentStar);
     }
 
-    private void UpdateAvailableStars() {
-        foreach (var star in _starMap.Stars.Values) {
-            if (star.State.Value == StarState.Available) {
-                star.State.Value = StarState.Locked;
-            }
+    private void CleanupCurrentStar() {
+        if (_currentStar != null) {
+            _currentStar.IsCurrent.Value = false;
+            _currentStar.IsVisited.OnChanged -= OnCurrentStarVisited;
         }
+    }
 
+    private void OnCurrentStarVisited(bool isVisited) {
+        if (isVisited) {
+            UpdateStarAvailability();
+        }
+    }
+
+    private void UpdateStarAvailability() {
+        if (_starMap == null || _currentStar == null) return;
+
+        ResetAllStarsAvailability();
+
+        if (_currentStar.IsVisited.Value) {
+            OpenConnectedStars();
+        }
+    }
+
+    private void ResetAllStarsAvailability() {
+        foreach (var star in _starMap.Stars.Values) {
+            star.IsAvailable.Value = false;
+        }
+    }
+
+    private void OpenConnectedStars() {
         foreach (var coord in _currentStar.GetForwardConnections()) {
             if (_starMap.TryGetStar(coord, out var nextStar)) {
-                nextStar.State.Value = StarState.Available;
+                nextStar.IsAvailable.Value = true;
             }
         }
     }
@@ -110,8 +141,8 @@ public class StarNavigationService : IStarNavigationService {
     }
 
     public void ClearMap() {
+        CleanupCurrentStar();
         _starMap = null;
         OnNewMapSet?.Invoke(_starMap);
     }
 }
-

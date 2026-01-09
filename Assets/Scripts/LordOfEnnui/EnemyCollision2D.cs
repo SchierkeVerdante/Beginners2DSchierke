@@ -13,8 +13,7 @@ public class EnemyCollision2D : ACharacterCollision2D
     [SerializeField]
     LevelState lState;
 
-    [SerializeField]
-    Collider2D collider2d;
+    public Collider2D collider2d;
 
     private void Awake() {
         lState = LDirectory2D.Instance.lState;
@@ -37,7 +36,7 @@ public class EnemyCollision2D : ACharacterCollision2D
         if (currentHealth < 0) {
             strat.OnDeath();
             collider2d.enabled = false;
-            spriteRenderer.DOFade(0f, 0.5f).SetLink(gameObject).OnComplete(() => Destroy(gameObject));
+            spriteRenderer.DOFade(0f, 0.3f).SetLink(gameObject).OnComplete(() => Destroy(gameObject));
         }
     }
 

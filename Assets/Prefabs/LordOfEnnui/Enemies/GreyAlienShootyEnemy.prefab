@@ -155,7 +155,7 @@ Transform:
   m_GameObject: {fileID: 2341052307361259986}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 0.40000004, y: 0.40000004, z: 0.40000004}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -205,7 +205,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.4}
+  m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &4699713613947357832
 GameObject:
@@ -5404,7 +5404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9082086075343100715
 Transform:
   m_ObjectHideFlags: 0
@@ -5511,6 +5511,7 @@ MonoBehaviour:
   isSprinting: 0
   target: {fileID: 0}
   facingArrow: {fileID: 0}
+  enemyRange: 20
   facingAngle: 0
   speed: 0
   idealDistanceFromTarget: 0
@@ -5520,6 +5521,7 @@ MonoBehaviour:
   lState: {fileID: 0}
   timeToFire: 0
   dead: 0
+  targetDistance: 0
 --- !u!114 &127430802763431968
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,6 +32,7 @@ public class PlayerController2D : MonoBehaviour {
     }
 
     void Update() {
+        if (moveStrat == null) return;
         sprintInput = moveStrat.SprintThisFrame();
         targetVelocity = moveStrat.canMove? moveStrat.MoveDirection() * (maxSpeed * pState.netMod.speedMultiplier) : Vector3.zero;
         timeSinceLastSprint += Time.deltaTime;
@@ -45,7 +46,7 @@ public class PlayerController2D : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!moveStrat.canMove) {
+        if (!moveStrat.canMove || moveStrat == null) {
             body.linearVelocity = Vector3.zero;
             return;
         }

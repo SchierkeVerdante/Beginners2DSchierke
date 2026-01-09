@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum EnemyAIState {
     Idle,
@@ -16,6 +17,9 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
     protected GameObject facingArrow;
 
     [SerializeField]
+    protected float enemyRange = 20f;
+
+    [SerializeField]
     public float facingAngle, speed;
 
     [SerializeField]
@@ -28,10 +32,14 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
     public float followVSRepel = 0.5f;
 
     [SerializeField]
+    public float oilDropProb = 0.5f, moduleDropProb = 0.1f, maxOilAmount = 10f;
+
+    [SerializeField]
     LevelState lState;
 
     public float timeToFire;
     public bool dead;
+    public float targetDistance;
 
     protected virtual void Awake() {
         if (target == null) target = LDirectory2D.Instance.player;
@@ -45,12 +53,12 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
     }
 
     public override bool FireThisFrame(ABullet2D bullet, ShootParams shootParams) {
-        return !dead;
+        return !dead && targetDistance < enemyRange;
     }
 
     public virtual Vector3 IdealPosition() {
         Vector3 targetPosition = target.transform.position;
-        float targetDistance = Vector3.Distance(targetPosition, transform.position);
+        targetDistance = Vector3.Distance(targetPosition, transform.position);
         return targetDistance > idealDistanceFromTarget && !dead ? targetPosition : transform.position;
     }
 
@@ -61,7 +69,8 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
             Vector3 direction = collider.transform.position - transform.position;
             repelDir -= direction / direction.sqrMagnitude;
         }
-        return Vector3.Lerp((IdealPosition() - transform.position).normalized, repelDir.normalized, followVSRepel);
+
+        return Vector3.Lerp((IdealPosition() - transform.position).normalized, repelDir.normalized, targetDistance > enemyRange ? 1f : followVSRepel);
     }
 
     public override float FireAngle() {
@@ -90,10 +99,21 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
     }
 
     public void OnDeath() {
+        if (Random.value < oilDropProb) {
+            OilPickup oil = Instantiate(lState.oilPrefab);
+            oil.amount = (int) Mathf.Max(5f, Random.value * maxOilAmount);
+            oil.transform.position = (Vector2) transform.position + 3 * Random.insideUnitCircle;
+        }
+
+        if (Random.value < moduleDropProb) {
+            ModulePickup module = Instantiate(lState.modulePrefab);
+            module.transform.position = (Vector2) transform.position + 3 * Random.insideUnitCircle;
+        }
+
         dead = true;
     }
 
-    internal bool TrySprint() {
-        return true;
+    public bool TrySprint() {
+        return !dead && targetDistance < enemyRange;
     }
 }

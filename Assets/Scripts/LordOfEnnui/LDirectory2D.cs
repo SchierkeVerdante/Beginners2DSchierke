@@ -1,9 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Zenject;
 
 [DefaultExecutionOrder(-100)]
 public class LDirectory2D : MonoBehaviour {
     public static LDirectory2D Instance;
+
+    [Inject]
+    public IGameManager gameManager;
+    public ILevelProgressService levelProgress;
 
     public GameObject pCamera;
     public GameObject player;
@@ -28,16 +34,23 @@ public class LDirectory2D : MonoBehaviour {
         }
         if (defaultPlayerState == null) defaultPlayerState = ScriptableObject.CreateInstance<PlayerState>();
         if (defaultLevelState == null) defaultLevelState = ScriptableObject.CreateInstance<LevelState>();
-        pState = Instantiate(defaultPlayerState);
+        levelProgress = gameManager.GetLevelProgress();
+        pState = levelProgress.GetPlayerState();
+        if (pState == null) {
+            pState = Instantiate(defaultPlayerState);
+            gameManager.GetLevelProgress().SetPlayerState(pState);
+        }        
+        pState.OnNewLevel();
         lState = Instantiate(defaultLevelState);
-        LoadModules();
+
+        LoadModules(pState.modules);
 
         playerInputStrategy = player.GetComponent<PlayerInputStrategy>();
         playerController = player.GetComponent<PlayerController2D>();
         playerCollision = player.GetComponent<PlayerCollision2D>();
     }
 
-    void LoadModules() {
+    void LoadModules(List<ModuleJson> modules) {
         TextAsset jsonFile = Resources.Load<TextAsset>("Modules");
 
         if (jsonFile == null) {
@@ -48,7 +61,7 @@ public class LDirectory2D : MonoBehaviour {
         ModuleDatabaseJson database =
             JsonUtility.FromJson<ModuleDatabaseJson>(jsonFile.text);
 
-        LoadedModules = new List<ModuleJson>(database.modules);
+        LoadedModules = database.modules.Where(module => !(module.unique && modules.Contains(module))).ToList();
 
         Debug.Log("Loaded modules: " + LoadedModules.Count);
     }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7fa0f81a37ae443af37c6a606cb423, type: 3}
+  m_Name: Crater
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeData
+  biomeLabel: crater
+  displayName: Crater
+  tiles: []
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  dimmingColor: {r: 0, g: 0, b: 0, a: 0}
+  obstaclePrefabs: []
+  enemyPrefabs:
+  - {fileID: 6461610804829731649, guid: d0de65bf6fb43cb4080561eb9e11eec0, type: 3}
+  - {fileID: 837322058370255082, guid: 1c467143d5bcca64cb21295de1aaa305, type: 3}
+  - {fileID: 5253017310912750462, guid: 85f4c72447ea0fa40884813ea6c2e83d, type: 3}
+  spawnRate: 1
+  obstacleDensity: 1
+  oilCount: 6
+  moduleCount: 3
+  parallaxPrefab: {fileID: 0}
+  planetSprite: {fileID: 21300000, guid: 83476d0c9e9cf174baf8f79e67cdf79f, type: 3}

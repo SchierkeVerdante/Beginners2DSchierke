@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StarMapVisualizer : MonoBehaviour {
     [Header("Prefabs")]
@@ -15,12 +17,11 @@ public class StarMapVisualizer : MonoBehaviour {
     [SerializeField] private float _starSpacing = 1.2f;
 
     [Header("Connections")]
-    [SerializeField] private Material _lineMaterial;
     [SerializeField] private float _lineWidth = 0.08f;
     [SerializeField] private Color _lineColor = new Color(0.5f, 0.5f, 0.5f, 0.4f);
 
     private readonly Dictionary<LayerCoord, StarView> _views = new();
-    private readonly List<LineRenderer> _connections = new();
+    private readonly Dictionary<LayersConnection, LineRenderer> _connections = new();
 
     public StarView CreateStarView(Star star, int layerStarCount) {
         Vector3 position = CalculatePosition(star.Coord, layerStarCount);
@@ -33,25 +34,27 @@ public class StarMapVisualizer : MonoBehaviour {
         return view;
     }
 
-    public void CreateConnection(LayerCoord from, LayerCoord to) {
+    public void CreateConnection(LayersConnection layersCon) {
+        LayerCoord from = layersCon.from;
+        LayerCoord to = layersCon.to;
+
         if (!_views.TryGetValue(from, out var fromView) ||
             !_views.TryGetValue(to, out var toView))
             return;
 
-        var line = _linePrefab != null
-            ? Instantiate(_linePrefab, _container)
-            : CreateDefaultLine();
+        var line = Instantiate(_linePrefab, _container);
 
         line.positionCount = 2;
         line.useWorldSpace = true;
         line.SetPosition(0, fromView.transform.position);
         line.SetPosition(1, toView.transform.position);
 
-        if (_lineMaterial != null) line.material = _lineMaterial;
         line.startWidth = line.endWidth = _lineWidth;
         line.startColor = line.endColor = _lineColor;
 
-        _connections.Add(line);
+        _connections.Add(layersCon, line);
+
+        fromView.AddConnectionLine(to, line);
     }
 
     public bool TryGetView(LayerCoord coord, out StarView view) =>
@@ -61,7 +64,7 @@ public class StarMapVisualizer : MonoBehaviour {
         foreach (var view in _views.Values) {
             if (view != null) Destroy(view.gameObject);
         }
-        foreach (var line in _connections) {
+        foreach (var line in _connections.Values) {
             if (line != null) Destroy(line.gameObject);
         }
 
@@ -75,14 +78,17 @@ public class StarMapVisualizer : MonoBehaviour {
         return new Vector3(x, y, 0);
     }
 
-    private LineRenderer CreateDefaultLine() {
-        var obj = new GameObject("Connection");
-        obj.transform.SetParent(_container, false);
-        return obj.AddComponent<LineRenderer>();
-    }
-
     public List<StarView> GetAllViews() {
         return _views.Values.ToList();
     }
 }
 
+public struct LayersConnection {
+    public LayerCoord to;
+    public LayerCoord from;
+
+    public LayersConnection(LayerCoord from, LayerCoord to) : this() {
+        this.to = to;
+        this.from = from;
+    }
+}

@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using Zenject;
 
@@ -8,10 +8,13 @@ public class TerrainPicker : MonoBehaviour
 {
 
     IStarNavigationService starNavigationService;
+    [SerializeField]
+    BiomeData biomeData;
 
     [Inject]
     void StarNavigationService(IStarNavigationService service) {
-        Debug.Log("LOAD: " + service.CurrentStar);
+        Debug.Log("LOAD: " + service.CurrentStar.PlanetConfig.BiomeLabel);
+        biomeData = service.CurrentStar.PlanetConfig.biomeData;
         starNavigationService = service;
     }
 
@@ -180,9 +183,8 @@ public class TerrainPicker : MonoBehaviour
     public string _terrainLabel = "rock";
 
     void Start(){
-        // setTiles(_terrainLabel);
         if(levelisLoaded==false){
-            setTiles(terrainDefault.enemyList,terrainDefault.terrainType,terrainDefault.spawnRate,terrainDefault.obstacleDensity,terrainDefault.moduleCount,terrainDefault.oilCount);
+            setTiles(new List<GameObject>(biomeData.enemyPrefabs), biomeData.biomeLabel, biomeData.spawnRate, biomeData.obstacleDensity, biomeData.moduleCount, biomeData.oilCount);
         }
     }    
     

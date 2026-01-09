@@ -66,4 +66,17 @@ public class ModuleJson
     public bool oneTimeActivation;
     public bool preventsDeathOnce;
 
+    // override object.Equals
+    public override bool Equals(object obj) {
+
+        if (obj == null || GetType() != obj.GetType()) {
+            return false;
+        }
+
+        return ((ModuleJson) obj).id == id;    
+    }
+
+    public override int GetHashCode() {
+        return id;
+    }
 }

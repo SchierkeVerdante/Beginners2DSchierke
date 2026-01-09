@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   amount: 20
-  lifetime: 100
 --- !u!50 &6333658066593654760
 Rigidbody2D:
   serializedVersion: 5
@@ -179,5 +178,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8, y: 1}
+  m_Size: {x: 0.4, y: 0.5}
   m_EdgeRadius: 0

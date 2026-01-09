@@ -1,6 +1,7 @@
+using ModestTree;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections.Generic;
 
 public class enemyPlacer : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class enemyPlacer : MonoBehaviour
                     hasEnemy=false;
                 }
                 if(hasEnemy){
+                    if (enemyOptions.IsEmpty()) return;
                     int enemyChoice = Random.Range( 0, numEnemyOptions);
                     //Create prefab
                     GameObject enemyInstance = Instantiate(enemyOptions[enemyChoice]);

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11030e4bce909384997a4b22622c966f, type: 3}
+  m_Name: DefaultLevelState
+  m_EditorClassIdentifier: Assembly-CSharp::LevelState
+  uiActive: 0
+  onUI:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemyHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onBulletHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemyFire:
+    m_PersistentCalls:
+      m_Calls: []
+  oilPrefab: {fileID: 8877645893995908892, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
+  modulePrefab: {fileID: 364121685780728825, guid: 6282a84119b07d14f8c36d7388e73272, type: 3}

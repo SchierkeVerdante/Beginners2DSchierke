@@ -5,6 +5,7 @@ public class LevelProgressService : ILevelProgressService, IDataLoader, IDataSav
 
     private const string LevelNamePrefix = "Level_";
     private readonly IDataRepository<PlayerProgressData> dataRepository;
+    private PlayerState playerState;
 
     public LevelProgressService(IDataRepository<PlayerProgressData> dataRepository) {
         this.dataRepository = dataRepository;
@@ -20,6 +21,14 @@ public class LevelProgressService : ILevelProgressService, IDataLoader, IDataSav
 
     public void SetProgress(PlayerProgressData progress) {
         _levelProgress = progress;
+    }
+
+    public PlayerState GetPlayerState() {
+        return playerState;
+    }
+
+    public void SetPlayerState(PlayerState state) {
+        playerState = state;
     }
 
     public void Load() {

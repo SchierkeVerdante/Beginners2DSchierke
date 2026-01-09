@@ -55,7 +55,6 @@ public class StarNamerService : IDataLoader {
             return $"Sector-{rnd.Next(1000, 9999)}";
         }
 
-        // Вибираємо випадкову базу з оригінального списку
         string baseName = _data.starNames[rnd.Next(_data.starNames.Length)];
 
         if (!_nameCounters.TryGetValue(baseName, out int currentNumber)) {

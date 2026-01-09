@@ -35,7 +35,7 @@ public class PlayerAnimator2D : ASpriteAnimator2D {
         if (moving) {
             int particles = Mathf.FloorToInt(strat.isSprinting ? sprintParticleCount : particlesPerSecond * Time.fixedDeltaTime);
             ParticleSystem pSys = strat.isSprinting ? sprintParticles : thrustParticles;
-            ParticleSystemRenderer pRend = strat.isSprinting ? thrustRenderer : sprintRenderer;
+            ParticleSystemRenderer pRend = strat.isSprinting ? sprintRenderer : thrustRenderer;
 
             float direction = lookLeft ? 0 : lookDown ? 90 : lookRight ? 180 : lookUp ? 270 : -30;
             pSys.transform.eulerAngles = new(0, 0, direction);

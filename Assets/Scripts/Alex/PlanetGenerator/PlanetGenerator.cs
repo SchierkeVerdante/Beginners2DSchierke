@@ -83,6 +83,7 @@ public class PlanetGenContext {
 
 public class PlanetConfig {
     public string BiomeLabel = "Unknown";
+    public BiomeData biomeData;
     public int seed = 12345;
 
     public float obstacleDensity = 0.05f;
@@ -90,4 +91,5 @@ public class PlanetConfig {
 
     public List<string> modulesList = new();
     public Sprite planetSprite;
+    public float normalizedVolume;
 }

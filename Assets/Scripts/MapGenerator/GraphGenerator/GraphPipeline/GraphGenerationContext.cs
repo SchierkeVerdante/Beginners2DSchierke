@@ -10,9 +10,15 @@ public class GraphGenerationContext {
 
     public GraphGenerationContext(GraphGenerationConfig config) {
         Config = config;
-        Random = new Random(config.Seed);
 
-        Graph = new Graph(config.seedString);
+        string seed = config.UseRandomSeed
+        ? $"random_{new Random().Next(100)}"
+        : config.SeedString;
+
+        Random = new Random(seed.GetHashCode());
+
+        Graph = new Graph(seed);
+
         SharedData = new Dictionary<string, object>();
     }
 

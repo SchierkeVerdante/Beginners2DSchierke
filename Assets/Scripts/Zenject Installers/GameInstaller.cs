@@ -14,8 +14,7 @@ public class GameInstaller : MonoInstaller {
     [SerializeField] PlanetGenerator _planetGenPrefab;
 
     public override void InstallBindings() {
-        Container.Bind<IGameManager>()
-        .To<GameManager>()
+        Container.BindInterfacesAndSelfTo<GameManager>()
         .FromComponentInNewPrefab(_gameBootstrapper)
         .AsSingle()
         .NonLazy();

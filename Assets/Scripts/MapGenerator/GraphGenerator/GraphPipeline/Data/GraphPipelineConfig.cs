@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GraphPipelineConfig", menuName = "Graph Generation/Pipeline Configuration")]
-public class GraphPipelineConfig : GenericInstanсeConfig<GraphGenerationPipeline> {
-    public List<InstanсeConfig> stageConfigs;
+public class GraphPipelineConfig : GenericInstanceConfig<GraphGenerationPipeline> {
+    public List<InstanceConfig> stageConfigs;
 
     protected override void OnValidate() {
         base.OnValidate();

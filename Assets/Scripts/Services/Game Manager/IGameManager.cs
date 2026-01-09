@@ -7,5 +7,6 @@ public interface IGameManager {
     void LoadStarExploration(Star selectedStar);
     void LoadMapScene();
     void FinishGame();
+    ILevelProgressService GetLevelProgress();
 }
 

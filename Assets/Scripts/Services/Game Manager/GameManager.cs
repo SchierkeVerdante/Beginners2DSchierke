@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour, IGameManager {
         _gameStateMachine.ChangeState<BootstrapState>();
     }
 
+    public ILevelProgressService GetLevelProgress() { return _levelProgress; }
+
     private void HandleStateChanged(IState state) {
         Debug.Log($"State changed to : {state}");
     }
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour, IGameManager {
     }
 
     public void ContinueGame() {
-        _gameStateMachine.ChangeState<LoadingLevelState>();
+        _gameStateMachine.ChangeState<LoadingMapState>();
     }
 
     #region Pause/Resume
@@ -73,7 +75,8 @@ public class GameManager : MonoBehaviour, IGameManager {
 
     public void LoadStarExploration(Star selectedStar) {
         Debug.Log("Request to load: " + selectedStar);
-        _gameStateMachine.ChangeState<LoadingTerrainState>();
+        _gameStateMachine.ChangeState<LoadingLevelState>();
+        //_gameStateMachine.ChangeState<LoadingTerrainState>(); // for quick test
     }
 
     public void LoadMapScene() {
@@ -83,6 +86,8 @@ public class GameManager : MonoBehaviour, IGameManager {
 
     public void FinishGame() {
         Debug.Log("Request to finish game");
+        _gameStateMachine.ChangeState<LoadingMainMenuState>();
+        _levelProgress.SetPlayerState(null);
     }
 }
 

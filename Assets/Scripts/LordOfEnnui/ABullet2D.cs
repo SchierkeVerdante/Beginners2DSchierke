@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class ABullet2D : MonoBehaviour
 {
     [SerializeField]
-    public float lifetime = 1f;
+    public float lifetime = 1f, disableColliderAtStart = 0f;
 
     [SerializeField]
     public float health = 1f, damage = 1f;
@@ -61,13 +61,13 @@ public abstract class ABullet2D : MonoBehaviour
         if (playerBullet  && targeting) pStrat = LDirectory2D.Instance.playerInputStrategy;
         StartCoroutine(DestroyAfter(lifetime));
         collider2d.enabled = false;
-        StartCoroutine(SetCollider(collider2d, true, 0.2f));
+        StartCoroutine(SetCollider(collider2d, true, disableColliderAtStart));
     }
 
     private void FixedUpdate() {
         if (targeting) {
             float initialSpeed = rb.linearVelocity.magnitude;
-            if (playerBullet) target = pStrat.closestEnemy;
+            if (playerBullet) target = pStrat.closestEnemy.gameObject;
             if (target != null) rb.linearVelocity = Vector2.Lerp(rb.linearVelocity.normalized, (Vector2) (target.transform.position - transform.position).normalized, targetingAmount) * initialSpeed;
         }
     }
@@ -92,7 +92,7 @@ public abstract class ABullet2D : MonoBehaviour
         if (explosionShake != null) LDirectory2D.Instance.screenShaker.ShakeObject(explosionShake);
         collider2d.enabled = false;
         projectileSystem.Stop();
-        Destroy(gameObject, 0.2f);
+        Destroy(gameObject, 0.1f);
         LDirectory2D.Instance.lState.onBulletHit.Invoke();
 
         if (childBullet != null) SpawnChildBullets();

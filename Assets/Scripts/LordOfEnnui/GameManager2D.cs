@@ -1,22 +1,26 @@
+using DG.Tweening.Core.Easing;
 using UnityEngine;
+using Zenject;
 
-public class GameManager2D : MonoBehaviour
-{
+public class GameManager2D : MonoBehaviour {
     [SerializeField]
     Trigger2D levelExitTrigger;
 
     [SerializeField]
     PlayerState pState;
 
+    LevelState lState;
+
+    [Inject] private IGameManager gameManager;
     private void Awake() {
         Application.targetFrameRate = -1;
     }
 
-    void Start()
-    {
-        if (levelExitTrigger != null) levelExitTrigger.triggerEvent.AddListener(OnLevelComplete);
+    void Start() {
+        if (levelExitTrigger != null) levelExitTrigger.triggerEvent.AddListener(OnLevelCompleteZoneEnter);
+        gameManager = LDirectory2D.Instance.gameManager;
         pState = LDirectory2D.Instance.pState;
-        pState.onDeath.AddListener(OnDeath);
+        lState = LDirectory2D.Instance.lState;
         pState.onSufficientOil.AddListener(SetLevelTriggerState);
     }
 
@@ -24,11 +28,17 @@ public class GameManager2D : MonoBehaviour
         if (levelExitTrigger != null) levelExitTrigger.SetActive(true);
     }
 
-    public void OnLevelComplete(GameObject player, bool entered) {
-        if (entered) Debug.Log("Pog");
+    public void OnLevelCompleteZoneEnter(GameObject player, bool entered) {
+        if (entered) {
+            lState.onLevelComplete.Invoke();
+        }
     }
 
-    public void OnDeath() {
-        Debug.Log("Ded");
+    public void OnLevelComplete() {
+        gameManager.ContinueGame();
+    }
+
+    public void OnGameOver() {
+        gameManager.FinishGame();
     }
 }

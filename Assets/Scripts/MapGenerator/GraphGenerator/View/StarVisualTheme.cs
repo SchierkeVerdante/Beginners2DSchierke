@@ -2,25 +2,17 @@
 
 [CreateAssetMenu(fileName = "StarVisualTheme", menuName = "StarMap/Star Visual Theme")]
 public class StarVisualTheme : ScriptableObject {
-    [Header("Colors")]
+    [Header("Progress State Colors")]
     public Color LockedColor = Color.gray;
     public Color AvailableColor = Color.white;
     public Color VisitedColor = Color.cyan;
     public Color CurrentColor = Color.yellow;
+
+    [Header("Colors (Override Progress)")]
     public Color SelectedColor = Color.green;
+    public Color HighlightedColor = Color.magenta;
 
-    [Header("Scales")]
-    public float NormalScale = 1f;
-    public float HoverScale = 1.2f;
-
-    public Color GetColor(StarState state) {
-        return state switch {
-            StarState.Locked => LockedColor,
-            StarState.Available => AvailableColor,
-            StarState.Visited => VisitedColor,
-            StarState.Current => CurrentColor,
-            StarState.Selected => SelectedColor,
-            _ => Color.white
-        };
-    }
+    [Header("Line Colors")]
+    public Color LockedLineColor = new Color(0.3f, 0.3f, 0.3f);
+    public Color AvailableLineColor = Color.white;
 }

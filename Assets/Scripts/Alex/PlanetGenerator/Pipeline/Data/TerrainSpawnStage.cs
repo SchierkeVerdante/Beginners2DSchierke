@@ -22,8 +22,14 @@ public class TerrainSpawnStage : IPipelineStage<PlanetGenContext> {
 
         Tilemap terrainTilemap = context._terrainTilemap;
 
-        int maxBoundsY = context.planetsRes.defaultPlanetVolume;
-        int maxBoundsX = context.planetsRes.defaultPlanetVolume;
+        float planetNormalizedSize = context.planetConfig.normalizedVolume;
+
+        int standardPlanetVolume = context.planetsRes.defaultPlanetVolume;
+
+        int planetVolume = (int) (standardPlanetVolume * planetNormalizedSize);
+
+        int maxBoundsY = planetVolume;
+        int maxBoundsX = planetVolume;
 
         for (int x = -maxBoundsX; x <= maxBoundsX; x++) {
             for (int y = -maxBoundsY; y <= maxBoundsY; y++) {
