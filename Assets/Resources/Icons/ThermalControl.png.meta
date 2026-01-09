@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1fe95698cca82cf49ac2f16f8a3be262
+guid: 45fca4d54e74f5c4f9180ce4ba5d6e4c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1811530528997729365
-    second: 240px-Blitzcrank_Power_Fist_HD2_0
+      213: 6074591788023348695
+    second: ThermalControl_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 240px-Blitzcrank_Power_Fist_HD2_0
+      name: ThermalControl_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 240
-        height: 240
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bab905fe4962cd6e0800000000000000
-      internalID: -1811530528997729365
+      spriteID: 7ddf2a0fb094d4450800000000000000
+      internalID: 6074591788023348695
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      240px-Blitzcrank_Power_Fist_HD2_0: -1811530528997729365
+      ThermalControl_0: 6074591788023348695
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

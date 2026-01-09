@@ -51,7 +51,7 @@ public class PlayerState : ScriptableObject {
     public void AddModule(ModuleJson module) {
         modules.Add(module);
         CalculateNetParams();
-        ApplyNetStats();
+        ApplyNetStats(module);
         //DebugPlayerState();
     }
 
@@ -61,7 +61,6 @@ public class PlayerState : ScriptableObject {
             speedMultiplier = 1.0f,
             accelerationMultiplier = 1.0f,
             dashDurationMultipler = 1.0f,
-            healthModifier = 0,
             oilMultiplier = 1f,
             fireRateMultiplier = 1f,
             damageIframesBonus = 0f
@@ -71,7 +70,6 @@ public class PlayerState : ScriptableObject {
             netMod.speedMultiplier *= HandleDefaultMult(module.speedMultiplier);
             netMod.accelerationMultiplier *= HandleDefaultMult(module.accelerationMultiplier);
             netMod.dashDurationMultipler *= HandleDefaultMult(module.dashDurationMultipler);
-            netMod.healthModifier += module.healthModifier;
             netMod.oilMultiplier *= HandleDefaultMult(module.oilMultiplier);
             netMod.fireRateMultiplier *= HandleDefaultMult(module.fireRateMultiplier);
             netMod.damageIframesBonus += module.damageIframesBonus;
@@ -82,14 +80,14 @@ public class PlayerState : ScriptableObject {
         return mult < 0.0001f ? 1.0f : mult;
     }
 
-    public void ApplyNetStats()
+    public void ApplyNetStats(ModuleJson module)
     {
-        float newMaxHealth = baseMaxHealth + netMod.healthModifier;        
-        currentHealth = Mathf.Clamp(currentHealth + (newMaxHealth - maxHealth), 1, newMaxHealth);
-        newMaxHealth = Mathf.Min(Mathf.Max(1, newMaxHealth), 18f); // never allow 0 or less
-        maxHealth = newMaxHealth;
-        currentHealth = Mathf.Clamp(currentHealth, 1, maxHealth);
-
+        if (module.healthModifier > 0) {
+            maxHealth += module.healthModifier;
+            currentHealth += module.healthModifier;
+            maxHealth = Mathf.Clamp(maxHealth, 1, 18f);
+            currentHealth = Mathf.Clamp(currentHealth, 1f, maxHealth);
+        }
         damageIframesDuration = baseDamageIframesDuration + netMod.damageIframesBonus;
         damageIframesDuration = Mathf.Max(0.05f, damageIframesDuration);
 
@@ -98,7 +96,7 @@ public class PlayerState : ScriptableObject {
     public void TakeDamage(float amount) {
         currentHealth -= amount;
         onDamage.Invoke();
-        if (currentHealth < 0) {
+        if (currentHealth <= 0) {
             onDeath.Invoke();
         }
     }    

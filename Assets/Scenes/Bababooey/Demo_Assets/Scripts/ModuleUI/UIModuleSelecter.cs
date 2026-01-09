@@ -18,7 +18,7 @@ public class UIModuleSelecter : MonoBehaviour
     void LoadIcons() {
         iconCache = new Dictionary<string, Sprite>();
 
-        Sprite[] icons = Resources.LoadAll<Sprite>("Icons/Modules");
+        Sprite[] icons = Resources.LoadAll<Sprite>("Icons");
 
         foreach (Sprite sprite in icons) {
             iconCache[sprite.name] = sprite;

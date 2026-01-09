@@ -25,9 +25,6 @@ public class TerrainPicker : MonoBehaviour
     // private int _obstacleDensity=5; //Set from 1-20: % of tiles to be covered by obstacles.
 
     [SerializeField]
-    private List<string> _modulesList;
-
-    [SerializeField]
     private List<GameObject> _enemyListDefault;
 
     [SerializeField]
@@ -42,16 +39,16 @@ public class TerrainPicker : MonoBehaviour
     private int _borderSizeYhi=7;
 
     [SerializeField]
-    private obstaclePlacer _obstaclePlacer;
+    private ObstaclePlacer _obstaclePlacer;
     
     [SerializeField]
-    private enemyPlacer _enemyPlacer;
+    private EnemyPlacer _enemyPlacer;
 
     [SerializeField]
-    private modulePlacer _modulePlacer;
+    private ModulePlacer _modulePlacer;
 
     [SerializeField]
-    private oilPlacer _oilPlacer;
+    private OilPlacer _oilPlacer;
 
     [SerializeField]
     private GameObject _background;
@@ -186,8 +183,8 @@ public class TerrainPicker : MonoBehaviour
         if(levelisLoaded==false){
             setTiles(new List<GameObject>(biomeData.enemyPrefabs), biomeData.biomeLabel, biomeData.spawnRate, biomeData.obstacleDensity, biomeData.moduleCount, biomeData.oilCount);
         }
-    }    
-    
+    }
+
     private void OnSceneLoaded(Scene level, object data)
     {
         if (level.name == "Level_1" && data is TerrainSpawnStageConfig terrain && levelisLoaded==false)
@@ -361,10 +358,10 @@ public class TerrainPicker : MonoBehaviour
         }
 
         Debug.Log("Making Modules");
-        _modulePlacer.MakeModules(_modulesList,_borderSizeXlw,_borderSizeYlw,_borderSizeXhi,_borderSizeYhi, moduleCount);
+        _modulePlacer.MakeModules(_borderSizeXlw,_borderSizeYlw,_borderSizeXhi,_borderSizeYhi, moduleCount);
 
-        Debug.Log("Making Platform");
-        _modulePlacer.MakePlatform(_borderSizeXlw,_borderSizeYlw,_borderSizeXhi,_borderSizeYhi);
+        //Debug.Log("Making Platform");
+        //_modulePlacer.MakePlatform(_borderSizeXlw,_borderSizeYlw,_borderSizeXhi,_borderSizeYhi);
 
         Debug.Log("Making Oil");
         _oilPlacer.MakeOil(_borderSizeXlw,_borderSizeYlw,_borderSizeXhi,_borderSizeYhi,oilCount);

@@ -8,6 +8,9 @@ public class EffectsManager : MonoBehaviour
     PlayerState pState;
 
     [SerializeField]
+    LevelState lState;
+
+    [SerializeField]
     Shaker screenShaker;
 
     [SerializeField]
@@ -15,6 +18,7 @@ public class EffectsManager : MonoBehaviour
 
     private void Awake() {
         pState = LDirectory2D.Instance.pState;
+        lState = LDirectory2D.Instance.lState;
         if (screenShaker == null) screenShaker = LDirectory2D.Instance.screenShaker;
         pState.onDamage.AddListener(HandleDamageEffects);
         pState.onFire.AddListener(HandleFireEffects);
@@ -33,7 +37,7 @@ public class EffectsManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(duration);
 
-        Time.timeScale = 1.0f;
+        if (!lState.uiActive) Time.timeScale = 1.0f;
 
         Continuation?.Invoke();
     }

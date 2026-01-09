@@ -70,7 +70,11 @@ public abstract class AEnemyStrategy : ACharacterStrategy {
             repelDir -= direction / direction.sqrMagnitude;
         }
 
-        return Vector3.Lerp((IdealPosition() - transform.position).normalized, repelDir.normalized, targetDistance > enemyRange ? 1f : followVSRepel);
+        Vector3 towardsPlayer = (IdealPosition() - transform.position);
+        towardsPlayer = towardsPlayer.magnitude > 0.01f ? towardsPlayer.normalized : Vector3.zero;
+        repelDir = repelDir.magnitude > 0.01f ? repelDir.normalized : Vector3.zero;
+
+        return targetDistance < enemyRange ? Vector3.Lerp(towardsPlayer, repelDir, followVSRepel) : Vector3.zero;
     }
 
     public override float FireAngle() {

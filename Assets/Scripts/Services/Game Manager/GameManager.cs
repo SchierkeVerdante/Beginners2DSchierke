@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour, IGameManager {
     }
 
     public void ContinueGame() {
+        Time.timeScale = 1.0f;
         _gameStateMachine.ChangeState<LoadingMapState>();
     }
 

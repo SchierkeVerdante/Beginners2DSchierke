@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bcd2a9c15f2aacf46b8e45ef7e826455
+guid: 850086efac616cb4b8e721131fcf5dab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3347815755479083777
-    second: 240px-Blitzcrank_Overdrive_HD2_0
+      213: 5574722263515149240
+    second: OilSiphon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,24 +96,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 240px-Blitzcrank_Overdrive_HD2_0
+      name: OilSiphon_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10b69ce21b4d57e20800000000000000
-      internalID: 3347815755479083777
+      spriteID: 8b3384ecc546d5d40800000000000000
+      internalID: 5574722263515149240
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      240px-Blitzcrank_Overdrive_HD2_0: 3347815755479083777
+      OilSiphon_0: 5574722263515149240
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

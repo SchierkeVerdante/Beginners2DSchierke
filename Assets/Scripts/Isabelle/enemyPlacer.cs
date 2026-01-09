@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class enemyPlacer : MonoBehaviour
+public class EnemyPlacer : MonoBehaviour
 {
     [SerializeField]
     public GameObject _enemy;

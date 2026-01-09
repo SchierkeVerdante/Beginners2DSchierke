@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class oilPlacer : MonoBehaviour
+public class OilPlacer : MonoBehaviour
 {
     [SerializeField]
     public GameObject _oil;

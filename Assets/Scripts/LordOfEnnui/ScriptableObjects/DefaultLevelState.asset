@@ -25,5 +25,11 @@ MonoBehaviour:
   onEnemyFire:
     m_PersistentCalls:
       m_Calls: []
-  oilPrefab: {fileID: 8877645893995908892, guid: 9ef2ef8e24624574e852647f99c7bad0, type: 3}
+  onLevelComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  oilPrefab: {fileID: 8877645893995908892, guid: 83d6f631b12b18241ba1264790cd8024, type: 3}
   modulePrefab: {fileID: 364121685780728825, guid: 6282a84119b07d14f8c36d7388e73272, type: 3}

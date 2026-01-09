@@ -211,6 +211,9 @@ MonoBehaviour:
   turnCharacter: 1
   isAttacking: 0
   followVSRepel: 0.75
+  oilDropProb: 0.5
+  moduleDropProb: 0.1
+  maxOilAmount: 10
   lState: {fileID: 0}
   timeToFire: 0
   dead: 0
@@ -503,7 +506,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3362141592091119256, guid: a8999666028e2a04f95cd715559066f4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5098747, g: 0.34431958, b: 0.95687324, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

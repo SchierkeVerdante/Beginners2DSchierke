@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 // using System;
 
-public class obstaclePlacer : MonoBehaviour
+public class ObstaclePlacer : MonoBehaviour
 {
     [SerializeField]
     public int _playerSpawnX;
